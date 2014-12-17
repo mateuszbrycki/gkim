@@ -1,3 +1,5 @@
 build*
 coder/bin/
 coder/obj/
+coder/decoder.layout
+SLD-1.2.14/build-scripts
