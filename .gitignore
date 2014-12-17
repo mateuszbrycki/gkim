@@ -1,1 +1,3 @@
 build*
+coder/bin/
+coder/obj/
