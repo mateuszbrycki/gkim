@@ -17,12 +17,12 @@ int main ( int argc, char** argv )
     String openPath, //œcie¿ka do otworzenia .bmp
             savePath; //œcie¿ka do zapisu .dt
     int colorType = 0; //0 - kolor, 1 - szary
-    Picture *picture = new Picture(openPath);
+    Picture *picture = new Picture(openPath, colorType);
     FileWriter *writer = new FileWriter(savePath); //obiekt klasy s³u¿¹cej do zapisu obrazu do pliku
 
     list<DT_Color&> colorsList = picture->getPictureColors(1); //pobranie kolorow z obrazka - 32 kolory
 
-    Compressor *compressor = new Compressor(colorsList, picture, colorType);
+    Compressor *compressor = new Compressor(colorsList, picture);
     list<int> pixelListAfterCopmression = compressor->getPixels();
 
     writer->saveFile(picture, pixelListAfterCopmression);

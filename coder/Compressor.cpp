@@ -4,12 +4,12 @@
 #include <list>
 
 using namespace std;
-/* konstruktor klasy tworz¹cy pocz¹tkowe has³a s³ownika
+/* konstruktor klasy tworzacy poczatkowe hasla slownika
 @param startColors lista kolorów obrazka
+@param picture obiekt klasy Picture bedacy reprezentacja obrazka wejsciowego
 */
-Compressor::Compressor(list<DT_Color&> startColors, Picture* picture, const int& colorType) {
+Compressor::Compressor(list<DT_Color&> startColors, Picture* picture) {
     this->picture = picture;
-    this->colorType = colorType;
 
     for(list<DT_Color&>::iterator it = startColors.begin(); it != startColors.end(); it++;) {
         list<DT_Color&> color;
@@ -19,30 +19,30 @@ Compressor::Compressor(list<DT_Color&> startColors, Picture* picture, const int&
     }
 }
 
-/* w³aœciwa kompresja LZW
-@return lista kolejno zapisanych pixeli wg. indeksów s³ownika LZW
+/* wlasciwa kompresja LZW
+@return lista kolejno zapisanych pixeli wg. indeksów ssownika LZW
 */
-list<int> Compressor::getPixels(int colorType) {
+list<int> Compressor::getPixels() {
     list<int> output;
     list<DT_Color&> c;
 
     int x = picture->getPictureWidth(),
         y = picture->getPictureHeight();
 
-    for(int i = 0; i < x; i++) { //dla ka¿dego pixel w obrazku
+    for(int i = 0; i < x; i++) { //dla kazdego pixel w obrazku
         for(int j = 0; j < y; i++) {
             DT_Color& color = this->getPixel(x, y);
 
             c.push_back(color);
 
-            if(this->getDictionaryIndex(c) > 0) { //je¿eli c+s jest w s³oniku
+            if(this->getDictionaryIndex(c) > 0) { //jezeli c+s jest w sloniku
                  // c = c+s
             } else {
-                output.push_back(this->getDictionaryIndex(c)); //dodajemy indeks c na wyjœcie
+                output.push_back(this->getDictionaryIndex(c)); //dodajemy indeks c na wyjscie
 
                 //c = c+s
-                dictionarySize++; //zwiekszamy licznik hase³ w s³owniku
-                dictionary.insert(pair<int, list<DT_Color&>>(dictionarySize, c)); //dodanie nowego has³a do s³ownika
+                dictionarySize++; //zwiekszamy licznik hasel w slowniku
+                dictionary.insert(pair<int, list<DT_Color&>>(dictionarySize, c)); //dodanie nowego hasla do slownika
 
                 c.remove(); //c = s
                 c.push_back(color);
@@ -58,34 +58,42 @@ list<int> Compressor::getPixels(int colorType) {
     return output;
 }
 
+/* pobiera piksel z obrazka w odpowiednim trybie koloru
+@param Y polozenie pixela na osi Y
+@return obiekt klasy DT_Color bedacy reprezentacjz piksela
+*/
 DT_Color& Compressor::getPixel(int x, int y) {
-    return picture->getColor(x,y,this->colorType);
+    return picture->getColor(x,y,picture->colorType);
 }
 
+/*
+@param c lista kolorów, które nalezy odszukac w slowniku
+@return zwraca pozycje w sloniku lub -1 jezeli slowa nie ma w slowniku
+*/
 int Compressor::getDictionaryIndex(list<DT_Color&> c) {
 
-    //dla ka¿dego elementu mapy dictionary sprawdzamy czy list<DT_Color&> maj¹ takie same wartosci/kolory a nie referencje!!
+    //dla kazdego elementu mapy dictionary sprawdzamy czy list<DT_Color&> maja takie same wartosci/kolory a nie referencje!!
 
     for(map<int, List<DT_Color&>>::iterator it = dictionary.begin(); it != dictionary.end(); it++) {
-        if(it->second->size() == c.size()) { //je¿eli listy maj¹ takie same rozmiary
+        if(it->second->size() == c.size()) { //jezeli listy maja takie same rozmiary
             bool listsAreSame = true;
             for(list<DT_Color&>::iterator listIt = it->second->begin(); //iterujemy po listach
                 list<DT_Color&>::iterator listItC = c.begin();
                 listIt != it->second->end();
                 listIt++) {
 
-                    if(*listIt != listItC) //je¿eli chocia¿ jeden kolor jest inny
-                        listsAreSame = false; //listy nie s¹ takie same
+                    if(*listIt != listItC) //jezeli chociaz jeden kolor jest inny
+                        listsAreSame = false; //listy nie sa takie same
             }
 
-            if(listsAreSame) { //je¿eli s¹ takie same to zwracamy indeks ze s³ownika LZW
+            if(listsAreSame) { //jezeli sa takie same to zwracamy indeks ze slownika LZW
                 return &(it->first);
             }
 
         }
     }
 
-    return -1; //-1 je¿eli c nie ma w s³owniku
+    return -1; //-1 jezeli c nie ma w slowniku
 
 }
 

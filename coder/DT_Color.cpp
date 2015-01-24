@@ -2,7 +2,9 @@
 
 #include "DT_Color.h"
 #include <SDL/SDL.h>
-
+/* konstruktor
+@param color obiekt klasy bazowej SDL_Color
+*/
 DT_Color::DT_Color(SDL_Color color) {
     this->color = color;
 }
