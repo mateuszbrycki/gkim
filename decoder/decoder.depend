@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1422135502 source:i:\git\gkim\decoder\main.cpp
+	<cstdlib>
+	<stdlib.h>
+	<SDL/SDL.h>
+
