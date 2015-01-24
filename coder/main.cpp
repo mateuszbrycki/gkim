@@ -4,10 +4,29 @@
     #include <stdlib.h>
 #endif
 
+
 #include <SDL/SDL.h>
+#include "DT_Color.h"
+#include "Picture.h" //do napisania
+#include "FileWriter.h" //do napisania
+#include "Compressor.h"
+#include <list>
 
 int main ( int argc, char** argv )
 {
+    String openPath, //œcie¿ka do otworzenia .bmp
+            savePath; //œcie¿ka do zapisu .dt
+    int colorType = 0; //0 - kolor, 1 - szary
+    Picture *picture = new Picture(openPath);
+    FileWriter *writer = new FileWriter(savePath); //obiekt klasy s³u¿¹cej do zapisu obrazu do pliku
+
+    list<DT_Color&> colorsList = picture->getPictureColors(1); //pobranie kolorow z obrazka - 32 kolory
+
+    Compressor *compressor = new Compressor(colorsList, picture, colorType);
+    list<int> pixelListAfterCopmression = compressor->getPixels();
+
+    writer->saveFile(picture, pixelListAfterCopmression);
+
     // initialize SDL video
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
     {
@@ -34,7 +53,7 @@ int main ( int argc, char** argv )
         printf("Unable to load bitmap: %s\n", SDL_GetError());
         return 1;
     }
-    
+
     // centre the bitmap on screen
     SDL_Rect dstrect;
     dstrect.x = (screen->w - bmp->w) / 2;
@@ -68,7 +87,7 @@ int main ( int argc, char** argv )
         } // end of message processing
 
         // DRAWING STARTS HERE
-        
+
         // clear screen
         SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 0, 0, 0));
 
