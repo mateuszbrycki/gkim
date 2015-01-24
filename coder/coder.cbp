@@ -42,6 +42,10 @@
 			<Add library="dxguid" />
 			<Add directory="H:/c++/gkim/SDL-1.2.14/lib" />
 		</Linker>
+		<Unit filename="Compressor.cpp" />
+		<Unit filename="Compressor.h" />
+		<Unit filename="DT_Color.cpp" />
+		<Unit filename="DT_Color.h" />
 		<Unit filename="cb.bmp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
