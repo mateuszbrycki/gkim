@@ -34,7 +34,7 @@ string select_nazwa()
 {
     string nazwa;
     cout<<"Wprowadz nazwe z którego pliku mam wczytac"<<endl;
-    cin>>nazwa;
+    nazwa = "plik.txt";
     return nazwa;
 }
 
@@ -52,7 +52,7 @@ void open(string nazwa)
     {
          // nie wiem czemu amelinium nie chce go otworzyc
         cout<<"otwarto";
-        while(plik.eof()==true)
+        while(!plik.eof())
         {
             plik>>width;
 
