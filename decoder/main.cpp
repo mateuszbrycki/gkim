@@ -26,9 +26,34 @@ int pixelWidth;
 int dictionaryStart;
 int pictureStart;
 
-vector<int> pictureRead;
+vector<int> reader;
 
 
+int power(int liczba, int dopotegi)
+{
+    int wynik = 1;
+    for(int i = 0; i < dopotegi; ++i)
+            wynik *= liczba;
+    return wynik;
+}
+
+int bin2dec(string input)
+{
+    int output = 0;
+    for(int i=0; i<input.size(); i++)
+            output+=(input[i]-'0')*power(2,input.size()-i-1);
+    return output;
+}
+
+string charToString(char *buffer,int lenght)
+{
+    string ciag="";
+    for(int i=0;i<lenght;i++)
+    {
+        ciag = ciag+buffer[i];
+    }
+    return ciag;
+}
 
 void open()
 {
@@ -43,14 +68,46 @@ void open()
 	{
 		name = name + ".txt";
 	}
+
 	char *nazwa= new char[name.length()+1];
 	strcpy( nazwa, name.c_str() );
-	plik.open( nazwa, std::ios::in | std::ios::out );
+
+	plik.open( nazwa, ios::in|ios::binary);
 if( plik.good() == true )
 {
-    do{
+    // wczytanie width
+        plik.seekg( 0,ios::beg );
+        int length =8;
+        char * buffer = new char [length];
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        string helpReader;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        width=bin2dec(helpReader);
+        cout<<"W "<<width<<endl;
+    // end of width
+    //wczytanie height
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        height=bin2dec(helpReader);
+        cout<<"H "<<height<<endl;
+    //end of height
+    //wczytanie pixelWidth
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        pixelWidth=bin2dec(helpReader);
+        cout<<"pixelWidth "<<pixelWidth<<endl;
+    //end of pixelWidth
+    //wczytanie dictonary start?;D
 
 
+
+ do{
 
 		}while(plik.eof());
 
