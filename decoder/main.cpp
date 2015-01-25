@@ -30,63 +30,36 @@ vector<int> pictureRead;
 
 
 
-string select_nazwa()
+void open()
 {
-    string nazwa;
-    cout<<"Wprowadz nazwe z którego pliku mam wczytac"<<endl;
-    nazwa = "plik.txt";
-    return nazwa;
-}
+	vector <string> dane;
+	fstream plik;
+	string name;
+	cout<<"Wprowadz nazwe pliku ktory ma byc wczytany ";
+	cin>>name;
+	size_t found = name.find(".txt");
 
-void open(string nazwa)
+	if(found==-1)
+	{
+		name = name + ".txt";
+	}
+	char *nazwa= new char[name.length()+1];
+	strcpy( nazwa, name.c_str() );
+	plik.open( nazwa, std::ios::in | std::ios::out );
+if( plik.good() == true )
 {
-
-    fstream plik;
-
-    // nie mam zielonego pojecia czemu w tym jebanym C:B trzeba to rzutowac jacys neardeltaczycy to pisali-.-
-    char *name= new char[nazwa.length()+1];
-    strcpy( name, nazwa.c_str() );
-
-    plik.open(name);
-    if(plik.good()==true)
-    {
-         // nie wiem czemu amelinium nie chce go otworzyc
-        cout<<"otwarto";
-        while(!plik.eof())
-        {
-            plik>>width;
-
-            plik.seekg( +2,ios_base::beg ); //skok do przodu o 2 względem końca pliku
-            if( plik.fail())
-                cout << "Error! Nie udalo sie przesunac wewnetrznego wskaznika pliku" <<endl;
-            plik>>height;
-
-            plik.seekg( +5,ios_base::beg ); //skok do przodu o 5 względem końca pliku
-            if( plik.fail())
-                cout << "Error! Nie udalo sie przesunac wewnetrznego wskaznika pliku" <<endl;
-            plik>>pixelWidth;
-
-
-            plik.seekg( +8,ios_base::beg ); //skok do przodu o 8 względem końca pliku
-            if( plik.fail())
-                cout << "Error! Nie udalo sie przesunac wewnetrznego wskaznika pliku" <<endl;
-            plik>>dictionaryStart;
-
-
-            plik.seekg( +10,ios_base::beg ); //skok do przodu o 10 względem końca pliku
-            if( plik.fail())
-                cout << "Error! Nie udalo sie przesunac wewnetrznego wskaznika pliku" <<endl;
-                plik>>pictureStart;
-                pictureRead.push_back(pictureStart);
-        }
+    do{
 
 
 
+		}while(plik.eof());
 
-        plik.close();
-    }
-    else
-        cout<<"Blad otwarcia pliku"<<endl;
+
+
+} else cout << "Nie znaleziono pliku" <<endl;
+
+plik.close();
+
 
 
 }
@@ -99,7 +72,39 @@ char const* tytul = "LZW";
 void Funkcja1()// wcis 1 by zadzialalo
 {
 
-open(select_nazwa());
+open();
+
+}
+
+
+void Funkcja2()
+{
+
+}
+
+void Funkcja3()
+{
+
+}
+
+
+void Funkcja4()
+{
+
+
+}
+
+
+void Funkcja5()
+{
+
+
+}
+
+
+void Funkcja6()
+{
+
 
 }
 
@@ -230,7 +235,17 @@ int main ( int argc, char** argv )
                         done = true;
                     if (event.key.keysym.sym == SDLK_1)
                         Funkcja1();
-
+                    if (event.key.keysym.sym == SDLK_2)
+                        Funkcja2();
+                    if (event.key.keysym.sym == SDLK_3)
+                        Funkcja3();
+                    if (event.key.keysym.sym == SDLK_4)
+                        Funkcja4();
+                    if (event.key.keysym.sym == SDLK_5)
+                        Funkcja5();
+                    if (event.key.keysym.sym == SDLK_6)
+                        Funkcja6();
+                    if (event.key.keysym.sym == SDLK_b)
                         czyscEkran(0, 0, 10);          break;
                      }
             } // end switch
