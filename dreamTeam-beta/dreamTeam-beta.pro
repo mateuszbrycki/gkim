@@ -10,8 +10,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = dreamTeam-beta
 TEMPLATE = app
-
-
 SOURCES += main.cpp\
         mainwindow.cpp
 
@@ -19,10 +17,12 @@ HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
-INCLUDEPATH +=SDL-1.2.14\include
-LIBS  +=  -LSDL-1.2.14\lib \
-          -LSDL\
-          -lSDLmain
-LIBS  +=  -lSDL.dll
+# Mateusz: zostawiłem sobie ścieżki w razie jakby konfiguracja na wzglednych przestała działać
+#LIBS  +=  -L H:/c++/gkim/dreamTeam-beta/SDL-1.2.14/lib -lSDL
+#INCLUDEPATH += H:/c++/gkim/dreamTeam-beta/SDL-1.2.14/include
+#*/
+
+LIBS  +=  -L SDL-1.2.14/lib -lSDL
+INCLUDEPATH += SDL-1.2.14/include
 
 
