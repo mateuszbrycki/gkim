@@ -52,7 +52,7 @@ void open(string nazwa)
     {
          // nie wiem czemu amelinium nie chce go otworzyc
         cout<<"otwarto";
-        while(!plik.eof())
+        while(plik.eof()==true)
         {
             plik>>width;
 
