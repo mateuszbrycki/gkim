@@ -41,7 +41,7 @@ SDL_Color Picture::getPixelColor(int x, int y)
 {
     SDL_Color color ;
     Uint32 col = 0 ;
-    if ((x >= 0) && (x < Picture.getPictureWidth()) && (y >= 0) && (y < Picture.getPictureHeight())) {
+    if ((x >= 0) && (x < this->getPictureWidth()) && (y >= 0) && (y < this->getPictureHeight())) {
         //determine position
         char* pPosition=(char*)screen->pixels ;
         //offset by y
