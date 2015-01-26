@@ -1,7 +1,7 @@
 #include <SDL/SDL.h>
 #include "Compressor.h"
 #include <list>
-
+#include <iostream>
 using namespace std;
 /* konstruktor klasy tworzacy poczatkowe hasla slownika
 @param startColors lista kolorów obrazka
@@ -29,7 +29,7 @@ list<int> Compressor::getPixels() {
         y = picture->getPictureHeight();
 
     for(int i = 0; i < x; i++) { //dla kazdego pixel w obrazku
-        for(int j = 0; j < y; i++) {
+        for(int j = 0; j < y; j++) {
             SDL_Color color = this->getPixel(x, y);
 
             c.push_back(color);
@@ -46,7 +46,9 @@ list<int> Compressor::getPixels() {
                 c.clear(); //c = s
                 c.push_back(color);
             }
+             std::cout<<i<<" "<<j<<std::endl;
         }
+
     }
 
     //dla ostatniego pixela

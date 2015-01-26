@@ -24,7 +24,6 @@ void FileWriter::saveFile(Picture *picture, list<int> pixelListAfterCompression,
 
     string fileName = "Compressed.dt";
     savePath = savePath + fileName; //sciezka dostepu + nazwa pliku
-    std::cout<<savePath<<std::endl;
     ofstream file(savePath.c_str());
 
     //file.open(savePath.c_str(),  ofstream::out | ofstream::app);
@@ -60,7 +59,7 @@ int FileWriter::getMaxUsedIndexBinaryLength(list<int> pixelListAfterCompression)
     int maxIndex = 0;
 
     for(list<int>::iterator it = pixelListAfterCompression.begin(); it != pixelListAfterCompression.end(); it++) {
-        if(*it > maxIndex) {
+        if((*it) > maxIndex) {
             maxIndex = (*it);
         }
     }
