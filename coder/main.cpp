@@ -22,7 +22,7 @@ int main ( int argc, char** argv )
     list<SDL_Color&> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka - 32 kolory
 
     Compressor *compressor = new Compressor(colorsList, picture);
-    list<int> pixelListAfterCopmression = compressor->getPixels();
+    list<int> pixelListAfterCompression = compressor->getPixels();
 
     writer->saveFile(picture, pixelListAfterCopmression, picture, colorsList);
 

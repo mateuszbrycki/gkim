@@ -16,7 +16,12 @@ public:
     Picture(string openPath, int colorType);
     list<SDL_Color> getPictureColors();
     SDL_Color getPixelColor(int x, int y, int colorType);
+    int getPictureWidth();
+    int getPictureHeight();
 
+private:
+    SDL_Surface *BMP;
+    int colorType;
 };
 
 
