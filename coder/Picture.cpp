@@ -56,13 +56,22 @@ list<SDL_Color> Picture::getPictureColors()
                 for(int j = 0; j < y; j++)
                 {
                     color = getPixelColor(x, y);
+                    if(!isInList(ListOfColors, color)) {
+                        ListOfColors.push_back(color);
+                    }
 
-                       for(list<SDL_Color>::iterator it = ListOfColors.begin(); it != ListOfColors.end(); it++)
-                       {
-                            //tu jestem w kropce
-                       }
                 }
             }
 
       return ListOfColors;
+}
+
+bool Picture::isInList(list<SDL_Color&> ListOfColors, SDL_Color& color) {
+    for(list<SDL_Color>::iterator it = ListOfColors.begin(); it != ListOfColors.end(); it++)
+    {
+        if(((*it).r == color.r) && ((*it).b == color.b) && ((*it).g == color.g) {
+            return true;
+        }
+    }
+    return false;
 }
