@@ -9,18 +9,19 @@ using namespace std;
 
 class Compressor {
 public:
-    Compressor(list<SDL_Color> startColors, Picture* picture);
+    Compressor(const list<SDL_Color>& startColors, Picture* picture);
     list<int> getPixels();
-
+    int getMaxIndex();
 
 private:
-    SDL_Color getPixel(int x, int y);
-    int getDictionaryIndex(list<SDL_Color> c);
+    SDL_Color getPixel(const int& x, const int& y);
+    int getDictionaryIndex(const list<SDL_Color>& c);
 
     map<int, list<SDL_Color> > dictionary; //tzw. slownik LZW
     Picture *picture;
 
-    int dictionarySize = 0;
+    int dictionarySize;
+    int maxIndex;
 };
 
 

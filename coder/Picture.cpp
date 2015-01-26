@@ -9,7 +9,7 @@ using namespace std;
 ** konstruktor: wczytywanie obrazka .bmp
 **
 */
-Picture::Picture(string openPath, int colorType)
+Picture::Picture(const string& openPath, const int& colorType)
 {
     this->colorType = colorType;
 
@@ -43,7 +43,7 @@ int Picture::getPictureHeight()
 ** Funkcja pobierajaca kolor danego piksela
 ** źródło: pliki z laboratorium z GKiM
 */
-SDL_Color Picture::getPixelColor(int x, int y)
+SDL_Color Picture::getPixelColor(const int& x,const int& y)
 {
 
     SDL_Color color ;
@@ -61,13 +61,12 @@ SDL_Color Picture::getPixelColor(int x, int y)
         SDL_GetRGB(col, BMP->format, &color.r, &color.g, &color.b);
     }
 
-        if(colorType == 1)
-        {
-            color.r = 0.299*color.r + 0.587*color.g + 0.114*color.b;
-            color.g = 0.299*color.r + 0.587*color.g + 0.114*color.b;
-            color.b = 0.299*color.r + 0.587*color.g + 0.114*color.b;
-        }
-
+    if(colorType == 1)
+    {
+        color.r = 0.299*color.r + 0.587*color.g + 0.114*color.b;
+        color.g = 0.299*color.r + 0.587*color.g + 0.114*color.b;
+        color.b = 0.299*color.r + 0.587*color.g + 0.114*color.b;
+    }
 
     return ( color ) ;
 }
@@ -78,29 +77,27 @@ list<SDL_Color> Picture::getPictureColors()
 {
     list<SDL_Color> ListOfColors;
 
-    SDL_Color color;
+    int x = this->getPictureWidth(),
+        y = this->getPictureHeight();
 
-        int x = this->getPictureWidth(),
-            y = this->getPictureHeight();
-
-            for(int i = 0; i < x; i++)
-            {
-                for(int j = 0; j < y; j++)
-                {
-                    color = getPixelColor(x, y);
-                    if(!this->isInList(ListOfColors, color)) {
-                        ListOfColors.push_back(color);
-                    }
-                }
+    for(int i = 0; i < x; i++)
+    {
+        for(int j = 0; j < y; j++)
+        {
+            SDL_Color color = getPixelColor(i, j);
+            if(!this->isInList(ListOfColors, color)) {
+                ListOfColors.push_back(color);
             }
+        }
+    }
 
-      return ListOfColors;
+    return ListOfColors;
 }
 /*
 ** funkcja: sprawdza czy kolor został już wyszukany / czy znajduje sie w liście
 */
-bool Picture::isInList(list<SDL_Color> ListOfColors, SDL_Color color) {
-    for(list<SDL_Color>::iterator it = ListOfColors.begin(); it != ListOfColors.end(); it++)
+bool Picture::isInList(const list<SDL_Color>& ListOfColors, const SDL_Color& color) {
+    for(list<SDL_Color>::const_iterator it = ListOfColors.begin(); it != ListOfColors.end(); ++it)
     {
         if(((*it).r == color.r) && ((*it).b == color.b) && ((*it).g == color.g)) {
             return true;

@@ -11,7 +11,7 @@
 /*
 ** konstruktor klasy FileWriter
 */
-FileWriter::FileWriter(string savePath)
+FileWriter::FileWriter(const string& savePath)
 {
     this->savePath = savePath;
 }
@@ -19,7 +19,7 @@ FileWriter::FileWriter(string savePath)
 /*
 ** funkcja zapisujaca wynik dzialania kompresora do pliku dt
 */
-void FileWriter::saveFile(Picture *picture, list<int> pixelListAfterCompression, list<SDL_Color> colorsList)
+void FileWriter::saveFile(Picture *picture, const list<int>& pixelListAfterCompression, const list<SDL_Color>& colorsList, const int& maxIndex)
 {
 
     string fileName = "Compressed.dt";
@@ -30,44 +30,43 @@ void FileWriter::saveFile(Picture *picture, list<int> pixelListAfterCompression,
 
     //zapis nagłówka do pliku
     file << bitset<24>(picture->getPictureWidth());
+    file<<std::endl;
     file << bitset<24>(picture->getPictureHeight());
+    file<<std::endl;
 
-    int pixelWidth = this->getMaxUsedIndexBinaryLength(pixelListAfterCompression);
+    int pixelWidth = (log(maxIndex) / log(2)) + 1; //tyle bitów potrzeba do zapisania każdego z użytych indeksów słownika;
     file << bitset<24>(pixelWidth);
-
+    file<<std::endl;
     file << bitset<16>(73);
+    file<<std::endl;
     file << bitset<16>(89);
+    file<<std::endl;
 
     //zapis kolorów obrazka do pliku
-    for(list<SDL_Color>::iterator it = colorsList.begin(); it != colorsList.end(); it++) {
-        file<<bitset<8>((*it).r);
+    for(list<SDL_Color>::const_iterator it = colorsList.begin(); it != colorsList.end(); ++it) {
+        file<<std::endl;
+        file<<bitset<8>((*it).r) ;
+        file<<" ";
+         file<<std::endl;
         file<<bitset<8>((*it).g);
+        file<<" ";
+         file<<std::endl;
         file<<bitset<8>((*it).b);
+        file<<" ";
+        file<<std::endl;
+         file<<std::endl;
     }
 
     //zapis pikseli do pliku
-    for(list<int>::iterator it = pixelListAfterCompression.begin(); it != pixelListAfterCompression.end(); it++) {
+    for(list<int>::const_iterator it = pixelListAfterCompression.begin(); it != pixelListAfterCompression.end(); it++) {
         //tutaj nie można użyć bitset
+        file<<(*it)<<" ";
         file<<this->convertValueToBinary(*it, pixelWidth);
+        file<<endl;
+
     }
 
     file.close();
-}
-
-//zwraca ile bitów jest potrzebne do zapisania makymalnego używanego indeksu w tablicy
-int FileWriter::getMaxUsedIndexBinaryLength(list<int> pixelListAfterCompression) {
-    int maxIndex = 0;
-
-    for(list<int>::iterator it = pixelListAfterCompression.begin(); it != pixelListAfterCompression.end(); it++) {
-        if((*it) > maxIndex) {
-            maxIndex = (*it);
-        }
-    }
-
-    //doDolu(log2(max))+1 => log2(max) = log10(max) / log10(2)
-	int result = (log(maxIndex) / log(2)) + 1; //tyle bitów potrzeba do zapisania każdego z użytych indeksów słownika
-
-	return result;
 }
 
 string FileWriter::convertValueToBinary(int value, const int& precision) {

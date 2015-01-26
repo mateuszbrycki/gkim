@@ -14,7 +14,7 @@
 
 int main ( int argc, char** argv )
 {
-    string = "H:/c++/gkim/coder/bin/Debug/obraz.bmp", //œcie¿ka do otworzenia .bmp
+    string openPath = "H:/c++/gkim/coder/bin/Debug/obraz.bmp", //œcie¿ka do otworzenia .bmp
             savePath = "H:/c++/gkim/coder/bin/Debug/"; //œcie¿ka do zapisu .dt
     int colorType = 0; //0 - kolor, 1 - szary
     Picture *picture = new Picture(openPath, colorType);
@@ -22,10 +22,15 @@ int main ( int argc, char** argv )
 
     list<SDL_Color> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka - 32 kolory
 
+    for(list<SDL_Color>::iterator it = colorsList.begin(); it != colorsList.end(); ++it) {
+        cout<<(int)(*it).r<<" "<<(int)(*it).g<<" "<<(int)(*it).b<<endl;
+    }
+
+
     Compressor *compressor = new Compressor(colorsList, picture);
     list<int> pixelListAfterCompression = compressor->getPixels();
 
-    writer->saveFile(picture, pixelListAfterCompression, colorsList);
+    writer->saveFile(picture, pixelListAfterCompression, colorsList, compressor->getMaxIndex());
 
     return 0;
 }
