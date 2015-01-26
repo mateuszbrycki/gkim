@@ -10,21 +10,22 @@
 #include "FileWriter.h" //do napisania
 #include "Compressor.h"
 #include <list>
+#include <iostream>
 
 int main ( int argc, char** argv )
 {
-    String openPath, //œcie¿ka do otworzenia .bmp
-            savePath; //œcie¿ka do zapisu .dt
+    string openPath = "H:/c++/gkim/coder/bin/Debug/obraz.bmp", //œcie¿ka do otworzenia .bmp
+            savePath = "H:/c++/gkim/coder/bin/Debug/"; //œcie¿ka do zapisu .dt
     int colorType = 0; //0 - kolor, 1 - szary
     Picture *picture = new Picture(openPath, colorType);
     FileWriter *writer = new FileWriter(savePath); //obiekt klasy s³u¿¹cej do zapisu obrazu do pliku
 
-    list<SDL_Color&> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka - 32 kolory
+    list<SDL_Color> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka - 32 kolory
 
     Compressor *compressor = new Compressor(colorsList, picture);
     list<int> pixelListAfterCompression = compressor->getPixels();
 
-    writer->saveFile(picture, pixelListAfterCopmression, picture, colorsList);
+    writer->saveFile(picture, pixelListAfterCompression, colorsList);
 
     // initialize SDL video
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )

@@ -2,6 +2,7 @@
 #include "Compressor.h"
 #include "Picture.h"
 #include <list>
+#include <iostream>
 
 using namespace std;
 /*
@@ -12,8 +13,7 @@ Picture::Picture(string openPath, int colorType)
 {
     this->colorType = colorType;
 
-    BMP = SDL_LoadBMP(openPath);
-
+    BMP = SDL_LoadBMP(openPath.c_str());
     if(!BMP) //sprawdzamy czy obrazek taki w ogóle istnieje
     {
         cout<<"Unable to load bitmap: "<<SDL_GetError();
@@ -24,14 +24,20 @@ Picture::Picture(string openPath, int colorType)
 */
 int Picture::getPictureWidth()
 {
-    return (BMP->w);
+    if(BMP) {
+        return (BMP->w);
+    }
+    return 0;
 }
 /*
 ** funkcja zwracajaca wysokosc obrazka
 */
 int Picture::getPictureHeight()
 {
-    return (BMP->h);
+    if(BMP) {
+        return (BMP->h);
+    }
+    return 0;
 }
 /*
 ** Funkcja pobierajaca kolor danego piksela
@@ -39,19 +45,20 @@ int Picture::getPictureHeight()
 */
 SDL_Color Picture::getPixelColor(int x, int y)
 {
+
     SDL_Color color ;
     Uint32 col = 0 ;
     if ((x >= 0) && (x < this->getPictureWidth()) && (y >= 0) && (y < this->getPictureHeight())) {
         //determine position
-        char* pPosition=(char*)screen->pixels ;
+        char* pPosition=(char*)BMP->pixels ;
         //offset by y
-        pPosition+=(screen->pitch*y) ;
+        pPosition+=(BMP->pitch*y) ;
         //offset by x
-        pPosition+=(screen->format->BytesPerPixel*x);
+        pPosition+=(BMP->format->BytesPerPixel*x);
         //copy pixel data
-        memcpy(&col, pPosition, screen->format->BytesPerPixel);
+        memcpy(&col, pPosition, BMP->format->BytesPerPixel);
         //convert color
-        SDL_GetRGB(col, screen->format, &color.r, &color.g, &color.b);
+        SDL_GetRGB(col, BMP->format, &color.r, &color.g, &color.b);
     }
 
         if(colorType == 1)
@@ -73,15 +80,15 @@ list<SDL_Color> Picture::getPictureColors()
 
     SDL_Color color;
 
-        int x = Picture.getPictureWidth(),
-            y = Picture.getPictureHeight();
+        int x = this->getPictureWidth(),
+            y = this->getPictureHeight();
 
             for(int i = 0; i < x; i++)
             {
                 for(int j = 0; j < y; j++)
                 {
                     color = getPixelColor(x, y);
-                    if(!isInList(ListOfColors, color)) {
+                    if(!this->isInList(ListOfColors, color)) {
                         ListOfColors.push_back(color);
                     }
                 }
@@ -92,10 +99,10 @@ list<SDL_Color> Picture::getPictureColors()
 /*
 ** funkcja: sprawdza czy kolor został już wyszukany / czy znajduje sie w liście
 */
-bool Picture::isInList(list<SDL_Color&> ListOfColors, SDL_Color& color) {
+bool Picture::isInList(list<SDL_Color> ListOfColors, SDL_Color color) {
     for(list<SDL_Color>::iterator it = ListOfColors.begin(); it != ListOfColors.end(); it++)
     {
-        if(((*it).r == color.r) && ((*it).b == color.b) && ((*it).g == color.g) {
+        if(((*it).r == color.r) && ((*it).b == color.b) && ((*it).g == color.g)) {
             return true;
         }
     }

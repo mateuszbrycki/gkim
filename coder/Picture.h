@@ -1,9 +1,9 @@
 #ifndef PICTURE_H
 #define PICTURE_H
 
-#include "DT_Color.h"
 #include <SDL/SDL.h>
 #include <list>
+#include <string>
 
 using namespace std;
 /*
@@ -15,11 +15,12 @@ class Picture {
 public:
     Picture(string openPath, int colorType);
     list<SDL_Color> getPictureColors();
-    SDL_Color getPixelColor(int x, int y, int colorType);
+    SDL_Color getPixelColor(int x, int y);
     int getPictureWidth();
     int getPictureHeight();
 
 private:
+    bool isInList(list<SDL_Color> ListOfColors, SDL_Color color);
     SDL_Surface *BMP;
     int colorType;
 };

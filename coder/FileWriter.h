@@ -9,10 +9,12 @@ using namespace std;
 class FileWriter
 {
 public:
-    FileWriter(const string& savePath);
-    void saveFile(const Picture& *picture, const list<int>& pixelListAfterCompression, const list<SDL_Color&>& colorsList));
-    int getMaxUsedIndexBinaryLength(const list<int>& pixelListAfterCompression);
+    FileWriter(string savePath);
+    void saveFile(Picture *picture,list<int> pixelListAfterCompression, list<SDL_Color> colorsList);
+
 private:
+    int getMaxUsedIndexBinaryLength(list<int> pixelListAfterCompression);
+    string convertValueToBinary(int value, const int& precision);
     string savePath;
 };
 

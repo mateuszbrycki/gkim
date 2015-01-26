@@ -1,23 +1,23 @@
 #ifndef COMPRESSOR_H
 #define COMPRESSOR_H
 
-#include "DT_Color.h"
 #include "Picture.h"
 #include <list>
+#include <map>
 
 using namespace std;
 
 class Compressor {
 public:
-    Compressor(List<DT_Color&> startColors, Picture* picture, const int& colorType);
+    Compressor(list<SDL_Color> startColors, Picture* picture);
     list<int> getPixels();
 
 
 private:
-    DT_Color& getPixel(int x, int y);
-    int getDictionaryIndex(list<DT_Color&> c);
+    SDL_Color getPixel(int x, int y);
+    int getDictionaryIndex(list<SDL_Color> c);
 
-    map<int, List<DT_Color&>> dictionary; //tzw. slownik LZW
+    map<int, list<SDL_Color> > dictionary; //tzw. slownik LZW
     Picture *picture;
 
     int dictionarySize = 0;
