@@ -9,8 +9,11 @@ using namespace std;
 class FileWriter
 {
 public:
-    FileWriter(string savePath);
-    void saveFile(Picture *picture, list <DT_Color> pixelListAfterCompression);
+    FileWriter(const string& savePath);
+    void saveFile(const Picture& *picture, const list<int>& pixelListAfterCompression, const list<SDL_Color&>& colorsList));
+    int getMaxUsedIndexBinaryLength(const list<int>& pixelListAfterCompression);
+private:
+    string savePath;
 };
 
 #endif

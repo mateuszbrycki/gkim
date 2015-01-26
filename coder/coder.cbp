@@ -44,8 +44,10 @@
 		</Linker>
 		<Unit filename="Compressor.cpp" />
 		<Unit filename="Compressor.h" />
-		<Unit filename="DT_Color.cpp" />
-		<Unit filename="DT_Color.h" />
+		<Unit filename="FileWriter.cpp" />
+		<Unit filename="FileWriter.h" />
+		<Unit filename="Picture.cpp" />
+		<Unit filename="Picture.h" />
 		<Unit filename="cb.bmp" />
 		<Unit filename="main.cpp" />
 		<Extensions>

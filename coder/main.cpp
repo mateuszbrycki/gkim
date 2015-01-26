@@ -6,7 +6,6 @@
 
 
 #include <SDL/SDL.h>
-#include "DT_Color.h"
 #include "Picture.h" //do napisania
 #include "FileWriter.h" //do napisania
 #include "Compressor.h"
@@ -20,12 +19,12 @@ int main ( int argc, char** argv )
     Picture *picture = new Picture(openPath, colorType);
     FileWriter *writer = new FileWriter(savePath); //obiekt klasy s³u¿¹cej do zapisu obrazu do pliku
 
-    list<DT_Color&> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka - 32 kolory
+    list<SDL_Color&> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka - 32 kolory
 
     Compressor *compressor = new Compressor(colorsList, picture);
     list<int> pixelListAfterCopmression = compressor->getPixels();
 
-    writer->saveFile(picture, pixelListAfterCopmression);
+    writer->saveFile(picture, pixelListAfterCopmression, picture, colorsList);
 
     // initialize SDL video
     if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
