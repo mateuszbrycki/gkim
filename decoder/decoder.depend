@@ -4,7 +4,7 @@
 	<stdlib.h>
 	<SDL/SDL.h>
 
-1422216242 source:c:\users\damian\grafika\gkim\decoder\main.cpp
+1422386164 source:c:\users\damian\grafika\gkim\decoder\main.cpp
 	<cstdlib>
 	<stdlib.h>
 	<SDL/SDL.h>
@@ -15,4 +15,5 @@
 	<cstddef>
 	<fstream>
 	<vector>
+	<map>
 

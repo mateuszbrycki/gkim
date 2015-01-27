@@ -17,17 +17,72 @@
 #include <cstddef>
 #include <fstream>
 #include <vector>
+#include <map>
 using namespace std;
 
     //zmienne
-int width;
-int height;
+SDL_Surface *screen;
+int width=600;
+int height=400;
 int pixelWidth;
 int dictionaryStart;
 int pictureStart;
+char const* tytul = "LZW";
 
 vector<SDL_Color> dictionaryColors;
 fstream plik;
+
+void setPixel(int x, int y, Uint8 R, Uint8 G, Uint8 B)
+{
+  if ((x>=0) && (x<width) && (y>=0) && (y<height))
+  {
+    /* Zamieniamy poszczególne sk³adowe koloru na format koloru pixela */
+    Uint32 pixel = SDL_MapRGB(screen->format, R, G, B);
+
+    /* Pobieramy informacji ile bajtów zajmuje jeden pixel */
+    int bpp = screen->format->BytesPerPixel;
+
+    /* Obliczamy adres pixela */
+    Uint8 *p = (Uint8 *)screen->pixels + y * screen->pitch + x * bpp;
+
+    /* Ustawiamy wartoœæ pixela, w zale¿noœci od formatu powierzchni*/
+    switch(bpp)
+    {
+        case 1: //8-bit
+            *p = pixel;
+            break;
+
+        case 2: //16-bit
+            *(Uint16 *)p = pixel;
+            break;
+
+        case 3: //24-bit
+            if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+                p[0] = (pixel >> 16) & 0xff;
+                p[1] = (pixel >> 8) & 0xff;
+                p[2] = pixel & 0xff;
+            } else {
+                p[0] = pixel & 0xff;
+                p[1] = (pixel >> 8) & 0xff;
+                p[2] = (pixel >> 16) & 0xff;
+            }
+            break;
+
+        case 4: //32-bit
+            *(Uint32 *)p = pixel;
+            break;
+
+    }
+         /* update the screen (aka double buffering) */
+  }
+}
+
+void czyscEkran(Uint8 R, Uint8 G, Uint8 B)
+{
+    SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, R, G, B));
+    SDL_Flip(screen);
+
+}
 
 
 int power(int liczba, int dopotegi)
@@ -57,21 +112,56 @@ string charToString(char *buffer,int lenght)
 }
 
 
-void readSlownik(char *name)
+void decoder() {
+int help = 0;
+string helpReader;
+
+
+
+    cout<<" "<<dictionaryColors.size()<<" ";
+
+
+for(int i=0;i<height/5;i++){
+        for(int j=0;j<width/5;j++){
+
+    plik.seekg(pictureStart+help,ios::beg);
+    int length = 15;
+    char * buffer = new char [length];
+    plik.read(buffer,length);
+
+    helpReader =charToString(buffer,length);
+
+    int colorIndex = atoi(helpReader.c_str());
+    cout<<colorIndex<<" ";
+
+    SDL_Color colorRGB =  dictionaryColors[ colorIndex ];
+
+    setPixel(i,j,colorRGB.r,colorRGB.g,colorRGB.b);
+
+    help = help + 15;
+}
+        }
+
+SDL_SaveBMP (screen, "FILE.bmp");
+
+}
+
+
+void readSlownik()
 {
     int help = 0;
 
-   do{
+  do{
 
     int start = dictionaryStart+help;
     plik.seekg(start,ios::beg);
-    int length =8;
+    int length = 5;
     char * buffer = new char [length];
     plik.read(buffer,length);
-    cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+   // cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
     string helpReader;
     helpReader =charToString(buffer,length);
-    cout<<helpReader<<endl;
+    //cout<<helpReader<<endl;
     // wczytanie red
     int blue;
     int red;
@@ -85,27 +175,27 @@ void readSlownik(char *name)
     // wczytanie green
 
     plik.read(buffer,length);
-    cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+   // cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
     helpReader =charToString(buffer,length);
-    cout<<helpReader<<endl;
+    //cout<<helpReader<<endl;
     green=bin2dec(helpReader);
 
     //wczytanie blue
     plik.read(buffer,length);
-    cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+   // cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
     helpReader =charToString(buffer,length);
-    cout<<helpReader<<endl;
+   // cout<<helpReader<<endl;
     blue=bin2dec(helpReader);
 
     dictionaryColors.push_back(kolor);
 
-    help= help +24;
+    help = help +15;
 
    }while(help<pictureStart);
 
+    decoder();
 
 }
-
 
 void open()
 {
@@ -113,11 +203,12 @@ void open()
 	string name;
 	cout<<"Wprowadz nazwe pliku ktory ma byc wczytany ";
 	cin>>name;
-	size_t found = name.find(".txt");
+
+	size_t found = name.find(".dt");
 
 	if(found==-1)
 	{
-		name = name + ".txt";
+		name = name + ".dt";
 	}
 
 	char *nazwa= new char[name.length()+1];
@@ -174,16 +265,14 @@ if( plik.good() == true )
         cout<<"pictureStart "<<pictureStart<<endl;
     //end of pictureStart
 
-
-    readSlownik(nazwa);
-
  do{
 
+}while(plik.eof());
 
+screen = SDL_SetVideoMode(width, height, 32,
+                                           SDL_RESIZABLE|SDL_DOUBLEBUF);
 
-		}while(plik.eof());
-
-
+readSlownik();
 
 } else cout << "Nie znaleziono pliku" <<endl;
 
@@ -193,15 +282,14 @@ plik.close();
 
 }
 
-SDL_Surface *screen;
-int width_ = 600;
-int height_ = 450;
-char const* tytul = "LZW";
+
+
 
 void Funkcja1()// wcis 1 by zadzialalo
 {
 
 open();
+
 
 }
 
@@ -238,82 +326,6 @@ void Funkcja6()
 }
 
 
-
-
-void setPixel(int x, int y, Uint8 R, Uint8 G, Uint8 B)
-{
-  if ((x>=0) && (x<width) && (y>=0) && (y<height))
-  {
-    /* Zamieniamy poszczególne sk³adowe koloru na format koloru pixela */
-    Uint32 pixel = SDL_MapRGB(screen->format, R, G, B);
-
-    /* Pobieramy informacji ile bajtów zajmuje jeden pixel */
-    int bpp = screen->format->BytesPerPixel;
-
-    /* Obliczamy adres pixela */
-    Uint8 *p = (Uint8 *)screen->pixels + y * screen->pitch + x * bpp;
-
-    /* Ustawiamy wartoœæ pixela, w zale¿noœci od formatu powierzchni*/
-    switch(bpp)
-    {
-        case 1: //8-bit
-            *p = pixel;
-            break;
-
-        case 2: //16-bit
-            *(Uint16 *)p = pixel;
-            break;
-
-        case 3: //24-bit
-            if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-                p[0] = (pixel >> 16) & 0xff;
-                p[1] = (pixel >> 8) & 0xff;
-                p[2] = pixel & 0xff;
-            } else {
-                p[0] = pixel & 0xff;
-                p[1] = (pixel >> 8) & 0xff;
-                p[2] = (pixel >> 16) & 0xff;
-            }
-            break;
-
-        case 4: //32-bit
-            *(Uint32 *)p = pixel;
-            break;
-
-    }
-         /* update the screen (aka double buffering) */
-  }
-}
-
-
-
-void czyscEkran(Uint8 R, Uint8 G, Uint8 B)
-{
-    SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, R, G, B));
-    SDL_Flip(screen);
-
-}
-
-SDL_Color getPixel (int x, int y) {
-    SDL_Color color ;
-    Uint32 col = 0 ;
-    if ((x>=0) && (x<width) && (y>=0) && (y<height)) {
-        //determine position
-        char* pPosition=(char*)screen->pixels ;
-        //offset by y
-        pPosition+=(screen->pitch*y) ;
-        //offset by x
-        pPosition+=(screen->format->BytesPerPixel*x);
-        //copy pixel data
-        memcpy(&col, pPosition, screen->format->BytesPerPixel);
-        //convert color
-        SDL_GetRGB(col, screen->format, &color.r, &color.g, &color.b);
-    }
-    return ( color ) ;
-}
-
-
-
 int main ( int argc, char** argv )
 {
     // console output
@@ -332,7 +344,7 @@ int main ( int argc, char** argv )
 
     // create a new window
     screen = SDL_SetVideoMode(width, height, 32,
-                                           SDL_HWSURFACE|SDL_DOUBLEBUF);
+                                           SDL_RESIZABLE|SDL_DOUBLEBUF);
     if ( !screen )
     {
         printf("Unable to set video: %s\n", SDL_GetError());
