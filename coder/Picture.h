@@ -2,7 +2,7 @@
 #define PICTURE_H
 
 #include <SDL/SDL.h>
-#include <list>
+#include <vector>
 #include <string>
 
 using namespace std;
@@ -14,13 +14,13 @@ using namespace std;
 class Picture {
 public:
     Picture(const string& openPath, const int& colorType);
-    list<SDL_Color> getPictureColors();
+    vector<SDL_Color> getPictureColors();
     SDL_Color getPixelColor(const int& x, const int& y);
     int getPictureWidth();
     int getPictureHeight();
 
 private:
-    bool isInList(const list<SDL_Color>& ListOfColors, const SDL_Color& color);
+    bool isInList(const vector<SDL_Color>& ListOfColors, const SDL_Color& color);
     SDL_Surface *BMP;
     int colorType;
 };

@@ -19,7 +19,7 @@ FileWriter::FileWriter(const string& savePath)
 /*
 ** funkcja zapisujaca wynik dzialania kompresora do pliku dt
 */
-void FileWriter::saveFile(Picture *picture, const list<int>& pixelListAfterCompression, const list<SDL_Color>& colorsList, const int& maxIndex)
+void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCompression, const vector<SDL_Color>& colorsList, const int& maxIndex)
 {
 
     string fileName = "Compressed.dt";
@@ -43,7 +43,7 @@ void FileWriter::saveFile(Picture *picture, const list<int>& pixelListAfterCompr
     file<<std::endl;
 
     //zapis kolorów obrazka do pliku
-    for(list<SDL_Color>::const_iterator it = colorsList.begin(); it != colorsList.end(); ++it) {
+    for(vector<SDL_Color>::const_iterator it = colorsList.begin(); it != colorsList.end(); ++it) {
         file<<std::endl;
         file<<bitset<8>((*it).r) ;
         file<<" ";
@@ -58,7 +58,7 @@ void FileWriter::saveFile(Picture *picture, const list<int>& pixelListAfterCompr
     }
 
     //zapis pikseli do pliku
-    for(list<int>::const_iterator it = pixelListAfterCompression.begin(); it != pixelListAfterCompression.end(); it++) {
+    for(vector<int>::const_iterator it = pixelListAfterCompression.begin(); it != pixelListAfterCompression.end(); it++) {
         //tutaj nie można użyć bitset
         file<<(*it)<<" ";
         file<<this->convertValueToBinary(*it, pixelWidth);

@@ -1,7 +1,7 @@
 #include <SDL/SDL.h>
 #include "Compressor.h"
 #include "Picture.h"
-#include <list>
+#include <vector>
 #include <iostream>
 
 using namespace std;
@@ -73,9 +73,9 @@ SDL_Color Picture::getPixelColor(const int& x,const int& y)
 /*
 ** Funkcja zwracajaca liste wszystkich kolorow obrazka
 */
-list<SDL_Color> Picture::getPictureColors()
+vector<SDL_Color> Picture::getPictureColors()
 {
-    list<SDL_Color> ListOfColors;
+    vector<SDL_Color> ListOfColors;
 
     int x = this->getPictureWidth(),
         y = this->getPictureHeight();
@@ -96,8 +96,8 @@ list<SDL_Color> Picture::getPictureColors()
 /*
 ** funkcja: sprawdza czy kolor został już wyszukany / czy znajduje sie w liście
 */
-bool Picture::isInList(const list<SDL_Color>& ListOfColors, const SDL_Color& color) {
-    for(list<SDL_Color>::const_iterator it = ListOfColors.begin(); it != ListOfColors.end(); ++it)
+bool Picture::isInList(const vector<SDL_Color>& ListOfColors, const SDL_Color& color) {
+    for(vector<SDL_Color>::const_iterator it = ListOfColors.begin(); it != ListOfColors.end(); ++it)
     {
         if(((*it).r == color.r) && ((*it).b == color.b) && ((*it).g == color.g)) {
             return true;

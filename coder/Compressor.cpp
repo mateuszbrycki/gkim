@@ -1,31 +1,31 @@
 #include <SDL/SDL.h>
 #include "Compressor.h"
-#include <list>
+#include <vector>
 #include <iostream>
 using namespace std;
 /* konstruktor klasy tworzacy poczatkowe hasla slownika
 @param startColors lista kolorów obrazka
 @param picture obiekt klasy Picture bedacy reprezentacja obrazka wejsciowego
 */
-Compressor::Compressor(const list<SDL_Color>& startColors, Picture* picture) {
+Compressor::Compressor(const vector<SDL_Color>& startColors, Picture* picture) {
     this->picture = picture;
     this->dictionarySize = 0;
     this->maxIndex = 0;
 
-    for(list<SDL_Color>::const_iterator it = startColors.begin(); it != startColors.end(); it++) {
-        list<SDL_Color> color;
+    for(vector<SDL_Color>::const_iterator it = startColors.begin(); it != startColors.end(); it++) {
+        vector<SDL_Color> color;
         color.push_back(*it);
         dictionarySize++;
-        dictionary.insert(pair<int, list<SDL_Color> >(dictionarySize , color));
+        dictionary.insert(pair<int, vector<SDL_Color> >(dictionarySize , color));
     }
 }
 
 /* wlasciwa kompresja LZW
 @return lista kolejno zapisanych pixeli wg. indeksów ssownika LZW
 */
-list<int> Compressor::getPixels() {
-    list<int> output;
-    list<SDL_Color> c;
+vector<int> Compressor::getPixels() {
+    vector<int> output;
+    vector<SDL_Color> c;
 
 
     int x = picture->getPictureWidth(),
@@ -35,7 +35,7 @@ list<int> Compressor::getPixels() {
         for(int j = 0; j < y; j++) {
             SDL_Color color = this->getPixel(i, j);
 
-            list<SDL_Color> temp = c;
+            vector<SDL_Color> temp = c;
             temp.push_back(color);
 
             if(this->getDictionaryIndex(temp) > 0) { //jezeli c+s jest w sloniku
@@ -53,7 +53,7 @@ list<int> Compressor::getPixels() {
                 c.push_back(color); //c = c+s
 
                 dictionarySize++; //zwiekszamy licznik hasel w slowniku
-                dictionary.insert(pair<int, list<SDL_Color> >(dictionarySize, c)); //dodanie nowego hasla do slownika
+                dictionary.insert(pair<int, vector<SDL_Color> >(dictionarySize, c)); //dodanie nowego hasla do slownika
 
                 c.clear(); //c = s
                 c.push_back(color);
@@ -82,15 +82,15 @@ SDL_Color Compressor::getPixel(const int& x, const int& y) {
 @param c lista kolorów, które nalezy odszukac w slowniku
 @return zwraca pozycje w sloniku lub -1 jezeli slowa nie ma w slowniku
 */
-int Compressor::getDictionaryIndex(const list<SDL_Color>& c) {
+int Compressor::getDictionaryIndex(const vector<SDL_Color>& c) {
 
     //dla kazdego elementu mapy dictionary sprawdzamy czy list<DT_Color&> maja takie same wartosci/kolory a nie referencje!!
 
-    for(map<int, list<SDL_Color> >::iterator it = dictionary.begin(); it != dictionary.end(); it++) {
+    for(map<int, vector<SDL_Color> >::iterator it = dictionary.begin(); it != dictionary.end(); it++) {
         if((*it).second.size() == c.size()) { //jezeli listy maja takie same rozmiary
             bool listsAreSame = true;
-            list<SDL_Color>::const_iterator listIt = (*it).second.begin();
-            list<SDL_Color>::const_iterator listItC = c.begin();
+            vector<SDL_Color>::const_iterator listIt = (*it).second.begin();
+            vector<SDL_Color>::const_iterator listItC = c.begin();
             for(; listIt != (*it).second.end() && listItC != c.end(); listIt++, listItC++) {
                 if(((*listIt).r != (*listItC).r) || ((*listIt).g != (*listItC).g) || ((*listIt).b != (*listItC).b))
                     listsAreSame = false;

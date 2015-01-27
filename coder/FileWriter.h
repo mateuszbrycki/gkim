@@ -10,7 +10,7 @@ class FileWriter
 {
 public:
     FileWriter(const string& savePath);
-    void saveFile(Picture *picture, const list<int>& pixelListAfterCompression, const list<SDL_Color>& colorsList, const int& maxIndex);
+    void saveFile(Picture *picture, const vector<int>& pixelListAfterCompression, const vector<SDL_Color>& colorsList, const int& maxIndex);
 
 private:
     string convertValueToBinary(int value, const int& precision);
