@@ -22,7 +22,17 @@ FileWriter::FileWriter(const string& savePath, const string& saveName)
 void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCompression, const vector<SDL_Color>& colorsList, const int& maxIndex)
 {
 
-    savePath = savePath + "/" + saveName; //sciezka dostepu + nazwa pliku
+    string temp;
+    temp = saveName.substr(saveName.length()-3,3);
+    if(temp == ".dt")
+    {
+        savePath = savePath + "/" + saveName; //sciezka dostepu + nazwa pliku
+    }
+    else
+    {
+        savePath = savePath + "/" + saveName + ".dt"; //sciezka dostepu + nazwa pliku + .dt
+    }
+
     ofstream file(savePath.c_str());
 
     //file.open(savePath.c_str(),  ofstream::out | ofstream::app);
