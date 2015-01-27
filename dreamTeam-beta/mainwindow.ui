@@ -238,12 +238,12 @@
      <rect>
       <x>40</x>
       <y>210</y>
-      <width>161</width>
+      <width>171</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Podaj nazwę pliku po konwersji:</string>
+     <string>Podaj nazwę nowego pliku (*.dt)</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="greyScale">

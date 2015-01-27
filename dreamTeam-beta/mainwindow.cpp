@@ -80,11 +80,12 @@ void MainWindow::on_bdPathButton_released()
 
 void MainWindow::on_bdConvertButton_released()
 {
-    if(!(ui->bdFile->text()).isEmpty() && !(ui->bdPath->text()).isEmpty()) {
+    string openPath = ui->bdFile->text().toStdString();
+    string savePath = ui->bdPath->text().toStdString();
+    string saveName = ui->bdFileName->text().toStdString();
+    if(!openPath.empty() && !savePath.empty() && !saveName.empty()) {
         qDebug()<<"Rozpoczęto analizę!";
-        string openPath = ui->bdFile->text().toStdString();
-        string savePath = ui->bdPath->text().toStdString();
-        string saveName = ui->bdFileName->text().toStdString();
+
 
         int colorType;
         if(ui->greyScale->checkState()) {
@@ -107,7 +108,7 @@ void MainWindow::on_bdConvertButton_released()
         writer->saveFile(picture, pixelListAfterCompression, colorsList, compressor->getMaxIndex());
         qDebug()<<"Koniec";
     } else {
-
+        qDebug()<<"Wypełnij wszystkie pola!";
     }
 }
 
