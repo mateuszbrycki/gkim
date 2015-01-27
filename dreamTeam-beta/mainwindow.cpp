@@ -77,6 +77,7 @@ void MainWindow::on_bdConvertButton_released()
         qDebug()<<"Rozpoczęto analizę!";
         string openPath = ui->bdFile->text().toStdString();
         string savePath = ui->bdPath->text().toStdString();
+        string saveName = ui->bdFileName->text().toStdString();
 
         int colorType;
         if(ui->greyScale->checkState()) {
@@ -87,7 +88,7 @@ void MainWindow::on_bdConvertButton_released()
         qDebug()<<colorType;
 
         Picture *picture = new Picture(openPath, colorType);
-        FileWriter *writer = new FileWriter(savePath); //obiekt klasy służącej do zapisu obrazu do pliku
+        FileWriter *writer = new FileWriter(savePath, saveName); //obiekt klasy służącej do zapisu obrazu do pliku
 
         vector<SDL_Color> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka - 32 kolory
         qDebug()<<"Pobrano kolory obrazka!";

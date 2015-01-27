@@ -223,7 +223,7 @@
      <string>Konwersja DT do BMP</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="bdPath_2">
+   <widget class="QLineEdit" name="bdFileName">
     <property name="geometry">
      <rect>
       <x>40</x>

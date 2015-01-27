@@ -10,9 +10,10 @@
 /*
 ** konstruktor klasy FileWriter
 */
-FileWriter::FileWriter(const string& savePath)
+FileWriter::FileWriter(const string& savePath, const string& saveName)
 {
     this->savePath = savePath;
+    this->saveName = saveName;
 }
 
 /*
@@ -21,8 +22,7 @@ FileWriter::FileWriter(const string& savePath)
 void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCompression, const vector<SDL_Color>& colorsList, const int& maxIndex)
 {
 
-    string fileName = "/Compressed.dt";
-    savePath = savePath + fileName; //sciezka dostepu + nazwa pliku
+    savePath = savePath + "/" + saveName; //sciezka dostepu + nazwa pliku
     ofstream file(savePath.c_str());
 
     //file.open(savePath.c_str(),  ofstream::out | ofstream::app);
