@@ -5,15 +5,21 @@
 #-------------------------------------------------
 
 QT       += core gui
-
+CONFIG += c++11
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = dreamTeam-beta
 TEMPLATE = app
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    Compressor.cpp \
+    FileWriter.cpp \
+    Picture.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    Compressor.h \
+    FileWriter.h \
+    Picture.h
 
 FORMS    += mainwindow.ui
 

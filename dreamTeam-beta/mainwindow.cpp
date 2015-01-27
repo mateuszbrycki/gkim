@@ -3,6 +3,14 @@
 #include <QDebug>
 #include <QFileDialog>
 
+#include <SDL.h>
+#include <vector>
+#include <iostream>
+
+#include "Picture.h"
+#include "FileWriter.h"
+#include "Compressor.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -66,7 +74,30 @@ void MainWindow::on_bdPathButton_released()
 void MainWindow::on_bdConvertButton_released()
 {
     if(!(ui->bdFile->text()).isEmpty() && !(ui->bdPath->text()).isEmpty()) {
-        qDebug()<<"Obsługa konwersji z BMP do DT";
+        qDebug()<<"Rozpoczęto analizę!";
+        string openPath = ui->bdFile->text().toStdString();
+        string savePath = ui->bdPath->text().toStdString();
+
+        int colorType;
+        if(ui->greyScale->checkState()) {
+            colorType = 1;
+        } else {
+            colorType = 0;
+        }
+        qDebug()<<colorType;
+
+        Picture *picture = new Picture(openPath, colorType);
+        FileWriter *writer = new FileWriter(savePath); //obiekt klasy służącej do zapisu obrazu do pliku
+
+        vector<SDL_Color> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka - 32 kolory
+        qDebug()<<"Pobrano kolory obrazka!";
+
+        Compressor *compressor = new Compressor(colorsList, picture);
+        vector<int> pixelListAfterCompression = compressor->getPixels();
+        qDebug()<<"Skompresowano!";
+
+        writer->saveFile(picture, pixelListAfterCompression, colorsList, compressor->getMaxIndex());
+        qDebug()<<"Koniec";
     }
 }
 

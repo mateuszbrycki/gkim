@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>703</width>
-    <height>300</height>
+    <height>387</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,6 +41,9 @@
     </property>
    </widget>
    <widget class="QLineEdit" name="bdFile">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -90,9 +93,9 @@
     <property name="geometry">
      <rect>
       <x>80</x>
-      <y>220</y>
+      <y>297</y>
       <width>181</width>
-      <height>31</height>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
@@ -193,9 +196,9 @@
     <property name="geometry">
      <rect>
       <x>420</x>
-      <y>220</y>
+      <y>297</y>
       <width>181</width>
-      <height>31</height>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
@@ -218,6 +221,42 @@
     </property>
     <property name="text">
      <string>Konwersja DT do BMP</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="bdPath_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>230</y>
+      <width>161</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>210</y>
+      <width>161</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Podaj nazwę pliku po konwersji:</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="greyScale">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>230</y>
+      <width>91</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Skala szarości</string>
     </property>
    </widget>
   </widget>
