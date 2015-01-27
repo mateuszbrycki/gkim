@@ -86,6 +86,10 @@ vector<SDL_Color> Picture::getPictureColors()
     {
         for(int j = 0; j < y; j++)
         {
+            //jeżeli lista elementów ma już 32 kolory to możemy przerwać przeszukiwanie
+            if(ListOfColors.size() == 32) {
+                return ListOfColors;
+            }
             SDL_Color color = getPixelColor(i, j);
 
             auto iter = find_if(ListOfColors.begin(), ListOfColors.end(), [&color] (SDL_Color const& colorInList) -> bool{
