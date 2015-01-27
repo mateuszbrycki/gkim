@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <vector>
 #include <iostream>
+#include <QDebug>
 
 #include "Compressor.h"
 #include "Picture.h"
@@ -62,12 +63,15 @@ SDL_Color Picture::getPixelColor(const int& x,const int& y)
         //convert color
         SDL_GetRGB(col, BMP->format, &color.r, &color.g, &color.b);
     }
-
-    if(colorType == 1)
+    if(this->colorType == 1)
     {
-        color.r = 0.299*color.r + 0.587*color.g + 0.114*color.b;
-        color.g = 0.299*color.r + 0.587*color.g + 0.114*color.b;
-        color.b = 0.299*color.r + 0.587*color.g + 0.114*color.b;
+        Uint8 tempR = color.r,
+            tempG = color.g,
+            tempB = color.b;
+
+        color.r = 0.299*tempR + 0.587*tempG + 0.114*tempB;
+        color.g = 0.299*tempR + 0.587*tempG + 0.114*tempB;
+        color.b = 0.299*tempR + 0.587*tempG + 0.114*tempB;
     }
 
     return ( color ) ;
@@ -90,7 +94,7 @@ vector<SDL_Color> Picture::getPictureColors()
             if(ListOfColors.size() == 32) {
                 return ListOfColors;
             }
-            SDL_Color color = getPixelColor(i, j);
+            SDL_Color color = this->getPixelColor(i, j);
 
             auto iter = find_if(ListOfColors.begin(), ListOfColors.end(), [&color] (SDL_Color const& colorInList) -> bool{
                        return ((colorInList.r == color.r) && (colorInList.b == color.b) && (colorInList.g == color.g));
