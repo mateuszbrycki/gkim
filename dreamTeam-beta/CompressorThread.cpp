@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <vector>
 #include <iostream>
+#include <QMutex>
 
 #include "Picture.h"
 #include "FileWriter.h"
@@ -15,6 +16,8 @@ CompressorThread::CompressorThread(QObject *parent) :
 }
 
 void CompressorThread::run(const string& openPath, const string& savePath, const string& saveName, const int& colorType) {
+    QMutex mutex;
+    mutex.lock();
 
     Picture *picture = new Picture(openPath, colorType);
     FileWriter *writer = new FileWriter(savePath, saveName); //obiekt klasy służącej do zapisu obrazu do pliku
@@ -33,5 +36,6 @@ void CompressorThread::run(const string& openPath, const string& savePath, const
     delete compressor;
     delete writer;
 
+    mutex.unlock();
     emit compressionSuccess();
 }

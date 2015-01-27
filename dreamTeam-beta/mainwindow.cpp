@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QProgressDialog>
 
 #include <SDL.h>
 #include <vector>
@@ -90,7 +91,6 @@ void MainWindow::on_bdConvertButton_released()
     string openPath = ui->bdFile->text().toStdString();
     string savePath = ui->bdPath->text().toStdString();
     string saveName = ui->bdFileName->text().toStdString();
-    ui->progress->setText("Trwa konwersja...");
 
     if(!openPath.empty() && !savePath.empty() && !saveName.empty()) {
         qDebug()<<"Rozpoczęto analizę!";
@@ -104,13 +104,22 @@ void MainWindow::on_bdConvertButton_released()
         }
         qDebug()<<"Uruchamianie nowego wątku!";
 
+        QProgressDialog progress("Konwersja.", "", 0, NULL, this);
+        progress.setWindowModality(Qt::WindowModal);
+        progress.setWindowTitle("Konwersja");
+        progress.setCancelButton(0);
+        progress.setFixedSize(300, 100);
+        progress.setMaximum(0);
+        progress.setMinimum(0);
+        progress.setValue(0);
+
         compressorThread->run(openPath, savePath, saveName, colorType);
+
+        progress.close();
 
     } else {
         QMessageBox::information( this, "Błąd", "Wypełnij wszystkie pola", QMessageBox::Ok, 0 );
     }
-
-    ui->progress->setText("Koniec.");
 }
 
 void MainWindow::compressionSuccess() {
