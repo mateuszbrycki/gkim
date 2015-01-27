@@ -26,67 +26,169 @@ int pixelWidth;
 int dictionaryStart;
 int pictureStart;
 
-vector<int> pictureRead;
+vector<SDL_Color> dictionaryColors;
+fstream plik;
 
 
-
-string select_nazwa()
+int power(int liczba, int dopotegi)
 {
-    string nazwa;
-    cout<<"Wprowadz nazwe z którego pliku mam wczytac"<<endl;
-    nazwa = "plik.txt";
-    return nazwa;
+    int wynik = 1;
+    for(int i = 0; i < dopotegi; ++i)
+            wynik *= liczba;
+    return wynik;
 }
 
-void open(string nazwa)
+int bin2dec(string input)
+{
+    int output = 0;
+    for(int i=0; i<input.size(); i++)
+            output+=(input[i]-'0')*power(2,input.size()-i-1);
+    return output;
+}
+
+string charToString(char *buffer,int lenght)
+{
+    string ciag="";
+    for(int i=0;i<lenght;i++)
+    {
+        ciag = ciag+buffer[i];
+    }
+    return ciag;
+}
+
+
+void readSlownik(char *name)
+{
+    int help = 0;
+
+   do{
+
+    int start = dictionaryStart+help;
+    plik.seekg(start,ios::beg);
+    int length =8;
+    char * buffer = new char [length];
+    plik.read(buffer,length);
+    cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+    string helpReader;
+    helpReader =charToString(buffer,length);
+    cout<<helpReader<<endl;
+    // wczytanie red
+    int blue;
+    int red;
+    int green;
+    red=bin2dec(helpReader);
+    SDL_Color kolor;
+    kolor.r = red;
+    kolor.b = blue;
+    kolor.g = green;
+
+    // wczytanie green
+
+    plik.read(buffer,length);
+    cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+    helpReader =charToString(buffer,length);
+    cout<<helpReader<<endl;
+    green=bin2dec(helpReader);
+
+    //wczytanie blue
+    plik.read(buffer,length);
+    cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+    helpReader =charToString(buffer,length);
+    cout<<helpReader<<endl;
+    blue=bin2dec(helpReader);
+
+    dictionaryColors.push_back(kolor);
+
+    help= help +24;
+
+   }while(help<pictureStart);
+
+
+}
+
+
+void open()
 {
 
-    fstream plik;
+	string name;
+	cout<<"Wprowadz nazwe pliku ktory ma byc wczytany ";
+	cin>>name;
+	size_t found = name.find(".txt");
 
-    // nie mam zielonego pojecia czemu w tym jebanym C:B trzeba to rzutowac jacys neardeltaczycy to pisali-.-
-    char *name= new char[nazwa.length()+1];
-    strcpy( name, nazwa.c_str() );
+	if(found==-1)
+	{
+		name = name + ".txt";
+	}
 
-    plik.open(name);
-    if(plik.good()==true)
-    {
-         // nie wiem czemu amelinium nie chce go otworzyc
-        cout<<"otwarto";
-        while(!plik.eof())
-        {
-            plik>>width;
+	char *nazwa= new char[name.length()+1];
+	strcpy( nazwa, name.c_str() );
 
-            plik.seekg( +2,ios_base::beg ); //skok do przodu o 2 względem końca pliku
-            if( plik.fail())
-                cout << "Error! Nie udalo sie przesunac wewnetrznego wskaznika pliku" <<endl;
-            plik>>height;
+	plik.open( nazwa, ios::in|ios::binary);
+if( plik.good() == true )
+{
+    // wczytanie width
+        plik.seekg( 0,ios::beg );
+        int length =24;
+        char * buffer = new char [length];
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        string helpReader;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        width=bin2dec(helpReader);
+        cout<<"Width "<<width<<endl;
+    // end of width
+    //wczytanie height
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        height=bin2dec(helpReader);
+        cout<<"Height "<<height<<endl;
+    //end of height
+    //wczytanie pixelWidth
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        pixelWidth=bin2dec(helpReader);
+        cout<<"pixelWidth "<<pixelWidth<<endl;
+    //end of pixelWidth
+    //wczytanie dictonary
+        length =16;
+        buffer = new char [length];
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        dictionaryStart=bin2dec(helpReader);
+        cout<<"dictionaryStart"<<dictionaryStart<<endl;
+    // endo of dictionaryStart
+    // wczytanie pictureStart
 
-            plik.seekg( +5,ios_base::beg ); //skok do przodu o 5 względem końca pliku
-            if( plik.fail())
-                cout << "Error! Nie udalo sie przesunac wewnetrznego wskaznika pliku" <<endl;
-            plik>>pixelWidth;
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        pictureStart=bin2dec(helpReader);
+        cout<<"pictureStart "<<pictureStart<<endl;
+    //end of pictureStart
 
 
-            plik.seekg( +8,ios_base::beg ); //skok do przodu o 8 względem końca pliku
-            if( plik.fail())
-                cout << "Error! Nie udalo sie przesunac wewnetrznego wskaznika pliku" <<endl;
-            plik>>dictionaryStart;
+    readSlownik(nazwa);
 
-
-            plik.seekg( +10,ios_base::beg ); //skok do przodu o 10 względem końca pliku
-            if( plik.fail())
-                cout << "Error! Nie udalo sie przesunac wewnetrznego wskaznika pliku" <<endl;
-                plik>>pictureStart;
-                pictureRead.push_back(pictureStart);
-        }
+ do{
 
 
 
+		}while(plik.eof());
 
-        plik.close();
-    }
-    else
-        cout<<"Blad otwarcia pliku"<<endl;
+
+
+} else cout << "Nie znaleziono pliku" <<endl;
+
+plik.close();
+
 
 
 }
@@ -99,7 +201,39 @@ char const* tytul = "LZW";
 void Funkcja1()// wcis 1 by zadzialalo
 {
 
-open(select_nazwa());
+open();
+
+}
+
+
+void Funkcja2()
+{
+
+}
+
+void Funkcja3()
+{
+
+}
+
+
+void Funkcja4()
+{
+
+
+}
+
+
+void Funkcja5()
+{
+
+
+}
+
+
+void Funkcja6()
+{
+
 
 }
 
@@ -230,7 +364,17 @@ int main ( int argc, char** argv )
                         done = true;
                     if (event.key.keysym.sym == SDLK_1)
                         Funkcja1();
-
+                    if (event.key.keysym.sym == SDLK_2)
+                        Funkcja2();
+                    if (event.key.keysym.sym == SDLK_3)
+                        Funkcja3();
+                    if (event.key.keysym.sym == SDLK_4)
+                        Funkcja4();
+                    if (event.key.keysym.sym == SDLK_5)
+                        Funkcja5();
+                    if (event.key.keysym.sym == SDLK_6)
+                        Funkcja6();
+                    if (event.key.keysym.sym == SDLK_b)
                         czyscEkran(0, 0, 10);          break;
                      }
             } // end switch
