@@ -1,6 +1,7 @@
 #include <SDL/SDL.h>
 #include "Compressor.h"
 #include <vector>
+#include <algorithm>
 #include <iostream>
 using namespace std;
 /* konstruktor klasy tworzacy poczatkowe hasla slownika
@@ -86,20 +87,16 @@ int Compressor::getDictionaryIndex(const vector<SDL_Color>& c) {
 
     //dla kazdego elementu mapy dictionary sprawdzamy czy list<DT_Color&> maja takie same wartosci/kolory a nie referencje!!
 
-    for(map<int, vector<SDL_Color> >::iterator it = dictionary.begin(); it != dictionary.end(); it++) {
+    for(map<int, vector<SDL_Color> >::iterator it = dictionary.begin(); it != dictionary.end(); ++it) {
         if((*it).second.size() == c.size()) { //jezeli listy maja takie same rozmiary
-            bool listsAreSame = true;
-            vector<SDL_Color>::const_iterator listIt = (*it).second.begin();
-            vector<SDL_Color>::const_iterator listItC = c.begin();
-            for(; listIt != (*it).second.end() && listItC != c.end(); listIt++, listItC++) {
-                if(((*listIt).r != (*listItC).r) || ((*listIt).g != (*listItC).g) || ((*listIt).b != (*listItC).b))
-                    listsAreSame = false;
-            }
 
-            if(listsAreSame) { //jezeli sa takie same to zwracamy indeks ze slownika LZW
+            auto pred = [=] (const SDL_Color& first, const SDL_Color& second) {
+                return ((first.r == second.r) && (first.b == second.b) && (first.g == second.g));
+            };
+
+            if(equal((*it).second.begin(), (*it).second.end(), c.begin(), pred)) {
                 return (*it).first;
             }
-
         }
     }
 
