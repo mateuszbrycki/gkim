@@ -1,6 +1,7 @@
 #include <SDL/SDL.h>
 #include "Compressor.h"
 #include "Picture.h"
+#include <algorithm>
 #include <vector>
 #include <iostream>
 
@@ -85,23 +86,17 @@ vector<SDL_Color> Picture::getPictureColors()
         for(int j = 0; j < y; j++)
         {
             SDL_Color color = getPixelColor(i, j);
-            if(!this->isInList(ListOfColors, color)) {
-                ListOfColors.push_back(color);
+
+            auto iter = find_if(ListOfColors.begin(), ListOfColors.end(), [&color] (SDL_Color const& colorInList) -> bool{
+                       return ((colorInList.r == color.r) && (colorInList.b == color.b) && (colorInList.g == color.g));
+            });
+            //jeżeli iterator doszedł do końca to znaczy, że elementu nie ma w kontenerze
+            if(iter == ListOfColors.end()) {
+                 ListOfColors.push_back(color);
             }
         }
     }
 
     return ListOfColors;
 }
-/*
-** funkcja: sprawdza czy kolor został już wyszukany / czy znajduje sie w liście
-*/
-bool Picture::isInList(const vector<SDL_Color>& ListOfColors, const SDL_Color& color) {
-    for(vector<SDL_Color>::const_iterator it = ListOfColors.begin(); it != ListOfColors.end(); ++it)
-    {
-        if(((*it).r == color.r) && ((*it).b == color.b) && ((*it).g == color.g)) {
-            return true;
-        }
-    }
-    return false;
-}
+
