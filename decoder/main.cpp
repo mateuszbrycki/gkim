@@ -112,20 +112,39 @@ string charToString(char *buffer,int lenght)
 }
 
 
+void saveBMP()
+{
+        string name_save;
+	cout<<"Wprowadz nazwe zapisu pliku ";
+	cin>>name_save;
+
+	size_t found = name_save.find(".bmp");
+
+	if(found==-1)
+	{
+		name_save = name_save + ".bmp";
+	}
+
+	char *nazwa_save= new char[name_save.length()+1];
+	strcpy( nazwa_save, name_save.c_str() );
+
+SDL_SaveBMP (screen, nazwa_save);
+cout<<"zapisano"<<endl;
+}
+
 void decoder() {
 int help = 0;
 string helpReader;
 
 
+    //cout<<" "<<dictionaryColors.size()<<" ";
 
-    cout<<" "<<dictionaryColors.size()<<" ";
 
-
-for(int i=0;i<height/5;i++){
-        for(int j=0;j<width/5;j++){
+for(int i=0;i<height;i++){
+        for(int j=0;j<width;j++){
 
     plik.seekg(pictureStart+help,ios::beg);
-    int length = 15;
+    int length = pixelWidth/3;
     char * buffer = new char [length];
     plik.read(buffer,length);
 
@@ -138,11 +157,11 @@ for(int i=0;i<height/5;i++){
 
     setPixel(i,j,colorRGB.r,colorRGB.g,colorRGB.b);
 
-    help = help + 15;
+    help = help + pixelWidth/3;
 }
         }
 
-SDL_SaveBMP (screen, "FILE.bmp");
+    saveBMP();
 
 }
 
@@ -155,13 +174,13 @@ void readSlownik()
 
     int start = dictionaryStart+help;
     plik.seekg(start,ios::beg);
-    int length = 5;
+    int length = 24;
     char * buffer = new char [length];
     plik.read(buffer,length);
-   // cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+    cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
     string helpReader;
     helpReader =charToString(buffer,length);
-    //cout<<helpReader<<endl;
+    cout<<helpReader<<endl;
     // wczytanie red
     int blue;
     int red;
@@ -175,21 +194,21 @@ void readSlownik()
     // wczytanie green
 
     plik.read(buffer,length);
-   // cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+    cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
     helpReader =charToString(buffer,length);
-    //cout<<helpReader<<endl;
+    cout<<helpReader<<endl;
     green=bin2dec(helpReader);
 
     //wczytanie blue
     plik.read(buffer,length);
-   // cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+    cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
     helpReader =charToString(buffer,length);
-   // cout<<helpReader<<endl;
+    cout<<helpReader<<endl;
     blue=bin2dec(helpReader);
 
     dictionaryColors.push_back(kolor);
 
-    help = help +15;
+    help = help +24;
 
    }while(help<pictureStart);
 
@@ -245,7 +264,7 @@ if( plik.good() == true )
         pixelWidth=bin2dec(helpReader);
         cout<<"pixelWidth "<<pixelWidth<<endl;
     //end of pixelWidth
-    //wczytanie dictonary
+    //wczytaniey
         length =16;
         buffer = new char [length];
         plik.read(buffer,length);
@@ -269,8 +288,7 @@ if( plik.good() == true )
 
 }while(plik.eof());
 
-screen = SDL_SetVideoMode(width, height, 32,
-                                           SDL_RESIZABLE|SDL_DOUBLEBUF);
+screen = SDL_SetVideoMode(width, height, 32,SDL_RESIZABLE|SDL_DOUBLEBUF);
 
 readSlownik();
 
@@ -294,41 +312,10 @@ open();
 }
 
 
-void Funkcja2()
-{
-
-}
-
-void Funkcja3()
-{
-
-}
-
-
-void Funkcja4()
-{
-
-
-}
-
-
-void Funkcja5()
-{
-
-
-}
-
-
-void Funkcja6()
-{
-
-
-}
-
-
 int main ( int argc, char** argv )
 {
-    // console output
+
+ // console output
     freopen( "CON", "wt", stdout );
     freopen( "CON", "wt", stderr );
 
@@ -343,8 +330,7 @@ int main ( int argc, char** argv )
     atexit(SDL_Quit);
 
     // create a new window
-    screen = SDL_SetVideoMode(width, height, 32,
-                                           SDL_RESIZABLE|SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode(width, height, 32,SDL_RESIZABLE|SDL_DOUBLEBUF);
     if ( !screen )
     {
         printf("Unable to set video: %s\n", SDL_GetError());
@@ -376,16 +362,6 @@ int main ( int argc, char** argv )
                         done = true;
                     if (event.key.keysym.sym == SDLK_1)
                         Funkcja1();
-                    if (event.key.keysym.sym == SDLK_2)
-                        Funkcja2();
-                    if (event.key.keysym.sym == SDLK_3)
-                        Funkcja3();
-                    if (event.key.keysym.sym == SDLK_4)
-                        Funkcja4();
-                    if (event.key.keysym.sym == SDLK_5)
-                        Funkcja5();
-                    if (event.key.keysym.sym == SDLK_6)
-                        Funkcja6();
                     if (event.key.keysym.sym == SDLK_b)
                         czyscEkran(0, 0, 10);          break;
                      }
