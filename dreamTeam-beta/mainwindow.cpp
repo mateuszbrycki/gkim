@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QFileDialog>
+#include <QMessageBox>
 
 #include <SDL.h>
 #include <vector>
@@ -108,7 +109,7 @@ void MainWindow::on_bdConvertButton_released()
         writer->saveFile(picture, pixelListAfterCompression, colorsList, compressor->getMaxIndex());
         qDebug()<<"Koniec";
     } else {
-        qDebug()<<"Wypełnij wszystkie pola!";
+        QMessageBox::information( this, "Błąd", "Wypełnij wszystkie pola", QMessageBox::Ok, 0 );
     }
 }
 
