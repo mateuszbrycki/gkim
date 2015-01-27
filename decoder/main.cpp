@@ -26,8 +26,12 @@ int pixelWidth;
 int dictionaryStart;
 int pictureStart;
 
+<<<<<<< HEAD
 vector<SDL_Color> dictionaryColors;
 fstream plik;
+=======
+vector<int> reader;
+>>>>>>> 88fc36c800910f6801cd489757e16a6f65cfe416
 
 
 int power(int liczba, int dopotegi)
@@ -56,6 +60,7 @@ string charToString(char *buffer,int lenght)
     return ciag;
 }
 
+<<<<<<< HEAD
 
 void readSlownik(char *name)
 {
@@ -105,16 +110,76 @@ void readSlownik(char *name)
 
 
 }
-
-
+=======
 void open()
 {
+	vector <string> dane;
+	fstream plik;
+	string name;
+	cout<<"Wprowadz nazwe pliku ktory ma byc wczytany ";
+	cin>>name;
+	size_t found = name.find(".txt");
+
+	if(found==-1)
+	{
+		name = name + ".txt";
+	}
+
+	char *nazwa= new char[name.length()+1];
+	strcpy( nazwa, name.c_str() );
+
+	plik.open( nazwa, ios::in|ios::binary);
+if( plik.good() == true )
+{
+    // wczytanie width
+        plik.seekg( 0,ios::beg );
+        int length =8;
+        char * buffer = new char [length];
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        string helpReader;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        width=bin2dec(helpReader);
+        cout<<"W "<<width<<endl;
+    // end of width
+    //wczytanie height
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        height=bin2dec(helpReader);
+        cout<<"H "<<height<<endl;
+    //end of height
+    //wczytanie pixelWidth
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        pixelWidth=bin2dec(helpReader);
+        cout<<"pixelWidth "<<pixelWidth<<endl;
+    //end of pixelWidth
+    //wczytanie dictonary start?;D
+
+
+
+ do{
+>>>>>>> 88fc36c800910f6801cd489757e16a6f65cfe416
+
+		}while(plik.eof());
+
+<<<<<<< HEAD
+void open()
+{
+=======
+>>>>>>> 88fc36c800910f6801cd489757e16a6f65cfe416
 
 	string name;
 	cout<<"Wprowadz nazwe pliku ktory ma byc wczytany ";
 	cin>>name;
 	size_t found = name.find(".txt");
 
+<<<<<<< HEAD
 	if(found==-1)
 	{
 		name = name + ".txt";
@@ -187,6 +252,10 @@ if( plik.good() == true )
 
 } else cout << "Nie znaleziono pliku" <<endl;
 
+=======
+} else cout << "Nie znaleziono pliku" <<endl;
+
+>>>>>>> 88fc36c800910f6801cd489757e16a6f65cfe416
 plik.close();
 
 
