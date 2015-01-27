@@ -1,9 +1,10 @@
 #include <SDL/SDL.h>
-#include "Compressor.h"
-#include "Picture.h"
 #include <algorithm>
 #include <vector>
 #include <iostream>
+
+#include "Compressor.h"
+#include "Picture.h"
 
 using namespace std;
 /*

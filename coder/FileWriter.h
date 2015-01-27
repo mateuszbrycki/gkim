@@ -2,6 +2,7 @@
 #define FILEWRITER_H
 
 #include <SDL/SDL.h>
+
 #include "Picture.h"
 
 using namespace std;

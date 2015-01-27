@@ -1,12 +1,11 @@
-﻿/*Dekorator do SDL_COLOR - przeładowanie operatora != */
-
-#include "FileWriter.h"
-#include <SDL/SDL.h>
+﻿#include <SDL/SDL.h>
 #include <string>
 #include <fstream>
 #include <bitset>
 #include <math.h>
 #include <iostream>
+
+#include "FileWriter.h"
 
 /*
 ** konstruktor klasy FileWriter

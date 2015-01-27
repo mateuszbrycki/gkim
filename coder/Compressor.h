@@ -1,9 +1,10 @@
 #ifndef COMPRESSOR_H
 #define COMPRESSOR_H
 
-#include "Picture.h"
 #include <vector>
 #include <map>
+
+#include "Picture.h"
 
 using namespace std;
 

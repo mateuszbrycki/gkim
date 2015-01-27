@@ -4,13 +4,13 @@
     #include <stdlib.h>
 #endif
 
-
 #include <SDL/SDL.h>
+#include <vector>
+#include <iostream>
+
 #include "Picture.h" //do napisania
 #include "FileWriter.h" //do napisania
 #include "Compressor.h"
-#include <vector>
-#include <iostream>
 
 int main ( int argc, char** argv )
 {

@@ -1,9 +1,12 @@
 #include <SDL/SDL.h>
-#include "Compressor.h"
 #include <vector>
 #include <algorithm>
 #include <iostream>
+
+#include "Compressor.h"
+
 using namespace std;
+
 /* konstruktor klasy tworzacy poczatkowe hasla slownika
 @param startColors lista kolorów obrazka
 @param picture obiekt klasy Picture bedacy reprezentacja obrazka wejsciowego
@@ -85,7 +88,7 @@ SDL_Color Compressor::getPixel(const int& x, const int& y) {
 */
 int Compressor::getDictionaryIndex(const vector<SDL_Color>& c) {
 
-    //dla kazdego elementu mapy dictionary sprawdzamy czy list<DT_Color&> maja takie same wartosci/kolory a nie referencje!!
+    //dla kazdego elementu mapy dictionary sprawdzamy czy vector<DT_Color&> maja takie same wartosci/kolory a nie referencje!!
 
     for(map<int, vector<SDL_Color> >::iterator it = dictionary.begin(); it != dictionary.end(); ++it) {
         if((*it).second.size() == c.size()) { //jezeli listy maja takie same rozmiary
