@@ -15,7 +15,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    this->setWindowTitle("DTConverter"); //ustawienie tytułu głównego okna
     ui->setupUi(this);
+
+    ui->bdFile->setReadOnly(true);
+    ui->bdPath->setReadOnly(true);
+
+    ui->dbFile->setReadOnly(true);
+    ui->dbPath->setReadOnly(true);
 }
 
 QString MainWindow::getFilePath(int mode) {
@@ -99,6 +106,8 @@ void MainWindow::on_bdConvertButton_released()
 
         writer->saveFile(picture, pixelListAfterCompression, colorsList, compressor->getMaxIndex());
         qDebug()<<"Koniec";
+    } else {
+
     }
 }
 
