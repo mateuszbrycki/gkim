@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "CompressorThread.h"
 
 namespace Ui {
 class MainWindow;
@@ -14,8 +15,12 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    CompressorThread *compressorThread;
 
 private slots:
+    void compressionSuccess();
+    void compressionFailed();
+
     void on_bdFile_selectionChanged();
 
     void on_bdPath_selectionChanged();

@@ -8,6 +8,7 @@
 #include <vector>
 #include <iostream>
 
+#include "CompressorThread.h"
 #include "Picture.h"
 #include "FileWriter.h"
 #include "Compressor.h"
@@ -24,6 +25,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->dbFile->setReadOnly(true);
     ui->dbPath->setReadOnly(true);
+
+    this->compressorThread = new CompressorThread(this);
+
+    connect(compressorThread, SIGNAL(compressionSuccess()), this, SLOT(compressionSuccess()));
+    connect(compressorThread, SIGNAL(compressionFailed()), this, SLOT(compressionFailed()));
 }
 
 QString MainWindow::getFilePath(int mode) {
@@ -84,6 +90,8 @@ void MainWindow::on_bdConvertButton_released()
     string openPath = ui->bdFile->text().toStdString();
     string savePath = ui->bdPath->text().toStdString();
     string saveName = ui->bdFileName->text().toStdString();
+    ui->progress->setText("Trwa konwersja...");
+
     if(!openPath.empty() && !savePath.empty() && !saveName.empty()) {
         qDebug()<<"Rozpoczęto analizę!";
 
@@ -94,23 +102,23 @@ void MainWindow::on_bdConvertButton_released()
         } else {
             colorType = 0;
         }
-        qDebug()<<colorType;
+        qDebug()<<"Uruchamianie nowego wątku!";
 
-        Picture *picture = new Picture(openPath, colorType);
-        FileWriter *writer = new FileWriter(savePath, saveName); //obiekt klasy służącej do zapisu obrazu do pliku
+        compressorThread->run(openPath, savePath, saveName, colorType);
 
-        vector<SDL_Color> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka - 32 kolory
-        qDebug()<<"Pobrano kolory obrazka!";
-
-        Compressor *compressor = new Compressor(colorsList, picture);
-        vector<int> pixelListAfterCompression = compressor->getPixels();
-        qDebug()<<"Skompresowano!";
-
-        writer->saveFile(picture, pixelListAfterCompression, colorsList, compressor->getMaxIndex());
-        qDebug()<<"Koniec";
     } else {
         QMessageBox::information( this, "Błąd", "Wypełnij wszystkie pola", QMessageBox::Ok, 0 );
     }
+
+    ui->progress->setText("Koniec.");
+}
+
+void MainWindow::compressionSuccess() {
+    QMessageBox::information( this, "Koniec", "Plik został przekonwertowany poprawnie!", QMessageBox::Ok, 0 );
+}
+
+void MainWindow::compressionFailed() {
+    QMessageBox::critical( this, "Błąd", "Konwersja nie powiodła się. Spróbuj ponownie.", QMessageBox::Ok, 0 );
 }
 
 void MainWindow::on_dbFile_selectionChanged()
