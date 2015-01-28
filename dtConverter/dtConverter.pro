@@ -15,13 +15,13 @@ SOURCES += main.cpp\
     Compressor.cpp \
     FileWriter.cpp \
     Picture.cpp \
-    CompressorThread.cpp
+    Converter.cpp
 
 HEADERS  += mainwindow.h \
     Compressor.h \
     FileWriter.h \
     Picture.h \
-    CompressorThread.h
+    Converter.h
 
 FORMS    += mainwindow.ui
 

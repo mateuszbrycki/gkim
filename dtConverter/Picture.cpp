@@ -17,17 +17,13 @@ Picture::Picture(const string& openPath, const int& colorType)
     this->colorType = colorType;
 
     BMP = SDL_LoadBMP(openPath.c_str());
-    if(!BMP) //sprawdzamy czy obrazek taki w ogóle istnieje
-    {
-        cout<<"Unable to load bitmap: "<<SDL_GetError();
-    }
 }
 /*
 ** funkcja zwracajaca szerokosc obrazka
 */
 int Picture::getPictureWidth()
 {
-    if(BMP) {
+    if(this->checkBMPFile()) {
         return (BMP->w);
     }
     return 0;
@@ -37,7 +33,7 @@ int Picture::getPictureWidth()
 */
 int Picture::getPictureHeight()
 {
-    if(BMP) {
+    if(this->checkBMPFile()) {
         return (BMP->h);
     }
     return 0;
@@ -107,5 +103,11 @@ vector<SDL_Color> Picture::getPictureColors()
     }
 
     return ListOfColors;
+}
+bool Picture::checkBMPFile() {
+    if(this->BMP) {
+        return true;
+    }
+    return false;
 }
 

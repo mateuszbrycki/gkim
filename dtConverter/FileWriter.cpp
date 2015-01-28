@@ -35,8 +35,6 @@ void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCom
 
     ofstream file(savePath.c_str());
 
-    //file.open(savePath.c_str(),  ofstream::out | ofstream::app);
-
     //zapis nagłówka do pliku
     file << bitset<24>(picture->getPictureWidth());
     //file<<endl;

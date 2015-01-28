@@ -1,42 +1,66 @@
-#include "CompressorThread.h"
+#include "Converter.h"
 #include <QDebug>
 #include <QProgressDialog>
+#include <QCoreApplication>
+#include <QThread>
 
 #include <SDL.h>
 #include <vector>
 #include <iostream>
 #include <QMutex>
+#include <QObject>
 
 #include "Picture.h"
 #include "FileWriter.h"
 #include "Compressor.h"
 
-CompressorThread::CompressorThread(QObject *parent) :
-    QThread(parent)
+Converter::Converter(const string& openPath, const string& savePath, const string& saveName, const int& colorType) :
+    openPath(openPath), savePath(savePath), saveName(saveName), colorType(colorType)
 {
 }
 
-void CompressorThread::run(QProgressDialog& dialog, const string& openPath, const string& savePath, const string& saveName, const int& colorType) {
+void Converter::run() {
+    emit conversionStart();
+    emit conversionProgress(5);
+
+    QCoreApplication::processEvents();
     QMutex mutex;
     mutex.lock();
 
     Picture *picture = new Picture(openPath, colorType);
+    if(!picture->checkBMPFile()) {
+        emit conversionFailed();
+        emit finished();
+        mutex.unlock();
+        emit conversionEnd();
+
+        return;
+    }
+
     FileWriter *writer = new FileWriter(savePath, saveName); //obiekt klasy służącej do zapisu obrazu do pliku
-    dialog.setValue(20);
+
+    emit conversionProgress(20);
+
     vector<SDL_Color> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka - 32 kolory
     qDebug()<<"Pobrano kolory obrazka!";
-    dialog.setValue(40);
+
+    emit conversionProgress(40);
+
     Compressor *compressor = new Compressor(colorsList, picture);
     vector<int> pixelListAfterCompression = compressor->getPixels();
     qDebug()<<"Skompresowano!";
 
-    dialog.setValue(90);
+    emit conversionProgress(90);
+
     writer->saveFile(picture, pixelListAfterCompression, colorsList, compressor->getMaxIndex());
     qDebug()<<"Koniec";
+
     delete picture;
     delete compressor;
     delete writer;
 
     mutex.unlock();
-    emit compressionSuccess();
+    emit conversionSuccess();
+    emit conversionEnd();
 }
+

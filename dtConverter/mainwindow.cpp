@@ -1,17 +1,19 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QProgressDialog>
 #include <QProgressBar>
 #include <QCoreApplication>
+#include <QThread>
 
 #include <SDL.h>
 #include <vector>
 #include <iostream>
 
-#include "CompressorThread.h"
+#include "Converter.h"
 #include "Picture.h"
 #include "FileWriter.h"
 #include "Compressor.h"
@@ -31,10 +33,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->dbFile->setReadOnly(true);
     ui->dbPath->setReadOnly(true);
 
-    this->compressorThread = new CompressorThread(this);
-
-    connect(compressorThread, SIGNAL(compressionSuccess()), this, SLOT(compressionSuccess()));
-    connect(compressorThread, SIGNAL(compressionFailed()), this, SLOT(compressionFailed()));
 }
 
 QString MainWindow::getFilePath(int mode) {
@@ -108,31 +106,57 @@ void MainWindow::on_bdConvertButton_released()
         }
         qDebug()<<"Uruchamianie nowego wątku!";
 
-        QProgressDialog progress("Trwa konwersja", "", 0,0, this);
-        progress.setWindowModality(Qt::WindowModal);
-        progress.setWindowTitle("Konwersja");
-        progress.setCancelButton(0);
-        progress.setFixedSize(250, 100);
-        progress.setRange(0,100);
-        progress.setValue(5);
-        progress.show();
+        QThread* thread = new QThread();
+        Converter* converter = new Converter(openPath, savePath, saveName, colorType);
+        converter->moveToThread(thread);
 
-        QCoreApplication::processEvents();
 
-        compressorThread->run(progress, openPath, savePath, saveName, colorType);
-
-        progress.close();
+        connect(converter, SIGNAL(conversionStart()), this, SLOT(conversionStartHandle()));
+        connect(converter, SIGNAL(conversionEnd()), this, SLOT(conversionEndHandle()));
+        connect(converter, SIGNAL(conversionSuccess()), this, SLOT(conversionSuccessHandle()));
+        connect(converter, SIGNAL(conversionFailed()), this, SLOT(conversionFailedHandle()));
+        connect(converter, SIGNAL(conversionProgress(int)), this, SLOT(conversionProgressHandle(int)));
+        connect(converter, SIGNAL(error(QString)), this, SLOT(errorStringHandle(QString)));
+        connect(thread, SIGNAL(started()), converter, SLOT(run()));
+        connect(converter, SIGNAL(finished()), thread, SLOT(quit()));
+        connect(converter, SIGNAL(finished()), converter, SLOT(deleteLater()));
+        connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+        qDebug()<<QThread::currentThreadId();
+        thread->start();\
 
     } else {
         QMessageBox::information( this, "Błąd", "Wypełnij wszystkie pola", QMessageBox::Ok, 0 );
     }
 }
 
-void MainWindow::compressionSuccess() {
+void MainWindow::errorStringHandle(QString error) {
+    qDebug()<<error;
+}
+
+void MainWindow::conversionStartHandle() {
+    this->progress = new QProgressDialog("Trwa konwersja", "", 0,0, NULL);
+    this->progress->setWindowModality(Qt::WindowModal);
+    this->progress->setWindowTitle("Konwersja");
+    this->progress->setCancelButton(0);
+    this->progress->setFixedSize(250, 100);
+    this->progress->setRange(0,100);
+    this->progress->show();
+}
+
+void MainWindow::conversionEndHandle() {
+    this->progress->close();
+}
+
+void MainWindow::conversionProgressHandle(int value) {
+    this->progress->setValue(value);
+}
+
+void MainWindow::conversionSuccessHandle() {
     QMessageBox::information( this, "Koniec", "Plik został przekonwertowany poprawnie!", QMessageBox::Ok, 0 );
 }
 
-void MainWindow::compressionFailed() {
+void MainWindow::conversionFailedHandle() {
+    qDebug()<<"tutaj";
     QMessageBox::critical( this, "Błąd", "Konwersja nie powiodła się. Spróbuj ponownie.", QMessageBox::Ok, 0 );
 }
 
