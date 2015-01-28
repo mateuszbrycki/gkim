@@ -164,7 +164,7 @@ void readIndexesFromPixels()
 
 void readSlownik()
 {
-    int help = 0;
+    int help = 109;
     int max_size = 32;
 
     plik.seekg(dictionaryStart - 1,ios::beg);
@@ -178,9 +178,7 @@ void readSlownik()
         int green;
 
         SDL_Color kolor;
-        kolor.r = red;
-        kolor.b = blue;
-        kolor.g = green;
+
 
         int length = 8;
         char * buffer = new char [length];
@@ -206,6 +204,10 @@ void readSlownik()
         cout<<helpReader<<endl;
         blue=bin2dec(helpReader);
 
+        kolor.r = red;
+        kolor.b = blue;
+        kolor.g = green;
+
         dictionaryColors.push_back(kolor);
 
         help = help +24;
@@ -217,7 +219,6 @@ void readSlownik()
 
 }
 
-void dictonaryToMap()
 {
     cout<<"Slownik"<<endl;
     int max_size= 32;
@@ -228,6 +229,12 @@ void dictonaryToMap()
         mapa.insert(pair<int, vector<SDL_Color> > (max_size,color));
     }
 
+
+void printDictionary() {
+    cout<<"Slownik";
+    for(vector<SDL_Color>::iterator it = dictionaryColors.begin(); it != dictionaryColors.end(); ++it) {
+        cout<<(int)(*it).r<<" "<<(int)(*it).g<<" "<<(int)(*it).b<<endl;
+    }
 }
 
 void open()
@@ -300,6 +307,7 @@ void open()
 
 
         readSlownik();
+        printDictionary();
 
         do
         {
