@@ -4,8 +4,6 @@
 #include <QMainWindow>
 #include <QProgressDialog>
 
-#include "Converter.h"
-
 namespace Ui {
 class MainWindow;
 }

@@ -2,7 +2,6 @@
 #define ConverterD_H
 
 #include <QObject>
-#include <QProgressDialog>
 #include <string>
 
 class Converter : public QObject

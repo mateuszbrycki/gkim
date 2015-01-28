@@ -4,7 +4,6 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QProgressDialog>
 #include <QProgressBar>
 #include <QCoreApplication>
 #include <QThread>
@@ -109,7 +108,6 @@ void MainWindow::on_bdConvertButton_released()
         QThread* thread = new QThread();
         Converter* converter = new Converter(openPath, savePath, saveName, colorType);
         converter->moveToThread(thread);
-
 
         connect(converter, SIGNAL(conversionStart()), this, SLOT(conversionStartHandle()));
         connect(converter, SIGNAL(conversionEnd()), this, SLOT(conversionEndHandle()));

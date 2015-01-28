@@ -1,14 +1,11 @@
 #include "Converter.h"
 #include <QDebug>
-#include <QProgressDialog>
 #include <QCoreApplication>
-#include <QThread>
+#include <QMutex>
 
 #include <SDL.h>
 #include <vector>
 #include <iostream>
-#include <QMutex>
-#include <QObject>
 
 #include "Picture.h"
 #include "FileWriter.h"
