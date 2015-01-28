@@ -4,6 +4,8 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QProgressDialog>
+#include <QProgressBar>
+#include <QCoreApplication>
 
 #include <SDL.h>
 #include <vector>
@@ -13,6 +15,8 @@
 #include "Picture.h"
 #include "FileWriter.h"
 #include "Compressor.h"
+
+#undef SDL_main
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -104,16 +108,18 @@ void MainWindow::on_bdConvertButton_released()
         }
         qDebug()<<"Uruchamianie nowego wątku!";
 
-        QProgressDialog progress("Konwersja.", "", 0, NULL, this);
+        QProgressDialog progress("Trwa konwersja", "", 0,0, this);
         progress.setWindowModality(Qt::WindowModal);
         progress.setWindowTitle("Konwersja");
         progress.setCancelButton(0);
-        progress.setFixedSize(300, 100);
-        progress.setMaximum(0);
-        progress.setMinimum(0);
-        progress.setValue(0);
+        progress.setFixedSize(250, 100);
+        progress.setRange(0,100);
+        progress.setValue(5);
+        progress.show();
 
-        compressorThread->run(openPath, savePath, saveName, colorType);
+        QCoreApplication::processEvents();
+
+        compressorThread->run(progress, openPath, savePath, saveName, colorType);
 
         progress.close();
 
