@@ -26,9 +26,11 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 # Mateusz: zostawiłem sobie ścieżki w razie jakby konfiguracja na wzglednych przestała działać
-LIBS  +=  -L H:/c++/gkim/dtConverter/SDL-1.2.14/lib -lSDL
-INCLUDEPATH += H:/c++/gkim/dtConverter/SDL-1.2.14/include
+#LIBS  +=  -L H:/c++/gkim/dtConverter/SDL-1.2.14/lib -lSDL
+#INCLUDEPATH += H:/c++/gkim/dtConverter/SDL-1.2.14/include
 #*/
 
+LIBS  +=  -L SDL-1.2.14/lib -lSDL
+INCLUDEPATH += SDL-1.2.14/include
 
 
