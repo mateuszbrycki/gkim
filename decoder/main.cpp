@@ -32,7 +32,7 @@ char const* tytul = "LZW";
 
 vector<SDL_Color> dictionaryColors;
 vector<int> pixelIndexes;
-map<int,SDL_Color> mapa;
+map<int,vector<SDL_Color> > mapa;
 
 fstream plik;
 
@@ -219,21 +219,27 @@ void readSlownik()
 
 }
 
+void discoveryToMap()
 {
     cout<<"Slownik"<<endl;
-    int max_size= 32;
+    int m_size= 32;
     for(vector<SDL_Color>::const_iterator it = dictionaryColors.begin(); it != dictionaryColors.end(); it++)
     {
         vector<SDL_Color> color;
         color.push_back(*it);
-        mapa.insert(pair<int, vector<SDL_Color> > (max_size,color));
+        mapa.insert(pair<int, vector<SDL_Color> > (m_size,color));
+        m_size++;
     }
+
+}
 
 
 void printDictionary() {
-    cout<<"Slownik";
+    cout<<"Slownik"<<endl;
+    int d_size = 33;
     for(vector<SDL_Color>::iterator it = dictionaryColors.begin(); it != dictionaryColors.end(); ++it) {
-        cout<<(int)(*it).r<<" "<<(int)(*it).g<<" "<<(int)(*it).b<<endl;
+        cout<<d_size<<"-"<<(int)(*it).r<<" "<<(int)(*it).g<<" "<<(int)(*it).b<<endl;
+        d_size++;
     }
 }
 
@@ -307,6 +313,7 @@ void open()
 
 
         readSlownik();
+        discoveryToMap();
         printDictionary();
 
         do
