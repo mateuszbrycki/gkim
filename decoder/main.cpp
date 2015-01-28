@@ -32,6 +32,7 @@ char const* tytul = "LZW";
 
 vector<SDL_Color> dictionaryColors;
 vector<int> pixelIndexes;
+map<int,SDL_Color> mapa;
 
 fstream plik;
 
@@ -149,7 +150,8 @@ void readIndexesFromPixels()
     char * buffer = new char [length];
     int i = 0;
 
-    while(!plik.fail()){
+    while(!plik.fail())
+    {
         plik.read(buffer,length);
         helpReader = charToString(buffer,length);
         index = bin2dec(helpReader);
@@ -158,48 +160,16 @@ void readIndexesFromPixels()
     }
 
 }
-/*void decoder() {
-int help = 0;
-string helpReader;
 
-
-    cout<<" dicitionary size: "<<dictionaryColors.size()<<endl;
-int i =0;
-
-while(help<500){
-
-    plik.seekg(pictureStart+help,ios::beg);
-    int length = pixelWidth;
-    char * buffer = new char [length];
-    plik.read(buffer,length);
-
-    helpReader = charToString(buffer,length);
-
-    colorIndex[i] = bin2dec(helpReader);
-
-    cout<<colorIndex[i]<<" ";
-i++;
-
-
-    help = help + pixelWidth;
-    }
-
-
- //SDL_Color colorRGB =  dictionaryColors[ colorIndex ];
-
-    //setPixel(i,j,colorRGB.r,colorRGB.g,colorRGB.b);
-    //saveBMP();
-
-}
-*/
 
 void readSlownik()
 {
     int help = 0;
+    int max_size = 32;
 
     plik.seekg(dictionaryStart - 1,ios::beg);
 
-    while(help<pictureStart-dictionaryStart)
+    while(help<pictureStart)
     {
 
         string helpReader;
@@ -217,34 +187,47 @@ void readSlownik()
 
         // wczytanie red
         plik.read(buffer,length);
-        //cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
         helpReader =charToString(buffer,length);
         cout<<helpReader<<endl;
         red=bin2dec(helpReader);
 
         // wczytanie green
         plik.read(buffer,length);
-        //cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
         helpReader =charToString(buffer,length);
-        //cout<<helpReader<<endl;
+        cout<<helpReader<<endl;
         green=bin2dec(helpReader);
 
         //wczytanie blue
         plik.read(buffer,length);
-        //cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
         helpReader =charToString(buffer,length);
-        //cout<<helpReader<<endl;
+        cout<<helpReader<<endl;
         blue=bin2dec(helpReader);
 
         dictionaryColors.push_back(kolor);
 
         help = help +24;
 
+       // readIndexesFromPixels();
+
     }
 
 
-    readIndexesFromPixels();
-    //decoder();
+}
+
+void dictonaryToMap()
+{
+    cout<<"Slownik"<<endl;
+    int max_size= 32;
+    for(vector<SDL_Color>::const_iterator it = dictionaryColors.begin(); it != dictionaryColors.end(); it++)
+    {
+        vector<SDL_Color> color;
+        color.push_back(*it);
+        mapa.insert(pair<int, vector<SDL_Color> > (max_size,color));
+    }
+
 }
 
 void open()
@@ -315,6 +298,9 @@ void open()
         cout<<"pictureStart "<<pictureStart<<endl;
         //end of pictureStart
 
+
+        readSlownik();
+
         do
         {
 
@@ -323,7 +309,7 @@ void open()
 
         screen = SDL_SetVideoMode(width, height, 32,SDL_RESIZABLE|SDL_DOUBLEBUF);
 
-        readSlownik();
+
 
     }
     else cout << "Nie znaleziono pliku" <<endl;
@@ -410,3 +396,38 @@ int main ( int argc, char** argv )
     printf("Exited cleanly\n");
     return 0;
 }
+
+/*void decoder() {
+int help = 0;
+string helpReader;
+
+
+    cout<<" dicitionary size: "<<dictionaryColors.size()<<endl;
+int i =0;
+
+while(help<500){
+
+    plik.seekg(pictureStart+help,ios::beg);
+    int length = pixelWidth;
+    char * buffer = new char [length];
+    plik.read(buffer,length);
+
+    helpReader = charToString(buffer,length);
+
+    colorIndex[i] = bin2dec(helpReader);
+
+    cout<<colorIndex[i]<<" ";
+i++;
+
+
+    help = help + pixelWidth;
+    }
+
+
+ //SDL_Color colorRGB =  dictionaryColors[ colorIndex ];
+
+    //setPixel(i,j,colorRGB.r,colorRGB.g,colorRGB.b);
+    //saveBMP();
+
+}
+*/
