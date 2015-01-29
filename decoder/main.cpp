@@ -31,7 +31,9 @@ int pixelWidth;
 int dictionaryStart;
 int pictureStart;
 char const* tytul = "LZW";
+
 vector<SDL_Color> pixels;
+/// mapa przechowujaca slownik
 map<int,string> dictionaryColors;
 vector<int> pixelIndexes;
 
@@ -92,7 +94,7 @@ void czyscEkran(Uint8 R, Uint8 G, Uint8 B)
 
 }
 
-
+/// funkcja potrzebna do zamiany z bin na dec
 int power(int liczba, int dopotegi)
 {
     int wynik = 1;
@@ -100,7 +102,7 @@ int power(int liczba, int dopotegi)
         wynik *= liczba;
     return wynik;
 }
-
+/// zamiana bin na dec
 int bin2dec(string input)
 {
     int output = 0;
@@ -108,7 +110,7 @@ int bin2dec(string input)
         output+=(input[i]-'0')*power(2,input.size()-i-1);
     return output;
 }
-
+/// zrzutowanie z char na string
 string charToString(char *buffer,int lenght)
 {
     string ciag="";
@@ -119,7 +121,7 @@ string charToString(char *buffer,int lenght)
     return ciag;
 }
 
-
+/// zapisanie pliku wynikowego
 void saveBMP()
 {
     string name_save;
@@ -139,7 +141,7 @@ void saveBMP()
     SDL_SaveBMP (screen, nazwa_save);
     cout<<"zapisano"<<endl;
 }
-
+/// zamiana binarnych odczytow na RGB
 void binaryPixelToRGB(string binaryPixel){
     int binaryPixelSize = binaryPixel.size();
     string binaryPixelsArray[binaryPixelSize];
@@ -164,22 +166,23 @@ void binaryPixelToRGB(string binaryPixel){
         pixels.push_back(kolor[i]);
     }
 }
-
+/// metoda rysujaca obraz
 void drawPicture()
 {
     SDL_Color finalColor;
     int i = 0;
     cout<<"size: "<<pixels.size();
-         for(int x=0; x<300; x++){
-                for(int y=0; y<200; y++){
+         for(int x=0; x<width; x++){
+                for(int y=0; y<height; y++){
                 finalColor = pixels[i];
                     setPixel(x,y,finalColor.r,finalColor.g,finalColor.b);
+                    SDL_Flip(screen);
                     i++;
                 }
          }
-         //saveBMP();
+         saveBMP();
 }
-
+/// metoda dekodujaca
 void readIndexesFromPixels()
 {
     plik.seekg(pictureStart-1,ios::beg);
@@ -199,7 +202,7 @@ void readIndexesFromPixels()
         helpReader = charToString(buffer,length);
         index = bin2dec(helpReader);
 
-        if (dictionaryColors.count(index))//jezeli
+        if (dictionaryColors.count(index))
           entry = dictionaryColors[index];
         else if (index == maxColors)
           entry = w + w.substr(0,24);
@@ -235,7 +238,7 @@ void readSlownik()
     }
     readIndexesFromPixels();
 }
-
+///funkcja otwierajaca plik
 void open()
 {
     string name;
@@ -255,7 +258,7 @@ void open()
     plik.open( nazwa, ios::in|ios::binary);
     if( plik.good() == true )
     {
-        // wczytanie width
+        /// wczytanie width
         plik.seekg( 0,ios::beg );
         int length =24;
         char * buffer = new char [length];
@@ -266,24 +269,24 @@ void open()
         cout<<helpReader<<endl;
         width=bin2dec(helpReader);
         cout<<"Width "<<width<<endl;
-        // end of width
-        //wczytanie height
+        /// end of width
+        ///wczytanie height
         plik.read(buffer,length);
         cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
         helpReader =charToString(buffer,length);
         cout<<helpReader<<endl;
         height=bin2dec(helpReader);
         cout<<"Height "<<height<<endl;
-        //end of height
-        //wczytanie pixelWidth
+        ///end of height
+        ///wczytanie pixelWidth
         plik.read(buffer,length);
         cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
         helpReader =charToString(buffer,length);
         cout<<helpReader<<endl;
         pixelWidth=bin2dec(helpReader);
         cout<<"pixelWidth "<<pixelWidth<<endl;
-        //end of pixelWidth
-        //wczytaniey
+        ///end of pixelWidth
+        ///wczytaniey
         length =16;
         buffer = new char [length];
         plik.read(buffer,length);
@@ -292,8 +295,8 @@ void open()
         cout<<helpReader<<endl;
         dictionaryStart=bin2dec(helpReader);
         cout<<"dictionaryStart"<<dictionaryStart<<endl;
-        // endo of dictionaryStart
-        // wczytanie pictureStart
+        /// endo of dictionaryStart
+        ///wczytanie pictureStart
 
         plik.read(buffer,length);
         cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
@@ -301,15 +304,10 @@ void open()
         cout<<helpReader<<endl;
         pictureStart=bin2dec(helpReader);
         cout<<"pictureStart "<<pictureStart<<endl;
-        //end of pictureStart
+        ///end of pictureStart
 
-        do
-        {
 
-        }
-        while(plik.eof());
-
-       // screen = SDL_SetVideoMode(width, height, 32,SDL_RESIZABLE|SDL_DOUBLEBUF);
+        screen = SDL_SetVideoMode(width, height, 32,SDL_RESIZABLE|SDL_DOUBLEBUF);
 
         readSlownik();
 
@@ -326,8 +324,6 @@ void Funkcja1()// wcis 1 by zadzialalo
 {
 
     open();
-
-
 }
 
 
