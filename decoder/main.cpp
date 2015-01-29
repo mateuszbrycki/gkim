@@ -22,17 +22,18 @@
 using namespace std;
 
 //zmienne
+
 SDL_Surface *screen;
 int width=600;
 int height=400;
+int maxColors = 32;
 int pixelWidth;
 int dictionaryStart;
 int pictureStart;
 char const* tytul = "LZW";
-
-vector<SDL_Color> dictionaryColors;
+vector<SDL_Color> pixels;
+map<int,string> dictionaryColors;
 vector<int> pixelIndexes;
-map<int,vector<SDL_Color> > mapa;
 
 fstream plik;
 
@@ -40,16 +41,16 @@ void setPixel(int x, int y, Uint8 R, Uint8 G, Uint8 B)
 {
     if ((x>=0) && (x<width) && (y>=0) && (y<height))
     {
-        /* Zamieniamy poszczególne sk³adowe koloru na format koloru pixela */
+        /* Zamieniamy poszczeg�lne sk3adowe koloru na format koloru pixela */
         Uint32 pixel = SDL_MapRGB(screen->format, R, G, B);
 
-        /* Pobieramy informacji ile bajtów zajmuje jeden pixel */
+        /* Pobieramy informacji ile bajt�w zajmuje jeden pixel */
         int bpp = screen->format->BytesPerPixel;
 
         /* Obliczamy adres pixela */
         Uint8 *p = (Uint8 *)screen->pixels + y * screen->pitch + x * bpp;
 
-        /* Ustawiamy wartoœæ pixela, w zale¿noœci od formatu powierzchni*/
+        /* Ustawiamy wartooa pixela, w zale?nooci od formatu powierzchni*/
         switch(bpp)
         {
         case 1: //8-bit
@@ -139,113 +140,104 @@ void saveBMP()
     cout<<"zapisano"<<endl;
 }
 
-//zapisuje indeksy pixeli od PictureStart do vektora
+void binaryPixelToRGB(string binaryPixel){
+    int binaryPixelSize = binaryPixel.size();
+    string binaryPixelsArray[binaryPixelSize];
+    int j = 0;
+    for(int i=0; i<binaryPixelSize/24 ; i++){
+        binaryPixelsArray[i] = binaryPixel.substr(j,j+24);
+        j = j+24;
+    }
+
+    SDL_Color kolor[binaryPixelSize];
+
+    for(int i=0; i<binaryPixelSize/24; i++){
+
+        int red = bin2dec(binaryPixelsArray[i].substr(0,8));
+        int green = bin2dec(binaryPixelsArray[i].substr(8,8));
+        int blue = bin2dec(binaryPixelsArray[i].substr(16,8));
+
+        kolor[i].r = red;
+        kolor[i].b = blue;
+        kolor[i].g = green;
+
+        pixels.push_back(kolor[i]);
+    }
+}
+
+void drawPicture()
+{
+    SDL_Color finalColor;
+    int i = 0;
+    cout<<"size: "<<pixels.size();
+         for(int x=0; x<300; x++){
+                for(int y=0; y<200; y++){
+                finalColor = pixels[i];
+                    setPixel(x,y,finalColor.r,finalColor.g,finalColor.b);
+                    i++;
+                }
+         }
+         //saveBMP();
+}
+
 void readIndexesFromPixels()
 {
-    int index;
-    string helpReader;
-    int pictureSize = height*width;
     plik.seekg(pictureStart-1,ios::beg);
     int length = pixelWidth;
     char * buffer = new char [length];
-    int i = 0;
+    plik.read(buffer,length);
+    string helpReader = charToString(buffer,length);
+    string w;
+    string entry;
+    int i=0;
+    w = helpReader;
+    plik.seekg(pictureStart-1,ios::beg);
+    int index;
 
-    while(!plik.fail())
-    {
+    while(!plik.fail()){
         plik.read(buffer,length);
         helpReader = charToString(buffer,length);
         index = bin2dec(helpReader);
-        pixelIndexes.push_back(index);
-        i++;
-    }
 
+        if (dictionaryColors.count(index))//jezeli
+          entry = dictionaryColors[index];
+        else if (index == maxColors)
+          entry = w + w.substr(0,24);
+        else
+          throw "Blad w decodowaniu!";
+
+        binaryPixelToRGB(entry);
+        dictionaryColors[maxColors++] = w + entry.substr(0,24);
+        w = entry;
+  }
+        drawPicture();
 }
-
 
 void readSlownik()
 {
-    int help = 109;
-    int max_size = 32;
-
+    int help = 0;
+    string transformedColor;
     plik.seekg(dictionaryStart - 1,ios::beg);
-
-    while(help<pictureStart)
+    int i = 1;
+    while(help<pictureStart-dictionaryStart)
     {
-
         string helpReader;
-        int blue;
-        int red;
-        int green;
-
-        SDL_Color kolor;
-
-
-        int length = 8;
+        int length = 24;
         char * buffer = new char [length];
-
-        // wczytanie red
         plik.read(buffer,length);
-        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        //cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
         helpReader =charToString(buffer,length);
-        cout<<helpReader<<endl;
-        red=bin2dec(helpReader);
-
-        // wczytanie green
-        plik.read(buffer,length);
-        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
-        helpReader =charToString(buffer,length);
-        cout<<helpReader<<endl;
-        green=bin2dec(helpReader);
-
-        //wczytanie blue
-        plik.read(buffer,length);
-        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
-        helpReader =charToString(buffer,length);
-        cout<<helpReader<<endl;
-        blue=bin2dec(helpReader);
-
-        kolor.r = red;
-        kolor.b = blue;
-        kolor.g = green;
-
-        dictionaryColors.push_back(kolor);
-
+        transformedColor=helpReader;
+        dictionaryColors[i] = transformedColor;
+        cout<<i<<" "<<helpReader<<endl;
         help = help +24;
-
-       // readIndexesFromPixels();
-
+        i++;
     }
-
-
-}
-
-void discoveryToMap()
-{
-    cout<<"Slownik"<<endl;
-    int m_size= 32;
-    for(vector<SDL_Color>::const_iterator it = dictionaryColors.begin(); it != dictionaryColors.end(); it++)
-    {
-        vector<SDL_Color> color;
-        color.push_back(*it);
-        mapa.insert(pair<int, vector<SDL_Color> > (m_size,color));
-        m_size++;
-    }
-
-}
-
-
-void printDictionary() {
-    cout<<"Slownik"<<endl;
-    int d_size = 33;
-    for(vector<SDL_Color>::iterator it = dictionaryColors.begin(); it != dictionaryColors.end(); ++it) {
-        cout<<d_size<<"-"<<(int)(*it).r<<" "<<(int)(*it).g<<" "<<(int)(*it).b<<endl;
-        d_size++;
-    }
+    readIndexesFromPixels();
 }
 
 void open()
 {
-
     string name;
     cout<<"Wprowadz nazwe pliku ktory ma byc wczytany ";
     cin>>name;
@@ -311,30 +303,22 @@ void open()
         cout<<"pictureStart "<<pictureStart<<endl;
         //end of pictureStart
 
-
-        readSlownik();
-        discoveryToMap();
-        printDictionary();
-
         do
         {
 
         }
         while(plik.eof());
 
-        screen = SDL_SetVideoMode(width, height, 32,SDL_RESIZABLE|SDL_DOUBLEBUF);
+       // screen = SDL_SetVideoMode(width, height, 32,SDL_RESIZABLE|SDL_DOUBLEBUF);
 
-
+        readSlownik();
 
     }
     else cout << "Nie znaleziono pliku" <<endl;
 
     plik.close();
 
-
-
 }
-
 
 
 
@@ -411,38 +395,3 @@ int main ( int argc, char** argv )
     printf("Exited cleanly\n");
     return 0;
 }
-
-/*void decoder() {
-int help = 0;
-string helpReader;
-
-
-    cout<<" dicitionary size: "<<dictionaryColors.size()<<endl;
-int i =0;
-
-while(help<500){
-
-    plik.seekg(pictureStart+help,ios::beg);
-    int length = pixelWidth;
-    char * buffer = new char [length];
-    plik.read(buffer,length);
-
-    helpReader = charToString(buffer,length);
-
-    colorIndex[i] = bin2dec(helpReader);
-
-    cout<<colorIndex[i]<<" ";
-i++;
-
-
-    help = help + pixelWidth;
-    }
-
-
- //SDL_Color colorRGB =  dictionaryColors[ colorIndex ];
-
-    //setPixel(i,j,colorRGB.r,colorRGB.g,colorRGB.b);
-    //saveBMP();
-
-}
-*/
