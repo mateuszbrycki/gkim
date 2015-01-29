@@ -42,7 +42,9 @@
 			<Add library="dxguid" />
 			<Add directory="H:/c++/gkim/SDL-1.2.14/lib" />
 		</Linker>
+		<Unit filename="Decoder.cpp" />
 		<Unit filename="cb.bmp" />
+		<Unit filename="decoder.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
