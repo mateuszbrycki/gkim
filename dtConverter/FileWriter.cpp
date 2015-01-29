@@ -45,7 +45,8 @@ void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCom
     //file<<endl;
     file << bitset<16>(105); //start słownika jest stały
     //file<<endl;
-    file << bitset<16>(873); //start zapisu pikseli jest stały
+    int pictureStart = 105 + colorsList.size();
+    file << bitset<16>(pictureStart);
     //file<<endl;
 
     //zapis kolorów obrazka do pliku
