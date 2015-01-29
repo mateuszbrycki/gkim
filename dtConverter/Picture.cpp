@@ -61,13 +61,9 @@ SDL_Color Picture::getPixelColor(const int& x,const int& y)
     }
     if(this->colorType == 1)
     {
-        Uint8 tempR = color.r,
-            tempG = color.g,
-            tempB = color.b;
+        Uint8 temp = 0.299*(color.r) + 0.587*(color.g) + 0.114*(color.b);
 
-        color.r = 0.299*tempR + 0.587*tempG + 0.114*tempB;
-        color.g = 0.299*tempR + 0.587*tempG + 0.114*tempB;
-        color.b = 0.299*tempR + 0.587*tempG + 0.114*tempB;
+        color.r = color.g = color.b = temp;
     }
 
     return ( color ) ;
