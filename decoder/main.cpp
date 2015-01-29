@@ -141,62 +141,10 @@ void saveBMP()
     SDL_SaveBMP (screen, nazwa_save);
     cout<<"zapisano"<<endl;
 }
-<<<<<<< HEAD
-
-void pomoc()
-{
-    int help = 0;
-
-    plik.seekg(dictionaryStart - 1,ios::beg);
-    int x = 0;
-    while(help<pictureStart-dictionaryStart)
-    {
-        string helpReader;
-        int blue;
-        int red;
-        int green;
-
-        SDL_Color kolor;
-        kolor.r = red;
-        kolor.b = blue;
-        kolor.g = green;
-
-        int length = 8;
-        char * buffer = new char [length];
-
-        plik.read(buffer,length);
-        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
-        helpReader =charToString(buffer,length);
-        cout<<helpReader<<endl;
-        red=bin2dec(helpReader);
-        cout<<"red: "<<red<<endl;
-
-        plik.read(buffer,length);
-        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
-       helpReader =charToString(buffer,length);
-        cout<<helpReader<<endl;
-        green=bin2dec(helpReader);
-        cout<<"green: "<<green<<endl;
 
 
-        plik.read(buffer,length);
-        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
-        helpReader =charToString(buffer,length);
-        cout<<helpReader<<endl;
-        blue=bin2dec(helpReader);
-        cout<<"blue: "<<blue<<endl;
-
-        setPixel(1,1,kolor.r,kolor.g,kolor.b);
-        break;
-        help = help +24;
-
-    }
-    saveBMP();
-}
-
-=======
 /// zamiana binarnych odczytow na RGB
->>>>>>> 13eedefa601424bc466510e921a6371e56757dbe
+
 void binaryPixelToRGB(string binaryPixel){
     int binaryPixelSize = binaryPixel.size();
     string binaryPixelsArray[binaryPixelSize];
@@ -268,7 +216,7 @@ void readIndexesFromPixels()
         dictionaryColors[maxColors++] = w + entry.substr(0,24);
         w = entry;
   }
-       // drawPicture();
+        drawPicture();
 }
 
 void readSlownik()
@@ -364,8 +312,8 @@ void open()
 
         screen = SDL_SetVideoMode(width, height, 32,SDL_RESIZABLE|SDL_DOUBLEBUF);
 
-        //readSlownik();
-        pomoc();
+        readSlownik();
+
 
     }
     else cout << "Nie znaleziono pliku" <<endl;
@@ -378,26 +326,15 @@ void open()
 
 void Funkcja1()// wcis 1 by zadzialalo
 {
-
     maxColors = 32;
     open();
-<<<<<<< HEAD
-
-
-
 }
 
 
 void Funkcja2()// wcis 1 by zadzialalo
 {
-
     maxColors = 30;
     open();
-
-
-
-=======
->>>>>>> 13eedefa601424bc466510e921a6371e56757dbe
 }
 
 
