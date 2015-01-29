@@ -148,6 +148,7 @@ void saveBMP()
 void binaryPixelToRGB(string binaryPixel){
     int binaryPixelSize = binaryPixel.size();
     string binaryPixelsArray[binaryPixelSize];
+    //cout<<binaryPixelSize<<endl;
     int j = 0;
     for(int i=0; i<binaryPixelSize/24 ; i++){
         binaryPixelsArray[i] = binaryPixel.substr(j,24);
@@ -163,8 +164,8 @@ void binaryPixelToRGB(string binaryPixel){
         int blue = bin2dec(binaryPixelsArray[i].substr(16,8));
 
         kolor[i].r = red;
-        kolor[i].b = blue;
         kolor[i].g = green;
+        kolor[i].b = blue;
 
         pixels.push_back(kolor[i]);
     }
@@ -188,15 +189,12 @@ void drawPicture()
 /// metoda dekodujaca
 void readIndexesFromPixels()
 {
-    plik.seekg(pictureStart-1,ios::beg);
     int length = pixelWidth;
     char * buffer = new char [length];
-    plik.read(buffer,length);
-    string helpReader = charToString(buffer,length);
+    string helpReader;
     string w;
     string entry;
     int i=1;
-    w = helpReader;
     plik.seekg(pictureStart-1,ios::beg);
     int index;
 
@@ -205,13 +203,18 @@ void readIndexesFromPixels()
         helpReader = charToString(buffer,length);
         index = bin2dec(helpReader);
 
-        if (dictionaryColors.count(index))
+        if(w.size()%24!=0){
+        cout<<w.size()<<endl;
+        }
+        if (dictionaryColors.count(index)){
           entry = dictionaryColors[index];
-        else if (index == maxColors)
-          entry = w + w.substr(0,24);
-        else
+        }
+        else if (index == maxColors){
+            entry = w + w.substr(0,24);
+        }
+        else{
           throw "Blad w decodowaniu!";
-
+        }
         binaryPixelToRGB(entry);
         dictionaryColors[maxColors++] = w + entry.substr(0,24);
         w = entry;
