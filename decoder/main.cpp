@@ -24,9 +24,9 @@ using namespace std;
 //zmienne
 
 SDL_Surface *screen;
-int width=600;
-int height=400;
-int maxColors = 32;
+int width=800;
+int height=600;
+int maxColors;
 int pixelWidth;
 int dictionaryStart;
 int pictureStart;
@@ -140,12 +140,63 @@ void saveBMP()
     cout<<"zapisano"<<endl;
 }
 
+void pomoc()
+{
+    int help = 0;
+
+    plik.seekg(dictionaryStart - 1,ios::beg);
+    int x = 0;
+    while(help<pictureStart-dictionaryStart)
+    {
+        string helpReader;
+        int blue;
+        int red;
+        int green;
+
+        SDL_Color kolor;
+        kolor.r = red;
+        kolor.b = blue;
+        kolor.g = green;
+
+        int length = 8;
+        char * buffer = new char [length];
+
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        red=bin2dec(helpReader);
+        cout<<"red: "<<red<<endl;
+
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+       helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        green=bin2dec(helpReader);
+        cout<<"green: "<<green<<endl;
+
+
+        plik.read(buffer,length);
+        cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
+        helpReader =charToString(buffer,length);
+        cout<<helpReader<<endl;
+        blue=bin2dec(helpReader);
+        cout<<"blue: "<<blue<<endl;
+
+        setPixel(1,1,kolor.r,kolor.g,kolor.b);
+        break;
+        help = help +24;
+
+    }
+    saveBMP();
+}
+
 void binaryPixelToRGB(string binaryPixel){
     int binaryPixelSize = binaryPixel.size();
     string binaryPixelsArray[binaryPixelSize];
     int j = 0;
     for(int i=0; i<binaryPixelSize/24 ; i++){
-        binaryPixelsArray[i] = binaryPixel.substr(j,j+24);
+        binaryPixelsArray[i] = binaryPixel.substr(j,24);
         j = j+24;
     }
 
@@ -170,14 +221,14 @@ void drawPicture()
     SDL_Color finalColor;
     int i = 0;
     cout<<"size: "<<pixels.size();
-         for(int x=0; x<300; x++){
-                for(int y=0; y<200; y++){
+         for(int x=0; x<width; x++){
+                for(int y=0; y<height; y++){
                 finalColor = pixels[i];
                     setPixel(x,y,finalColor.r,finalColor.g,finalColor.b);
                     i++;
                 }
          }
-         //saveBMP();
+         saveBMP();
 }
 
 void readIndexesFromPixels()
@@ -189,7 +240,7 @@ void readIndexesFromPixels()
     string helpReader = charToString(buffer,length);
     string w;
     string entry;
-    int i=0;
+    int i=1;
     w = helpReader;
     plik.seekg(pictureStart-1,ios::beg);
     int index;
@@ -210,7 +261,7 @@ void readIndexesFromPixels()
         dictionaryColors[maxColors++] = w + entry.substr(0,24);
         w = entry;
   }
-        drawPicture();
+       // drawPicture();
 }
 
 void readSlownik()
@@ -226,7 +277,7 @@ void readSlownik()
         char * buffer = new char [length];
         plik.read(buffer,length);
         //cout << "Wczytano " << plik.gcount() << " bajtow do bufora" << endl;
-        helpReader =charToString(buffer,length);
+        helpReader = charToString(buffer,length);
         transformedColor=helpReader;
         dictionaryColors[i] = transformedColor;
         cout<<i<<" "<<helpReader<<endl;
@@ -311,7 +362,8 @@ void open()
 
        // screen = SDL_SetVideoMode(width, height, 32,SDL_RESIZABLE|SDL_DOUBLEBUF);
 
-        readSlownik();
+        //readSlownik();
+        pomoc();
 
     }
     else cout << "Nie znaleziono pliku" <<endl;
@@ -325,7 +377,20 @@ void open()
 void Funkcja1()// wcis 1 by zadzialalo
 {
 
+    maxColors = 32;
     open();
+
+
+
+}
+
+
+void Funkcja2()// wcis 1 by zadzialalo
+{
+
+    maxColors = 30;
+    open();
+
 
 
 }
@@ -381,6 +446,8 @@ int main ( int argc, char** argv )
                     done = true;
                 if (event.key.keysym.sym == SDLK_1)
                     Funkcja1();
+                if (event.key.keysym.sym == SDLK_2)
+                    Funkcja2();
                 if (event.key.keysym.sym == SDLK_b)
                     czyscEkran(0, 0, 10);
                 break;
