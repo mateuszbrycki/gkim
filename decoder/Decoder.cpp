@@ -1,5 +1,5 @@
 #include"decoder.h"
-#include"window.h"
+
 
 /// funkcja potrzebna do zamiany z bin na dec
 int Decoder::power(int liczba, int dopotegi)
@@ -219,7 +219,6 @@ void Decoder::Funkcja2()// wcis 2 by zadzialalo
 /// metoda rysujaca obraz
 void Decoder::drawPicture()
 {
-    Window window;
     SDL_Color finalColor;
     int i = 0;
     cout<<"size: "<<pixels.size();
@@ -314,6 +313,71 @@ void Decoder::czyscEkran(Uint8 R, Uint8 G, Uint8 B)
 
 }
 
+int Decoder::setEkran()
+{
+    // console output
+    freopen( "CON", "wt", stdout );
+    freopen( "CON", "wt", stderr );
+
+    // initialize SDL video
+    if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+    {
+        printf( "Unable to init SDL: %s\n", SDL_GetError() );
+        return 1;
+    }
+
+    // make sure SDL cleans up before exit
+    atexit(SDL_Quit);
+
+
+    // create a new window
+    screen = SDL_SetVideoMode(width,height, 32,SDL_RESIZABLE|SDL_DOUBLEBUF);
+    if ( !screen )
+    {
+        printf("Unable to set video: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    SDL_WM_SetCaption(tytul , NULL );
+    // program main loop
+    bool done = false;
+    while (!done)
+    {
+        // message processing loop
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+            // check for messages
+            switch (event.type)
+            {
+            // exit if the window is closed
+            case SDL_QUIT:
+                done = true;
+                break;
+                // check for keypresses
+            case SDL_KEYDOWN:
+            {
+                // exit if ESCAPE is pressed
+                if (event.key.keysym.sym == SDLK_ESCAPE)
+                    done = true;
+                if (event.key.keysym.sym == SDLK_1)
+                    Funkcja1();
+                if (event.key.keysym.sym == SDLK_2)
+                    Funkcja2();
+                if (event.key.keysym.sym == SDLK_b)
+                    czyscEkran(0, 0, 10);
+                break;
+            }
+            } // end switch
+        } // end of message processing
+
+    } // end main loop
+
+
+    // all is well ;)
+
+
+}
 
 
 
