@@ -1,7 +1,6 @@
 #ifndef DECODER_H_INCLUDED
 #define DECODER_H_INCLUDED
 
-
 #include <iostream>
 #include <string>
 #include <cstddef>
@@ -22,7 +21,7 @@ SDL_Surface *screen;
 int height;
 int width;
 char const* tytul = "LZW";
-private:
+protected:
 int maxColors;
 int pixelWidth;
 int dictionaryStart;
@@ -32,7 +31,6 @@ map<int,string> dictionaryColors;
 vector<int> pixelIndexes;
 
 
-fstream plik;
 
 ///metody
 public:
@@ -40,11 +38,7 @@ int power(int liczba, int dopotegi);
 int bin2dec(string input);
 string charToString(char *buffer,int lenght);
 void binaryPixelToRGB(string binaryPixel);
-void readIndexesFromPixels();
-void readSlownik();
-void open();
-void Funkcja1();
-void Funkcja2();
+
 void drawPicture();
 void saveBMP();
 void czyscEkran(Uint8 R, Uint8 G, Uint8 B);

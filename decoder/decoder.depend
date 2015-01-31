@@ -1,16 +1,6 @@
 # depslib dependency file v1.0
-1422397482 source:i:\git\gkim\decoder\main.cpp
-	<cstdlib>
-	<stdlib.h>
-	<SDL/SDL.h>
-	<SDL/SDL.h>
-	<math.h>
-	<iostream>
-	<string>
-	<cstddef>
-	<fstream>
-	<vector>
-	<map>
+1422641476 source:i:\git\gkim\decoder\main.cpp
+	"decoder.h"
 
 1422386164 source:c:\users\damian\grafika\gkim\decoder\main.cpp
 	<cstdlib>
@@ -24,4 +14,14 @@
 	<fstream>
 	<vector>
 	<map>
+
+1422718384 i:\git\gkim\decoder\decoder.h
+	<iostream>
+	<string>
+	<cstddef>
+	<fstream>
+	<vector>
+	<map>
+	<iostream>
+	<SDL/SDL.h>
 
