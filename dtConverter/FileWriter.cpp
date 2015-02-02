@@ -8,7 +8,8 @@
 #include "FileWriter.h"
 
 /*
-** konstruktor klasy FileWriter
+@param savePath miejsce gdzie ma zostać zapisany plik wynikowy
+@param saveName nazwa pliku wynikowego
 */
 FileWriter::FileWriter(const string& savePath, const string& saveName)
 {
@@ -17,7 +18,10 @@ FileWriter::FileWriter(const string& savePath, const string& saveName)
 }
 
 /*
-** funkcja zapisujaca wynik dzialania kompresora do pliku dt
+@param picture reprezentacja pliku (DI)
+@param pixelListAfterCompression lista indeksów słownika LZW po kompresji => lista pikseli
+@param colorsList lista kolorów obrazu wejściowego
+@param maxIndex maksymalny indeks słownika LZW użyty przy kompresji LZW
 */
 void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCompression, const vector<SDL_Color>& colorsList, const int& maxIndex)
 {
@@ -69,6 +73,11 @@ void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCom
     file.close();
 }
 
+/*
+@param value wartość, która zostanie zamieniona na system binarny
+@param precision długość ciągu wynikowego
+@return bitowy zapis value o długości precision
+*/
 string FileWriter::convertValueToBinary(int value, const int& precision) {
 
     string stringResult;

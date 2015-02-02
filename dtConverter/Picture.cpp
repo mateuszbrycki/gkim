@@ -9,8 +9,8 @@
 
 using namespace std;
 /*
-** konstruktor: wczytywanie obrazka .bmp
-**
+@param openPath ścieżka do pliku wejściowego BMP
+@param colorType konwersja w kolorze lub skali szarości
 */
 Picture::Picture(const string& openPath, const int& colorType)
 {
@@ -29,7 +29,7 @@ int Picture::getPictureWidth()
     return 0;
 }
 /*
-** funkcja zwracajaca wysokosc obrazka
+@return wysokość wejściowego obrazu BMP
 */
 int Picture::getPictureHeight()
 {
@@ -38,9 +38,11 @@ int Picture::getPictureHeight()
     }
     return 0;
 }
+
 /*
-** Funkcja pobierajaca kolor danego piksela
-** źródło: pliki z laboratorium z GKiM
+@param x współrzędna x piksela
+@param y współrzędna y piksela
+@return referencja do obiektu klasy SDL_Color będącego reprezentacją piksela obrazu o współrzędnych (x,y)
 */
 SDL_Color Picture::getPixelColor(const int& x,const int& y)
 {
@@ -69,7 +71,7 @@ SDL_Color Picture::getPixelColor(const int& x,const int& y)
     return ( color ) ;
 }
 /*
-** Funkcja zwracajaca liste wszystkich kolorow obrazka
+@return lista wszystkich kolorow obrazka
 */
 vector<SDL_Color> Picture::getPictureColors()
 {
@@ -100,6 +102,10 @@ vector<SDL_Color> Picture::getPictureColors()
 
     return ListOfColors;
 }
+
+/*
+@return informacja o tym, czy plik wejściowy BMP został poprawnie otworzony
+*/
 bool Picture::checkBMPFile() {
     if(this->BMP) {
         return true;

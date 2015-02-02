@@ -11,11 +11,20 @@
 #include "FileWriter.h"
 #include "Compressor.h"
 
+/*
+@param openPath ścieżka, pod którą znajduje się plik BMP do konwersji
+@param savePath ścieżka wskazująca miejsce zapisu pliku po konwersji
+@param saveName nazwa pliku po konwersji
+@param colorType konwersja w kolorze lub skali szarości
+ */
 Converter::Converter(const string& openPath, const string& savePath, const string& saveName, const int& colorType) :
     openPath(openPath), savePath(savePath), saveName(saveName), colorType(colorType)
 {
 }
 
+/*
+Funkcja przeprowadzająca cały proces konwersji pliku BMP do pliku DT.
+*/
 void Converter::run() {
     emit conversionStart();
     emit conversionProgress(5);

@@ -6,11 +6,7 @@
 #include <string>
 
 using namespace std;
-/*
-** Klasa obrazka
-** funkcja: getPixelColor pobiera kolor jednego piksela
-** list<SDL_Color> - tam są zapisywane wszystkie kolory obrazka
-*/
+
 class Picture {
 public:
     Picture(const string& openPath, const int& colorType);
