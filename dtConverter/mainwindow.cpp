@@ -195,7 +195,8 @@ void MainWindow::on_dbConvertButton_released()
         Reader reader;
         string openFile = ui->dbFile->text().toStdString();
         string savePath = ui->dbPath->text().toStdString();
-        string save_name = savePath +"/"+"wynik.bmp";
+        string saveName = ui->dbFileName->text().toStdString();
+        string save_name = savePath +"/"+saveName;
         reader.open(openFile,save_name);
 
         QMessageBox::information( this, "Koniec", "Plik został zapisany poprawnie!", QMessageBox::Ok, 0 );
