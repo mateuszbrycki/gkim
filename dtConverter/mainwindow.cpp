@@ -17,7 +17,10 @@
 #include "FileWriter.h"
 #include "Compressor.h"
 
+#include "decoder.h"
+#include "reader.h"
 #undef SDL_main
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -175,17 +178,28 @@ void MainWindow::on_dbPath_selectionChanged()
 void MainWindow::on_dbFileButton_released()
 {
      QString filePath = this->getFilePath(1);
+
 }
 
 void MainWindow::on_dbPathButton_released()
 {
      QString folderPath = this->getFolderPath(1);
+
 }
 
 void MainWindow::on_dbConvertButton_released()
 {
     if(!(ui->dbFile->text()).isEmpty() && !(ui->dbPath->text()).isEmpty()) {
         qDebug()<<"Obsługa konwersji z DT do BMP";
+
+        Reader reader;
+        string openFile = ui->dbFile->text().toStdString();
+        string savePath = ui->dbPath->text().toStdString();
+        string save_name = savePath +"/"+"wynik.bmp";
+        reader.open(openFile,save_name);
+
+        QMessageBox::information( this, "Koniec", "Plik został zapisany poprawnie!", QMessageBox::Ok, 0 );
+
     }
 }
 

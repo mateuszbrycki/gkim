@@ -10,18 +10,23 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = dtConverter
 TEMPLATE = app
-SOURCES += main.cpp\
+SOURCES +=\
         mainwindow.cpp \
     Compressor.cpp \
     FileWriter.cpp \
     Picture.cpp \
-    Converter.cpp
+    Converter.cpp \
+    Decoder.cpp \
+    Reader.cpp \
+    main.cpp
 
 HEADERS  += mainwindow.h \
     Compressor.h \
     FileWriter.h \
     Picture.h \
-    Converter.h
+    Converter.h \
+    decoder.h \
+    reader.h
 
 FORMS    += mainwindow.ui
 
@@ -30,7 +35,10 @@ FORMS    += mainwindow.ui
 #INCLUDEPATH += H:/c++/gkim/dtConverter/SDL-1.2.14/include
 #*/
 
-LIBS  +=  -L SDL-1.2.14/lib -lSDL
-INCLUDEPATH += SDL-1.2.14/include
+#LIBS  +=  -L SDL-1.2.14/lib -lSDL
+#INCLUDEPATH += SDL-1.2.14/include/SDL
+
+LIBS  +=  -L I:/GIT/gkim/dtConverter/SDL-1.2.14/lib -lSDL
+INCLUDEPATH += I:/GIT/gkim/dtConverter/SDL-1.2.14/include
 
 
