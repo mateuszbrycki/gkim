@@ -42,13 +42,21 @@ QString MainWindow::getFilePath(int mode) {
     QString selectedFilePath = QFileDialog::getOpenFileName(this,
         tr("Otwórz obraz"), "", tr((mode == 0) ? "Image Files (*.bmp)" : "Image Files (*.dt)" ));
 
+    int index = selectedFilePath.lastIndexOf('/')+1;
+    QString fileName = selectedFilePath.mid(index, selectedFilePath.size()- index);
+    fileName.replace(".bmp", "");
+
     if(mode == 0) {
         ui->bdFile->setMaxLength(this->qLineMaxLength);
         ui->bdFile->setText(selectedFilePath);
+        ui->bdFileName->setText(fileName);
+
     } else {
         ui->dbFile->setMaxLength(this->qLineMaxLength);
         ui->dbFile->setText(selectedFilePath);
+        ui->bdFileName->setText(fileName);
     }
+
     return selectedFilePath;
 }
 
