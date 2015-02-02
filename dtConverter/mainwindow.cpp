@@ -198,7 +198,7 @@ void MainWindow::on_dbPathButton_released()
 
 void MainWindow::on_dbConvertButton_released()
 {
-    if(!(ui->dbFile->text()).isEmpty() && !(ui->dbPath->text()).isEmpty()) {
+    if(!(ui->dbFile->text()).isEmpty() && !(ui->dbPath->text()).isEmpty() && !(ui->dbFileName->text().isEmpty()) ) {
         qDebug()<<"Obsługa konwersji z DT do BMP";
 
         Reader reader;
@@ -207,10 +207,12 @@ void MainWindow::on_dbConvertButton_released()
         string saveName = ui->dbFileName->text().toStdString();
         string save_name = savePath +"/"+saveName;
         reader.open(openFile,save_name);
-
         QMessageBox::information( this, "Koniec", "Plik został zapisany poprawnie!", QMessageBox::Ok, 0 );
-
     }
+        else
+        QMessageBox::information( this, "Error 404", "Dane nie zostały poprawnie wypełnione", QMessageBox::Abort, 0 );
+
+
 }
 
 MainWindow::~MainWindow()

@@ -20,7 +20,7 @@ public:
 SDL_Surface *screen;
 int height;
 int width;
-char const* tytul = "LZW";
+char const* tytul = "BitMapPreview";
 protected:
 int maxColors;
 int pixelWidth;
