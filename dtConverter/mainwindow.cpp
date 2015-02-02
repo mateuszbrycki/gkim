@@ -44,17 +44,18 @@ QString MainWindow::getFilePath(int mode) {
 
     int index = selectedFilePath.lastIndexOf('/')+1;
     QString fileName = selectedFilePath.mid(index, selectedFilePath.size()- index);
-    fileName.replace(".bmp", "");
 
     if(mode == 0) {
         ui->bdFile->setMaxLength(this->qLineMaxLength);
         ui->bdFile->setText(selectedFilePath);
+        fileName.replace(".bmp", "");
         ui->bdFileName->setText(fileName);
 
     } else {
         ui->dbFile->setMaxLength(this->qLineMaxLength);
         ui->dbFile->setText(selectedFilePath);
-        ui->bdFileName->setText(fileName);
+        fileName.replace(".dt", "");
+        ui->dbFileName->setText(fileName);
     }
 
     return selectedFilePath;
