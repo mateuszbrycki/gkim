@@ -75,6 +75,7 @@ void Reader::open(string name,string name_save){
 
     plik.close();
 
+
 }
 
 
