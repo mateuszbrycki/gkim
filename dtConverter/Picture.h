@@ -9,7 +9,7 @@ using namespace std;
 /*
 ** Klasa obrazka
 ** funkcja: getPixelColor pobiera kolor jednego piksela
-** list<SDL_Color> - tam s¹ zapisywane wszystkie kolory obrazka
+** list<SDL_Color> - tam sÄ… zapisywane wszystkie kolory obrazka
 */
 class Picture {
 public:

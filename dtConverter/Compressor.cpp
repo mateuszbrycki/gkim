@@ -8,7 +8,7 @@
 using namespace std;
 
 /* konstruktor klasy tworzacy poczatkowe hasla slownika
-@param startColors lista kolor體 obrazka
+@param startColors lista kolor贸w obrazka
 @param picture obiekt klasy Picture bedacy reprezentacja obrazka wejsciowego
 */
 Compressor::Compressor(const vector<SDL_Color>& startColors, Picture* picture) {
@@ -25,7 +25,7 @@ Compressor::Compressor(const vector<SDL_Color>& startColors, Picture* picture) {
 }
 
 /* wlasciwa kompresja LZW
-@return lista kolejno zapisanych pixeli wg. indeks體 ssownika LZW
+@return lista kolejno zapisanych pixeli wg. indeks贸w ssownika LZW
 */
 vector<int> Compressor::getPixels() {
     vector<int> output;
@@ -83,7 +83,7 @@ SDL_Color Compressor::getPixel(const int& x, const int& y) {
 }
 
 /*
-@param c lista kolor體, kt髍e nalezy odszukac w slowniku
+@param c lista kolor贸w, kt贸re nalezy odszukac w slowniku
 @return zwraca pozycje w sloniku lub -1 jezeli slowa nie ma w slowniku
 */
 int Compressor::getDictionaryIndex(const vector<SDL_Color>& c) {

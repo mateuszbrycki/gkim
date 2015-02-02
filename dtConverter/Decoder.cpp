@@ -5,10 +5,10 @@ void Decoder::setPixel(int x, int y, Uint8 R, Uint8 G, Uint8 B)
 {
     if ((x>=0) && (x<width) && (y>=0) && (y<height))
     {
-        /* Zamieniamy poszczególne sk3adowe koloru na format koloru pixela */
+        /* Zamieniamy poszczegÃ³lne sk3adowe koloru na format koloru pixela */
         Uint32 pixel = SDL_MapRGB(screen->format, R, G, B);
 
-        /* Pobieramy informacji ile bajtów zajmuje jeden pixel */
+        /* Pobieramy informacji ile bajtÃ³w zajmuje jeden pixel */
         int bpp = screen->format->BytesPerPixel;
 
         /* Obliczamy adres pixela */
