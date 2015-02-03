@@ -16,6 +16,20 @@ class Decoder
 {
     ///zmienne
 
+
+    /*
+    @param *screen ekran SDL
+    @param height - wysokosc okna SDL
+    @param width - szerokosc okna SDL
+    @param tytul - tytul okna SDL
+    @param maxColors - wielkosc podstawowego slownika
+    @param pixelWidth - Informacja o ilości bitów potrzebnych do zapisu jednego pixela
+    @param dictionaryStart - Numer bitu od którego rozpoczyna się zapis słownika LZW względem początku pliku
+    @param pictureStart - Numer bitu od którego rozpoczyna się zestaw danych względem początku pliku
+    @param pixels - wektor w ktorym przechowywane sa skladowe RGB pixela
+    @param dictonaryColors - mapa w ktorej przechowywany jest slownik
+    @param pixelIdexes - wektor przechowujacy in
+     */
 public:
 SDL_Surface *screen;
 int height;
@@ -28,8 +42,6 @@ int dictionaryStart;
 int pictureStart;
 vector<SDL_Color> pixels;
 map<int,string> dictionaryColors;
-vector<int> pixelIndexes;
-
 
 
 ///metody

@@ -1,6 +1,10 @@
 #include"decoder.h"
 #include "reader.h"
 #include "FileWriter.h"
+
+/*
+Funkcja ustawiajaca pixel
+ */
 void Decoder::setPixel(int x, int y, Uint8 R, Uint8 G, Uint8 B)
 {
     if ((x>=0) && (x<width) && (y>=0) && (y<height))
@@ -49,7 +53,10 @@ void Decoder::setPixel(int x, int y, Uint8 R, Uint8 G, Uint8 B)
     }
 }
 
-/// funkcja potrzebna do zamiany z bin na dec
+
+/*
+Funkcja potegowa urzywana do zamiany z binarnego na dziesietny
+ */
 int Decoder::power(int liczba, int dopotegi)
 {
     int wynik = 1;
@@ -57,7 +64,10 @@ int Decoder::power(int liczba, int dopotegi)
         wynik *= liczba;
     return wynik;
 }
-/// zamiana bin na dec
+
+/*
+Funkcja zamiany z binarnego na dziesitny
+ */
 int Decoder::bin2dec(string input)
 {
     int output = 0;
@@ -65,7 +75,10 @@ int Decoder::bin2dec(string input)
         output+=(input[i]-'0')*power(2,input.size()-i-1);
     return output;
 }
-/// zrzutowanie z char na string
+
+/*
+Funkjca rzutujaca typ char na string
+ */
 string Decoder::charToString(char *buffer,int lenght)
 {
     string ciag="";
@@ -76,7 +89,12 @@ string Decoder::charToString(char *buffer,int lenght)
     return ciag;
 }
 
-/// zapisanie pliku wynikowego
+
+
+/*
+Funkcja zapisu do pliku
+@param name_save -nazwa pliku do którego zapisujemy obraz
+ */
 void Decoder::saveBMP(string name_save)
 {
 
@@ -93,7 +111,10 @@ void Decoder::saveBMP(string name_save)
     SDL_SaveBMP (screen, nazwa_save);
     cout<<"zapisano"<<endl;
 }
-/// zamiana binarnych odczytow na RGB
+
+/*
+Funkcja zmieniajaca odczyt binarny na skladowe RGB
+ */
 
 void Decoder::binaryPixelToRGB(string binaryPixel){
     int j = 0;
@@ -116,7 +137,10 @@ void Decoder::binaryPixelToRGB(string binaryPixel){
         pixels.push_back(kolor[i]);
     }
 }
-/// metoda rysujaca obraz
+
+/*
+Funkcja tworzaca obraz
+ */
 void Decoder::drawPicture(string name_save)
 {
     SDL_Color bitMapPixel;

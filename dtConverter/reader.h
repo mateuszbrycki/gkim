@@ -4,6 +4,8 @@
 #include <QString>
 class Reader :protected Decoder
 {
+
+
     private:
     fstream plik;
 

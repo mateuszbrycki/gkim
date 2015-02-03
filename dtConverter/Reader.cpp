@@ -1,6 +1,10 @@
 #include "reader.h"
 
-///funkcja otwierajaca plik
+
+/*
+Funkcja otwierajaca plik z rozszerzeniem dt
+@param name - nazwa otwieranego pliku
+ */
 void Reader::open(string name,string name_save){
 
     //cout<<"Wprowadz nazwe pliku ktory ma byc wczytany ";
@@ -79,12 +83,20 @@ void Reader::open(string name,string name_save){
 }
 
 
+/*
+Funkcja czytajaca słownik z pliku
+@param bitCounter - flaga ktora chodzimy po pliku
+@param pixLength - ilosc pobranych bitow
+@param dictionaryIndex - zmienna inkrementowana indeks slownika
+@param helpReader zmienna pomocnicza do zmiany z char na string
+@param transformedColor - zmienna przypisywana do slownika
+ */
 void Reader::readDictionary(string name_save)
 {
 
 
     maxColors = (pictureStart-dictionaryStart)/24;
-    cout<<maxColors<<endl;
+    //cout<<maxColors<<endl;
     int bitCounter = 0;
     int pixLength = 24;
     int dictionaryIndex = 1;
@@ -106,7 +118,15 @@ void Reader::readDictionary(string name_save)
     readIndexesFromPixels(name_save);
 }
 
-/// metoda dekodujaca
+
+/*
+Funkcja dekodujaca plik dt alorytmem LZW
+@param length - zmienna przechowujaca ilosc bitow na jeden pixel
+@param dictionaryIndex - zmienna przechwytujaca pixelWidth bitow by porownac czy znajduja sie w slowniku
+@param param helpReader - zmienna pomocnicza do zmiany z char na string
+@param characters - zmienna przechowujaca znaki ktore przypisujemy do slownika
+@param word - zmienna tworzaca nowe slowo w slowniku
+ */
 void Reader::readIndexesFromPixels(string name_save){
     int length = pixelWidth;
     int dictionaryIndex;
