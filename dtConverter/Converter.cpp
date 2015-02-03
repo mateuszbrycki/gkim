@@ -47,18 +47,18 @@ void Converter::run() {
 
     emit conversionProgress(20);
 
-    vector<SDL_Color> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka - 32 kolory
+    vector<SDL_Color> colorsList = picture->getPictureColors(); //pobranie kolorow z obrazka
     qDebug()<<"Pobrano kolory obrazka!";
 
     emit conversionProgress(40);
 
     Compressor *compressor = new Compressor(colorsList, picture);
-    vector<int> pixelListAfterCompression = compressor->getPixels();
+    vector<int> pixelListAfterCompression = compressor->getPixels(); //właściwa kompresja LZW
     qDebug()<<"Skompresowano!";
 
     emit conversionProgress(90);
 
-    writer->saveFile(picture, pixelListAfterCompression, colorsList, compressor->getMaxIndex());
+    writer->saveFile(picture, pixelListAfterCompression, colorsList, compressor->getMaxIndex()); //zapis do pliku
     qDebug()<<"Koniec";
 
     delete picture;

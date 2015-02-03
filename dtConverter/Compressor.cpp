@@ -16,6 +16,7 @@ Compressor::Compressor(const vector<SDL_Color>& startColors, Picture* picture) {
     this->dictionarySize = 0;
     this->maxIndex = 0;
 
+    //przepisanie kolorów obrazka jako początkowych elementów słownika
     for(vector<SDL_Color>::const_iterator it = startColors.begin(); it != startColors.end(); it++) {
         vector<SDL_Color> color;
         color.push_back(*it);
@@ -35,19 +36,20 @@ vector<int> Compressor::getPixels() {
     int x = picture->getPictureWidth(),
         y = picture->getPictureHeight();
 
-    for(int i = 0; i < x; i++) { //dla kazdego pixel w obrazku
+    for(int i = 0; i < x; i++) { //dla kazdego pixel w obrazku realizujemy algorytm kompresji LZW
         for(int j = 0; j < y; j++) {
             SDL_Color color = this->getPixel(i, j);
 
             vector<SDL_Color> temp = c;
             temp.push_back(color);
 
-            if(this->getDictionaryIndex(temp) > 0) { //jezeli c+s jest w sloniku
+            if(this->getDictionaryIndex(temp) > 0) { //jezeli c+s jest w slowniku
                  // c = c+s
                  c.push_back(color);
             } else {
                 int index = this->getDictionaryIndex(c);
 
+                //zapisujemy największy użyty do tej pory indeks ze słownika LZW
                 if(index > this->maxIndex) {
                    this->maxIndex = index;
                 }
@@ -89,7 +91,7 @@ SDL_Color Compressor::getPixel(const int& x, const int& y) {
 */
 int Compressor::getDictionaryIndex(const vector<SDL_Color>& c) {
 
-    //dla kazdego elementu mapy dictionary sprawdzamy czy vector<DT_Color&> maja takie same wartosci/kolory a nie referencje!!
+    //dla kazdego elementu mapy dictionary sprawdzamy czy vector<DT_Color&> maja takie same wartosci/kolory (nie referencje)!!
 
     for(map<int, vector<SDL_Color> >::iterator it = dictionary.begin(); it != dictionary.end(); ++it) {
         if((*it).second.size() == c.size()) { //jezeli listy maja takie same rozmiary
@@ -97,7 +99,7 @@ int Compressor::getDictionaryIndex(const vector<SDL_Color>& c) {
             auto pred = [=] (const SDL_Color& first, const SDL_Color& second) {
                 return ((first.r == second.r) && (first.b == second.b) && (first.g == second.g));
             };
-
+            //sprawdzamy czy struktury zawierają takie same elementy używając pred
             if(equal((*it).second.begin(), (*it).second.end(), c.begin(), pred)) {
                 return (*it).first;
             }

@@ -63,6 +63,7 @@ SDL_Color Picture::getPixelColor(const int& x,const int& y)
     }
     if(this->colorType == 1)
     {
+        //zamiana na skalę szarości
         Uint8 temp = 0.299*(color.r) + 0.587*(color.g) + 0.114*(color.b);
 
         color.r = color.g = color.b = temp;

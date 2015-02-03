@@ -53,7 +53,7 @@ void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCom
     file << bitset<16>(pictureStart);
     //file<<endl;
 
-    //zapis kolorów obrazka do pliku
+    //zapis kolorów obrazka do pliku - słownik
     for(vector<SDL_Color>::const_iterator it = colorsList.begin(); it != colorsList.end(); ++it) {
         file<<bitset<8>((*it).r) ;
         //file<<" ";
