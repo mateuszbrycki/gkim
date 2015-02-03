@@ -1,4 +1,5 @@
 #include "reader.h"
+#include <QDebug>
 
 
 /*
@@ -105,11 +106,13 @@ void Reader::readDictionary(string name_save)
     char * buffer = new char [pixLength];
 
     plik.seekg(dictionaryStart - 1,ios::beg);
-
+    int decimal;
     while(bitCounter<pictureStart-dictionaryStart){
         plik.read(buffer,pixLength);
         helpReader = charToString(buffer,pixLength);
         transformedColor=helpReader;
+        decimal = bin2dec(transformedColor);
+        qDebug() << decimal << endl;
         dictionaryColors[dictionaryIndex] = transformedColor;
         bitCounter = bitCounter +24;
         dictionaryIndex++;
