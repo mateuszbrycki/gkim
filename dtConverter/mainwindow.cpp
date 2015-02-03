@@ -208,9 +208,10 @@ void MainWindow::on_dbConvertButton_released()
         string save_name = savePath +"/"+saveName;
         reader.open(openFile,save_name);
         QMessageBox::information( this, "Koniec", "Plik został zapisany poprawnie!", QMessageBox::Ok, 0 );
+        SDL_Quit();
     }
         else
-        QMessageBox::information( this, "Error 404", "Dane nie zostały poprawnie wypełnione", QMessageBox::Abort, 0 );
+        QMessageBox::information( this, "Błąd", "Wypełnij wszystkie pola", QMessageBox::Ok, 0 );
 
 
 }
