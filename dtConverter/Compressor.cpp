@@ -7,7 +7,7 @@
 
 using namespace std;
 
-/* konstruktor klasy tworzący początkowe hasla słownika
+/** Konstruktor klasy tworzący początkowe hasła słownika
 @param startColors lista kolorów obrazka
 @param picture obiekt klasy Picture bądący reprezentacją obrazka wejściowego (DI)
 */
@@ -25,7 +25,7 @@ Compressor::Compressor(const vector<SDL_Color>& startColors, Picture* picture) {
     }
 }
 
-/* wlasciwa kompresja LZW
+/** Własciwa kompresja LZW
 @return lista kolejno zapisanych pixeli wg. indeksów slownika LZW
 */
 vector<int> Compressor::getPixels() {
@@ -76,16 +76,16 @@ vector<int> Compressor::getPixels() {
     return output;
 }
 
-/* pobiera piksel z obrazka w odpowiednim trybie koloru
+/**
 @param x polozenie pixela na osi x
 @param y polozenie pixela na osi y
-@return obiekt klasy SDL_Color bedacy reprezentacją piksela
+@return obiekt klasy SDL_Color bedacy reprezentacją piksela o współrzędnych (x,y) w odpowiednim trybie koloru
 */
 SDL_Color Compressor::getPixel(const int& x, const int& y) {
     return picture->getPixelColor(x,y);
 }
 
-/*
+/**
 @param c lista kolorów, którą należy odszukać w słowniku
 @return pozycja w słowniku lub -1 jeżeli słowa nie ma w słowniku
 */
@@ -109,8 +109,8 @@ int Compressor::getDictionaryIndex(const vector<SDL_Color>& c) {
     return -1; //-1 jezeli c nie ma w slowniku
 }
 
-/*
- * @return największy użyty indeks ze słownika LZW
+/**
+@return największy użyty indeks ze słownika LZW
  */
 int Compressor::getMaxIndex() {
     return this->maxIndex;

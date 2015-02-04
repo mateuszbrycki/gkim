@@ -2,8 +2,12 @@
 #include "reader.h"
 #include "FileWriter.h"
 
-/*
-Funkcja ustawiajaca pixel
+/** Funkcja ustawiajaca pixel
+@param x współrzędna x obrazka
+@param y współrzędna x obrazka
+@param R składowa R koloru ustawianego piksela
+@param G składowa G koloru ustawianego piksela
+@param B składowa B koloru ustawianego piksela
  */
 void Decoder::setPixel(int x, int y, Uint8 R, Uint8 G, Uint8 B)
 {
@@ -54,8 +58,7 @@ void Decoder::setPixel(int x, int y, Uint8 R, Uint8 G, Uint8 B)
 }
 
 
-/*
-Funkcja potegowa urzywana do zamiany z binarnego na dziesietny
+/** Funkcja potegowa używana do zamiany z binarnego na dziesietny
  */
 int Decoder::power(int liczba, int dopotegi)
 {
@@ -65,8 +68,8 @@ int Decoder::power(int liczba, int dopotegi)
     return wynik;
 }
 
-/*
-Funkcja zamiany z binarnego na dziesitny
+/** Funkcja zamiany liczby zapisanej w systemie binarnym na system dziesiętny
+@param input liczba zapisana w systemie binarnym
  */
 int Decoder::bin2dec(string input)
 {
@@ -76,8 +79,9 @@ int Decoder::bin2dec(string input)
     return output;
 }
 
-/*
-Funkjca rzutujaca typ char na string
+/** Funkjca rzutujaca typ char na string
+@param buffer bufor danych
+@param length długość bufora
  */
 string Decoder::charToString(char *buffer,int lenght)
 {
@@ -91,9 +95,8 @@ string Decoder::charToString(char *buffer,int lenght)
 
 
 
-/*
-Funkcja zapisu do pliku
-@param name_save -nazwa pliku do którego zapisujemy obraz
+/** Funkcja odpowiedzialna za zapis do pliku
+@param name_save nazwa pliku do którego zapisujemy obraz
  */
 void Decoder::saveBMP(string name_save)
 {
@@ -112,10 +115,9 @@ void Decoder::saveBMP(string name_save)
     cout<<"zapisano"<<endl;
 }
 
-/*
-Funkcja zmieniajaca odczyt binarny na skladowe RGB
- */
-
+/** Funkcja zmieniajaca odczyt binarny piksela na skladowe RGB
+@param binaryPixel binarny zapis piksela
+*/
 void Decoder::binaryPixelToRGB(string binaryPixel){
     int j = 0;
     int binaryPixelSize = binaryPixel.size();
@@ -138,8 +140,8 @@ void Decoder::binaryPixelToRGB(string binaryPixel){
     }
 }
 
-/*
-Funkcja tworzaca obraz
+/** Funkcja tworzaca obraz
+@param name_save nazwa pliku wynikowego
  */
 void Decoder::drawPicture(string name_save)
 {

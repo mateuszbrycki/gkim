@@ -3,12 +3,14 @@
 #include <vector>
 #include <iostream>
 #include <QDebug>
+#include <math.h>
 
 #include "Compressor.h"
 #include "Picture.h"
 
 using namespace std;
-/*
+
+/** Konstruktor klasy Picture
 @param openPath ścieżka do pliku wejściowego BMP
 @param colorType konwersja w kolorze lub skali szarości
 */
@@ -18,8 +20,9 @@ Picture::Picture(const string& openPath, const int& colorType)
 
     BMP = SDL_LoadBMP(openPath.c_str());
 }
-/*
-** funkcja zwracajaca szerokosc obrazka
+
+/** Funkcja zwracająca szerokosć obrazka wejściowego
+@return szerokość wejściowego obrazu BMP
 */
 int Picture::getPictureWidth()
 {
@@ -28,7 +31,8 @@ int Picture::getPictureWidth()
     }
     return 0;
 }
-/*
+
+/** Funkcja zwracająca wysokość obrazka wejściowego
 @return wysokość wejściowego obrazu BMP
 */
 int Picture::getPictureHeight()
@@ -39,7 +43,7 @@ int Picture::getPictureHeight()
     return 0;
 }
 
-/*
+/** Funkcja odpowiedzialna za zwrócenie koloru piksela
 @param x współrzędna x piksela
 @param y współrzędna y piksela
 @return referencja do obiektu klasy SDL_Color będącego reprezentacją piksela obrazu o współrzędnych (x,y)
@@ -64,15 +68,15 @@ SDL_Color Picture::getPixelColor(const int& x,const int& y)
     if(this->colorType == 1)
     {
         //zamiana na skalę szarości
-        Uint8 temp = 0.299*(color.r) + 0.587*(color.g) + 0.114*(color.b);
-
-        color.r = color.g = color.b = temp;
+        double temp = 0.2126*(color.r) + 0.7152*(color.g) + 0.0722*(color.b);
+        color.r = color.g = color.b = round(temp);
     }
 
     return ( color ) ;
 }
-/*
-@return lista wszystkich kolorow obrazka
+
+/** Funkcja generująca listę wszystkich kolorów obrazu
+@return lista wszystkich kolorów obrazu
 */
 vector<SDL_Color> Picture::getPictureColors()
 {
@@ -104,7 +108,7 @@ vector<SDL_Color> Picture::getPictureColors()
     return ListOfColors;
 }
 
-/*
+/** Funkcja sprawdzająca poprawność otworzenia pliku BMP
 @return informacja o tym, czy plik wejściowy BMP został poprawnie otworzony
 */
 bool Picture::checkBMPFile() {

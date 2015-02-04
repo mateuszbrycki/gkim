@@ -7,8 +7,8 @@
 
 #include "FileWriter.h"
 
-/*
-@param savePath miejsce gdzie ma zostać zapisany plik wynikowy
+/** Konstruktor klasy FileWriter
+@param savePath miejsce, gdzie ma zostać zapisany plik wynikowy
 @param saveName nazwa pliku wynikowego
 */
 FileWriter::FileWriter(const string& savePath, const string& saveName)
@@ -17,9 +17,9 @@ FileWriter::FileWriter(const string& savePath, const string& saveName)
     this->saveName = saveName;
 }
 
-/*
-@param picture reprezentacja pliku (DI)
-@param pixelListAfterCompression lista indeksów słownika LZW po kompresji => lista pikseli
+/** Funkcja odpowiedzialna za prawidłowy zapis do pliku
+@param picture obiekt klasy Picture bądący reprezentacją obrazka wejściowego (DI)
+@param pixelListAfterCompression lista indeksów słownika LZW po kompresji (lista pikseli)
 @param colorsList lista kolorów obrazu wejściowego
 @param maxIndex maksymalny indeks słownika LZW użyty przy kompresji LZW
 */
@@ -73,7 +73,7 @@ void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCom
     file.close();
 }
 
-/*
+/** Konwersja liczby w systemie dziesiętnym na system binarny
 @param value wartość, która zostanie zamieniona na system binarny
 @param precision długość ciągu wynikowego
 @return bitowy zapis value o długości precision

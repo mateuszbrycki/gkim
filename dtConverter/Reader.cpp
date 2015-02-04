@@ -2,9 +2,10 @@
 #include <QDebug>
 
 
-/*
+/**
 Funkcja otwierajaca plik z rozszerzeniem dt
-@param name - nazwa otwieranego pliku
+@param name nazwa otwieranego pliku
+@param name_save nazwa pliku wynikowego
  */
 void Reader::open(string name,string name_save){
 
@@ -84,18 +85,11 @@ void Reader::open(string name,string name_save){
 }
 
 
-/*
-Funkcja czytajaca słownik z pliku
-@param bitCounter - flaga ktora chodzimy po pliku
-@param pixLength - ilosc pobranych bitow
-@param dictionaryIndex - zmienna inkrementowana indeks slownika
-@param helpReader zmienna pomocnicza do zmiany z char na string
-@param transformedColor - zmienna przypisywana do slownika
+/** Funkcja czytajaca słownik z pliku
+@param name_save nazwa pliku DT
  */
 void Reader::readDictionary(string name_save)
 {
-
-
     maxColors = (pictureStart-dictionaryStart)/24;
     //cout<<maxColors<<endl;
     int bitCounter = 0;
@@ -122,13 +116,8 @@ void Reader::readDictionary(string name_save)
 }
 
 
-/*
-Funkcja dekodujaca plik dt alorytmem LZW
-@param length - zmienna przechowujaca ilosc bitow na jeden pixel
-@param dictionaryIndex - zmienna przechwytujaca pixelWidth bitow by porownac czy znajduja sie w slowniku
-@param param helpReader - zmienna pomocnicza do zmiany z char na string
-@param characters - zmienna przechowujaca znaki ktore przypisujemy do slownika
-@param word - zmienna tworzaca nowe slowo w slowniku
+/** Funkcja dekodujaca plik dt alorytmem LZW
+@param name_save nazwa pliku DT
  */
 void Reader::readIndexesFromPixels(string name_save){
     maxColors = maxColors + 1;

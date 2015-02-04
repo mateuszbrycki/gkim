@@ -11,7 +11,7 @@
 #include "FileWriter.h"
 #include "Compressor.h"
 
-/*
+/** Konstruktor klasy Converter
 @param openPath ścieżka, pod którą znajduje się plik BMP do konwersji
 @param savePath ścieżka wskazująca miejsce zapisu pliku po konwersji
 @param saveName nazwa pliku po konwersji
@@ -22,8 +22,7 @@ Converter::Converter(const string& openPath, const string& savePath, const strin
 {
 }
 
-/*
-Funkcja przeprowadzająca cały proces konwersji pliku BMP do pliku DT.
+/** Funkcja przeprowadzająca cały proces konwersji pliku BMP do pliku DT.
 */
 void Converter::run() {
     emit conversionStart();
