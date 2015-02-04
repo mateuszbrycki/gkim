@@ -112,7 +112,7 @@ void Decoder::saveBMP(string name_save)
     strcpy( nazwa_save, name_save.c_str() );
 
     SDL_SaveBMP (screen, nazwa_save);
-    cout<<"zapisano"<<endl;
+
 }
 
 /** Funkcja zmieniajaca odczyt binarny piksela na skladowe RGB
@@ -153,7 +153,6 @@ void Decoder::drawPicture(string name_save)
             bitMapPixel = pixels[pixelIndex];
                 setPixel(x,y,bitMapPixel.r,bitMapPixel.g,bitMapPixel.b);
                 pixelIndex++;
-                //SDL_Flip(screen);
             }
          }
 

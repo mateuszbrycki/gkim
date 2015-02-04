@@ -41,32 +41,22 @@ void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCom
 
     //zapis nagłówka do pliku
     file << bitset<24>(picture->getPictureWidth());
-    //file<<endl;
     file << bitset<24>(picture->getPictureHeight());
-    //file<<endl;
     int pixelWidth = (log(maxIndex) / log(2)) + 1; //tyle bitów potrzeba do zapisania każdego z użytych indeksów słownika;
     file << bitset<24>(pixelWidth);
-    //file<<endl;
     file << bitset<16>(105); //start słownika jest stały
-    //file<<endl;
     int pictureStart = 105 + colorsList.size()*24;
     file << bitset<16>(pictureStart);
-    //file<<endl;
 
     //zapis kolorów obrazka do pliku - słownik
     for(vector<SDL_Color>::const_iterator it = colorsList.begin(); it != colorsList.end(); ++it) {
         file<<bitset<8>((*it).r) ;
-        //file<<" ";
         file<<bitset<8>((*it).g);
-        //file<<" ";
         file<<bitset<8>((*it).b);
-       // file<<endl;
     }
-    //file<<endl<<endl;
     //zapis pikseli do pliku
     for(vector<int>::const_iterator it = pixelListAfterCompression.begin(); it != pixelListAfterCompression.end(); it++) {
         //tutaj nie można użyć bitset
-       // file<<endl;
         file<<this->convertValueToBinary(*it, pixelWidth);
     }
 
