@@ -151,7 +151,6 @@ void Decoder::drawPicture(string name_save)
             bitMapPixel = pixels[pixelIndex];
                 setPixel(x,y,bitMapPixel.r,bitMapPixel.g,bitMapPixel.b);
                 pixelIndex++;
-                //SDL_Flip(screen);
             }
          }
 
