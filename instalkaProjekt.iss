@@ -5,15 +5,15 @@
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{C4BD2A8A-956B-48D0-8EA8-FF195E7E63EE}
+AppId={{D25B35B1-BC60-4E2E-B7AB-F9A84CD6D87E}
 AppName=DTConverter
-AppVersion=1
-;AppVerName=DTConverter 1
-AppPublisher=Hanusiak & Jedynak & Bryzik & Brycki
+AppVersion=1.0
+;AppVerName=DTConverter 1.0
+AppPublisher=Bryzik & Hanusiak & Jedynak & Brycki
 DefaultDirName={pf}\DTConverter
 DefaultGroupName=DTConverter
-OutputDir=C:\Users\Mateusz Brycki\Desktop
-OutputBaseFilename=dt_converter
+OutputBaseFilename=dtConverter
+SetupIconFile=H:\c++\gkim\dtConverter\icon.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -24,27 +24,16 @@ Name: "polish"; MessagesFile: "compiler:Languages\Polish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "H:\c++\gkim\build-dreamTeam-beta-Desktop_Qt_5_2_1_MinGW_32bit-Release\release\dreamTeam-beta.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\c++\gkim\build-dreamTeam-beta-Desktop_Qt_5_2_1_MinGW_32bit-Release\release\SDL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\icudt51.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\icuin51.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\icuuc51.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\libEGLd.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\libGLESv2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\libwinpthread-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "H:\libs\files-to-install-qt\platforms\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "H:\c++\gkim\build-dtConverter-Desktop_Qt_5_2_1_MinGW_32bit-Release\release\dtConverter.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "H:\libs\files-to-install-qt\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "H:\c++\gkim\build-dtConverter-Desktop_Qt_5_2_1_MinGW_32bit-Release\release\SDL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "H:\c++\gkim\dtConverter\icon.ico"; DestDir: "{app}";
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\DTConverter"; Filename: "{app}\dreamTeam-beta.exe"
-Name: "{commondesktop}\DTConverter"; Filename: "{app}\dreamTeam-beta.exe"; Tasks: desktopicon
+Name: "{group}\DTConverter"; Filename: "{app}\dtConverter.exe"; IconFileName: "{app}\icon.ico";
+Name: "{commondesktop}\DTConverter"; Filename: "{app}\dtConverter.exe"; IconFileName: "{app}\icon.ico"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\dreamTeam-beta.exe"; Description: "{cm:LaunchProgram,DTConverter}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\dtConverter.exe"; Description: "{cm:LaunchProgram,DTConverter}"; Flags: nowait postinstall skipifsilent
 
