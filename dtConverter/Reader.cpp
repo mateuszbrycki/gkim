@@ -88,7 +88,6 @@ void Reader::readDictionary(string name_save)
         helpReader = charToString(buffer,pixLength);
         transformedColor=helpReader;
         decimal = bin2dec(transformedColor);
-        qDebug() << decimal << endl;
         dictionaryColors[dictionaryIndex] = transformedColor;
         bitCounter = bitCounter +24;
         dictionaryIndex++;
