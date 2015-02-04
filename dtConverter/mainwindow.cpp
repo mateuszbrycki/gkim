@@ -106,7 +106,6 @@ void MainWindow::on_bdConvertButton_released()
     string saveName = ui->bdFileName->text().toStdString();
 
     if(!openPath.empty() && !savePath.empty() && !saveName.empty()) {
-        qDebug()<<"Rozpoczęto analizę!";
 
 
         int colorType;
@@ -115,7 +114,6 @@ void MainWindow::on_bdConvertButton_released()
         } else {
             colorType = 0;
         }
-        qDebug()<<"Uruchamianie nowego wątku!";
 
         QThread* thread = new QThread();
         Converter* converter = new Converter(openPath, savePath, saveName, colorType);
@@ -131,7 +129,6 @@ void MainWindow::on_bdConvertButton_released()
         connect(converter, SIGNAL(finished()), thread, SLOT(quit()));
         connect(converter, SIGNAL(finished()), converter, SLOT(deleteLater()));
         connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-        qDebug()<<QThread::currentThreadId();
         thread->start();\
 
     } else {
@@ -166,7 +163,6 @@ void MainWindow::conversionSuccessHandle() {
 }
 
 void MainWindow::conversionFailedHandle() {
-    qDebug()<<"tutaj";
     QMessageBox::critical( this, "Błąd", "Konwersja nie powiodła się. Spróbuj ponownie.", QMessageBox::Ok, 0 );
 }
 
@@ -199,7 +195,6 @@ void MainWindow::on_dbPathButton_released()
 void MainWindow::on_dbConvertButton_released()
 {
     if(!(ui->dbFile->text()).isEmpty() && !(ui->dbPath->text()).isEmpty() && !(ui->dbFileName->text().isEmpty()) ) {
-        qDebug()<<"Obsługa konwersji z DT do BMP";
 
         Reader reader;
         string openFile = ui->dbFile->text().toStdString();
