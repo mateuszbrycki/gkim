@@ -131,13 +131,19 @@ Funkcja dekodujaca plik dt alorytmem LZW
 @param word - zmienna tworzaca nowe slowo w slowniku
  */
 void Reader::readIndexesFromPixels(string name_save){
+    maxColors = maxColors + 1;
     int length = pixelWidth;
     int dictionaryIndex;
     char * buffer = new char [length];
     string helpReader;
     string characters;
     string word;
+
     plik.seekg(pictureStart-1,ios::beg);
+    plik.read(buffer,length);
+    helpReader = charToString(buffer,length);
+    int firstIndex = bin2dec(helpReader);
+    characters = dictionaryColors[firstIndex];
 
     while(!plik.fail()){
         plik.read(buffer,length);
