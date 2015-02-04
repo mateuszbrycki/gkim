@@ -35,6 +35,8 @@ FORMS    += mainwindow.ui
 #INCLUDEPATH += H:/c++/gkim/dtConverter/SDL-1.2.14/include
 #*/
 
+RESOURCES += \
+    resources.qrc
 #LIBS  +=  -L SDL-1.2.14/lib -lSDL
 #INCLUDEPATH += SDL-1.2.14/include/SDL
 
