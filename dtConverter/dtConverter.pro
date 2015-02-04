@@ -8,6 +8,7 @@ QT       += core gui
 CONFIG += c++11
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+win32:RC_FILE = application.rc
 TARGET = dtConverter
 TEMPLATE = app
 SOURCES +=\
@@ -40,6 +41,8 @@ RESOURCES += \
 #LIBS  +=  -L SDL-1.2.14/lib -lSDL
 #INCLUDEPATH += SDL-1.2.14/include/SDL
 
+OTHER_FILES += \
+    application.rc
 LIBS  +=  -L I:/GIT/gkim/dtConverter/SDL-1.2.14/lib -lSDL
 INCLUDEPATH += I:/GIT/gkim/dtConverter/SDL-1.2.14/include
 
