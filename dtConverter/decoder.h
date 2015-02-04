@@ -28,7 +28,6 @@ class Decoder
     @param pictureStart - Numer bitu od którego rozpoczyna się zestaw danych względem początku pliku
     @param pixels - wektor w ktorym przechowywane sa skladowe RGB pixela
     @param dictonaryColors - mapa w ktorej przechowywany jest slownik
-    @param pixelIdexes - wektor przechowujacy in
      */
 public:
 SDL_Surface *screen;
