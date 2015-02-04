@@ -7,7 +7,7 @@ Funkcja otwierajaca plik z rozszerzeniem dt
  */
 void Reader::open(string name,string name_save){
 
-    //cout<<"Wprowadz nazwe pliku ktory ma byc wczytany ";
+
 
     size_t found = name.find(".dt");
 
@@ -34,14 +34,13 @@ void Reader::open(string name,string name_save){
         ///wczytanie height
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
-        cout<<helpReader<<endl;
+
         height=bin2dec(helpReader);
         ///end of height
         ///wczytanie pixelWidth
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
         pixelWidth=bin2dec(helpReader);
-        cout<<"pixelWidth "<<pixelWidth<<endl;
         ///end of pixelWidth
         ///wczytaniey
         length =16;
@@ -81,7 +80,6 @@ void Reader::readDictionary(string name_save)
 
 
     maxColors = (pictureStart-dictionaryStart)/24;
-    //cout<<maxColors<<endl;
     int bitCounter = 0;
     int pixLength = 24;
     int dictionaryIndex = 1;

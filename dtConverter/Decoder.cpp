@@ -109,7 +109,7 @@ void Decoder::saveBMP(string name_save)
     strcpy( nazwa_save, name_save.c_str() );
 
     SDL_SaveBMP (screen, nazwa_save);
-    cout<<"zapisano"<<endl;
+
 }
 
 /*
