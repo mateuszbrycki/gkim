@@ -27,6 +27,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "H:\c++\gkim\build-dtConverter-Desktop_Qt_5_2_1_MinGW_32bit-Release\release\dtConverter.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "H:\libs\files-to-install-qt\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "H:\c++\gkim\build-dtConverter-Desktop_Qt_5_2_1_MinGW_32bit-Release\release\SDL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "H:\c++\gkim\dtConverter\icon.ico"; DestDir: "{app}";
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
