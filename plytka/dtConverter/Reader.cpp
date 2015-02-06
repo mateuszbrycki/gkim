@@ -23,7 +23,7 @@ void Reader::open(string name,string name_save){
     plik.open( nazwa, ios::in|ios::binary);
     if( plik.good() == true )
     {
-        /// wczytanie width
+        // wczytanie width
         plik.seekg( 0,ios::beg );
         int length =24;
         char * buffer = new char [length];
@@ -31,26 +31,26 @@ void Reader::open(string name,string name_save){
         string helpReader;
         helpReader =charToString(buffer,length);
         width=bin2dec(helpReader);
-        /// end of width
-        ///wczytanie height
+        // end of width
+        //wczytanie height
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
 
         height=bin2dec(helpReader);
-        ///end of height
-        ///wczytanie pixelWidth
+        //end of height
+        //wczytanie pixelWidth
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
         pixelWidth=bin2dec(helpReader);
-        ///end of pixelWidth
-        ///wczytaniey
+        //end of pixelWidth
+        //wczytaniey
         length =16;
         buffer = new char [length];
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
         dictionaryStart=bin2dec(helpReader);
-        /// endo of dictionaryStart
-        ///wczytanie pictureStart
+        // endo of dictionaryStart
+        //wczytanie pictureStart
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
         pictureStart=bin2dec(helpReader);
@@ -68,7 +68,7 @@ void Reader::open(string name,string name_save){
 }
 
 
-/** Funkcja czytajaca słownik z pliku
+/** Funkcja czytająca słownik z pliku
 @param name_save nazwa pliku DT
  */
 void Reader::readDictionary(string name_save)
@@ -97,7 +97,7 @@ void Reader::readDictionary(string name_save)
 }
 
 
-/** Funkcja dekodujaca plik dt alorytmem LZW
+/** Funkcja dekodująca plik DT alorytmem LZW
 @param name_save nazwa pliku DT
  */
 void Reader::readIndexesFromPixels(string name_save){

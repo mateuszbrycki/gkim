@@ -21,7 +21,7 @@ Picture::Picture(const string& openPath, const int& colorType)
     BMP = SDL_LoadBMP(openPath.c_str());
 }
 
-/** Funkcja zwracająca szerokosć obrazka wejściowego
+/** Funkcja zwracająca szerokość obrazka wejściowego
 @return szerokość wejściowego obrazu BMP
 */
 int Picture::getPictureWidth()

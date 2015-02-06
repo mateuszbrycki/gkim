@@ -2,7 +2,7 @@
 #include "reader.h"
 #include "FileWriter.h"
 
-/** Funkcja ustawiajaca pixel
+/** Funkcja ustawiająca pixel
 @param x współrzędna x obrazka
 @param y współrzędna x obrazka
 @param R składowa R koloru ustawianego piksela
@@ -58,7 +58,7 @@ void Decoder::setPixel(int x, int y, Uint8 R, Uint8 G, Uint8 B)
 }
 
 
-/** Funkcja potegowa używana do zamiany z binarnego na dziesietny
+/** Funkcja potęgowa używana do zamiany liczby z systemu binarnego na dziesiętny
  */
 int Decoder::power(int liczba, int dopotegi)
 {
@@ -115,7 +115,7 @@ void Decoder::saveBMP(string name_save)
 
 }
 
-/** Funkcja zmieniajaca odczyt binarny piksela na skladowe RGB
+/** Funkcja zmieniajaca odczyt binarny piksela na obiekt SDL_Color
 @param binaryPixel binarny zapis piksela
 */
 void Decoder::binaryPixelToRGB(string binaryPixel){
