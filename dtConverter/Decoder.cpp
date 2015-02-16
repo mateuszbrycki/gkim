@@ -79,6 +79,14 @@ int Decoder::bin2dec(string input)
     return output;
 }
 
+/** Funkcja zamiany liczby zapisanej w systemie szesnastkowym na system dziesiętny
+@param hex liczba zapisana w systemie szesnastkowym
+int hex2dec (string hex)
+{
+    int dec = strtol(hex.c_str(), NULL, 16);
+    return dec;
+}
+
 /** Funkjca rzutujaca typ char na string
 @param buffer bufor danych
 @param length długość bufora
@@ -130,9 +138,9 @@ void Decoder::binaryPixelToRGB(string binaryPixel){
     }
 
     for(int i=0; i<binaryPixelSize/24; i++){
-        int red = bin2dec(binaryPixelsArray[i].substr(0,8));
-        int green = bin2dec(binaryPixelsArray[i].substr(8,8));
-        int blue = bin2dec(binaryPixelsArray[i].substr(16,8));
+        int red = hex2dec(binaryPixelsArray[i].substr(0,8));
+        int green = hex2dec(binaryPixelsArray[i].substr(8,8));
+        int blue = hex2dec(binaryPixelsArray[i].substr(16,8));
         kolor[i].r = red;
         kolor[i].g = green;
         kolor[i].b = blue;

@@ -30,30 +30,30 @@ void Reader::open(string name,string name_save){
         plik.read(buffer,length);
         string helpReader;
         helpReader =charToString(buffer,length);
-        width=bin2dec(helpReader);
+        width=hex2dec(helpReader);
         /// end of width
         ///wczytanie height
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
 
-        height=bin2dec(helpReader);
+        height=hex2dec(helpReader);
         ///end of height
         ///wczytanie pixelWidth
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
-        pixelWidth=bin2dec(helpReader);
+        pixelWidth=hex2dec(helpReader);
         ///end of pixelWidth
         ///wczytaniey
         length =16;
         buffer = new char [length];
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
-        dictionaryStart=bin2dec(helpReader);
+        dictionaryStart=hex2dec(helpReader);
         /// endo of dictionaryStart
         ///wczytanie pictureStart
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
-        pictureStart=bin2dec(helpReader);
+        pictureStart=hex2dec(helpReader);
         ///end of pictureStart
 
         screen = SDL_SetVideoMode(width, height,32,SDL_RESIZABLE|SDL_DOUBLEBUF);
@@ -87,7 +87,7 @@ void Reader::readDictionary(string name_save)
         plik.read(buffer,pixLength);
         helpReader = charToString(buffer,pixLength);
         transformedColor=helpReader;
-        decimal = bin2dec(transformedColor);
+        decimal = hex2dec(transformedColor);
         dictionaryColors[dictionaryIndex] = transformedColor;
         bitCounter = bitCounter +24;
         dictionaryIndex++;
@@ -112,13 +112,13 @@ void Reader::readIndexesFromPixels(string name_save){
     plik.seekg(pictureStart-1,ios::beg);
     plik.read(buffer,length);
     helpReader = charToString(buffer,length);
-    int firstIndex = bin2dec(helpReader);
+    int firstIndex = hex2dec(helpReader);
     characters = dictionaryColors[firstIndex];
 
     while(!plik.fail()){
         plik.read(buffer,length);
         helpReader = charToString(buffer,length);
-        dictionaryIndex = bin2dec(helpReader);
+        dictionaryIndex = hex2dec(helpReader);
 
         if (dictionaryColors.count(dictionaryIndex)){
           word = dictionaryColors[dictionaryIndex];
