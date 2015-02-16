@@ -81,7 +81,9 @@ int Decoder::bin2dec(string input)
 
 /** Funkcja zamiany liczby zapisanej w systemie szesnastkowym na system dziesiętny
 @param hex liczba zapisana w systemie szesnastkowym
-int hex2dec (string hex)
+*/
+
+int Decoder::hex2dec(string hex)
 {
     int dec = strtol(hex.c_str(), NULL, 16);
     return dec;
@@ -132,15 +134,15 @@ void Decoder::binaryPixelToRGB(string binaryPixel){
     string binaryPixelsArray[binaryPixelSize];
     SDL_Color kolor[binaryPixelSize];
 
-    for(int i=0; i<binaryPixelSize/24 ; i++){
-        binaryPixelsArray[i] = binaryPixel.substr(j,24);
-        j = j+24;
+    for(int i=0; i<binaryPixelSize/6 ; i++){
+        binaryPixelsArray[i] = binaryPixel.substr(j,6);
+        j = j+6;
     }
 
     for(int i=0; i<binaryPixelSize/24; i++){
-        int red = hex2dec(binaryPixelsArray[i].substr(0,8));
-        int green = hex2dec(binaryPixelsArray[i].substr(8,8));
-        int blue = hex2dec(binaryPixelsArray[i].substr(16,8));
+        int red = hex2dec(binaryPixelsArray[i].substr(0,2));
+        int green = hex2dec(binaryPixelsArray[i].substr(2,2));
+        int blue = hex2dec(binaryPixelsArray[i].substr(4,2));
         kolor[i].r = red;
         kolor[i].g = green;
         kolor[i].b = blue;

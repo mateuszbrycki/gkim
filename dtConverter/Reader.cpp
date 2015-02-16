@@ -25,7 +25,7 @@ void Reader::open(string name,string name_save){
     {
         /// wczytanie width
         plik.seekg( 0,ios::beg );
-        int length =24;
+        int length =6;
         char * buffer = new char [length];
         plik.read(buffer,length);
         string helpReader;
@@ -44,7 +44,7 @@ void Reader::open(string name,string name_save){
         pixelWidth=hex2dec(helpReader);
         ///end of pixelWidth
         ///wczytaniey
-        length =16;
+        length =4;
         buffer = new char [length];
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
@@ -75,7 +75,7 @@ void Reader::readDictionary(string name_save)
 {
     maxColors = (pictureStart-dictionaryStart)/24;
     int bitCounter = 0;
-    int pixLength = 24;
+    int pixLength = 6;
     int dictionaryIndex = 1;
     string helpReader;
     string transformedColor;
@@ -89,7 +89,7 @@ void Reader::readDictionary(string name_save)
         transformedColor=helpReader;
         decimal = hex2dec(transformedColor);
         dictionaryColors[dictionaryIndex] = transformedColor;
-        bitCounter = bitCounter +24;
+        bitCounter = bitCounter +6;
         dictionaryIndex++;
     }
 
@@ -124,14 +124,14 @@ void Reader::readIndexesFromPixels(string name_save){
           word = dictionaryColors[dictionaryIndex];
         }
         else if (dictionaryIndex == maxColors){
-            word = characters + characters.substr(0,24);
+            word = characters + characters.substr(0,6);
         }
         else{
           throw "Decoding problem!";
         }
 
         binaryPixelToRGB(word);
-        dictionaryColors[maxColors++] = characters + word.substr(0,24);
+        dictionaryColors[maxColors++] = characters + word.substr(0,6);
         characters = word;
   }
 
