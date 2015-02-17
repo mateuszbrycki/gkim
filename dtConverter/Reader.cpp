@@ -67,7 +67,7 @@ void Reader::open(string name,string name_save){
  */
 void Reader::readDictionary(string name_save)
 {
-    maxColors = (pictureStart-dictionaryStart)/24;
+    maxColors = (pictureStart-dictionaryStart)/6;
     int bitCounter = 0;
     int pixLength = 6;
     int dictionaryIndex = 1;
@@ -87,6 +87,7 @@ void Reader::readDictionary(string name_save)
         dictionaryIndex++;
     }
 
+
     readIndexesFromPixels(name_save);
 }
 
@@ -97,6 +98,7 @@ void Reader::readDictionary(string name_save)
 void Reader::readIndexesFromPixels(string name_save){
     maxColors = maxColors + 1;
     int length = pixelWidth;
+    qDebug()<<"pixelWidth"<<pixelWidth<<endl;
     int dictionaryIndex;
     char * buffer = new char [length];
     string helpReader;
@@ -111,8 +113,10 @@ void Reader::readIndexesFromPixels(string name_save){
 
     while(!plik.fail()){
         plik.read(buffer,length);
+        qDebug()<<"buffer "<<buffer<<endl;
         helpReader = charToString(buffer,length);
         dictionaryIndex = hex2dec(helpReader);
+        qDebug()<<"dictionaryIndex "<<dictionaryIndex<<endl;
 
         if (dictionaryColors.count(dictionaryIndex)){
           word = dictionaryColors[dictionaryIndex];
@@ -128,6 +132,7 @@ void Reader::readIndexesFromPixels(string name_save){
         dictionaryColors[maxColors++] = characters + word.substr(0,6);
         characters = word;
   }
+
 
         drawPicture(name_save);
 }

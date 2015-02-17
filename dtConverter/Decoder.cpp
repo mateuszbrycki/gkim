@@ -139,7 +139,7 @@ void Decoder::binaryPixelToRGB(string binaryPixel){
         j = j+6;
     }
 
-    for(int i=0; i<binaryPixelSize/24; i++){
+    for(int i=0; i<binaryPixelSize/6; i++){
         int red = hex2dec(binaryPixelsArray[i].substr(0,2));
         int green = hex2dec(binaryPixelsArray[i].substr(2,2));
         int blue = hex2dec(binaryPixelsArray[i].substr(4,2));
