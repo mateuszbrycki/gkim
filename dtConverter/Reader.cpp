@@ -1,5 +1,5 @@
 #include "reader.h"
-
+#include <QDebug>
 
 /**
 Funkcja otwierajaca plik z rozszerzeniem dt
@@ -23,39 +23,33 @@ void Reader::open(string name,string name_save){
     plik.open( nazwa, ios::in|ios::binary);
     if( plik.good() == true )
     {
-        /// wczytanie width
         plik.seekg( 0,ios::beg );
         int length =6;
         char * buffer = new char [length];
         plik.read(buffer,length);
         string helpReader;
         helpReader =charToString(buffer,length);
+
         width=hex2dec(helpReader);
-        /// end of width
-        ///wczytanie height
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
-
+        qDebug()<<"Width "<<width;
         height=hex2dec(helpReader);
-        ///end of height
-        ///wczytanie pixelWidth
+        qDebug()<<"Height "<<height;
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
         pixelWidth=hex2dec(helpReader);
-        ///end of pixelWidth
-        ///wczytaniey
+        qDebug()<<"Pixel width "<<pixelWidth;
         length =4;
         buffer = new char [length];
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
         dictionaryStart=hex2dec(helpReader);
-        /// endo of dictionaryStart
-        ///wczytanie pictureStart
+        qDebug()<<"dictionaryStart "<< dictionaryStart;
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
         pictureStart=hex2dec(helpReader);
-        ///end of pictureStart
-
+        qDebug()<<"pictureStart "<< pictureStart;
         screen = SDL_SetVideoMode(width, height,32,SDL_RESIZABLE|SDL_DOUBLEBUF);
 
         readDictionary(name_save);
