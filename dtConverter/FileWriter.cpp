@@ -5,7 +5,7 @@
 #include <math.h>
 #include <iostream>
 #include <iomanip>
-#include <QDebug>
+
 
 #include "FileWriter.h"
 
@@ -42,17 +42,13 @@ void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCom
     ofstream file(savePath.c_str());
 
     //zapis nagłówka do pliku
-    file<<std::setfill('0')<<std::setw(6)<<std::hex<<picture->getPictureWidth();
-    qDebug()<<"Width: "<<picture->getPictureWidth();
+    file<<std::setfill('0')<<std::setw(6)<<std::hex<<picture->getPictureWidth();\
     file<<std::setfill('0')<<std::setw(6)<<std::hex<<picture->getPictureHeight();
-    qDebug()<<"Height: "<<picture->getPictureHeight();
     int pixelWidth = (log(maxIndex) / log(16)) + 1; //tyle bitów potrzeba do zapisania każdego z użytych indeksów słownika;
     file<<std::setfill('0')<<std::setw(6)<<std::hex<<pixelWidth;
-    qDebug()<<"pixelWidth: "<<pixelWidth;
     file<<std::setfill('0')<<std::setw(4)<<std::hex<<27;
     int pictureStart = 27 + colorsList.size()*6;
     file<<std::setfill('0')<<std::setw(4)<<std::hex<<pictureStart;
-    qDebug()<<"pictureStart "<<pictureStart;
 
     //zapis kolorów obrazka do pliku - słownik
     for(vector<SDL_Color>::const_iterator it = colorsList.begin(); it != colorsList.end(); ++it) {
@@ -67,24 +63,4 @@ void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCom
     }
 
     file.close();
-}
-
-/** Konwersja liczby w systemie dziesiętnym na system binarny
-@param value wartość, która zostanie zamieniona na system binarny
-@param precision długość ciągu wynikowego
-@return bitowy zapis value o długości precision
-*/
-string FileWriter::convertValueToBinary(int value, const int& precision) {
-
-    string stringResult;
-    while(value != 0) {
-            stringResult = (value % 2 == 0 ? "0" : "1") + stringResult;
-            value /= 2;
-    }
-
-    while(stringResult.length() != precision) {
-        stringResult = "0" + stringResult;
-    }
-
-    return stringResult;
 }
