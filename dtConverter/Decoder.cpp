@@ -134,15 +134,24 @@ void Decoder::binaryPixelToRGB(string binaryPixel){
 void Decoder::drawPicture(string name_save)
 {
     SDL_Color bitMapPixel;
-    int pixelIndex = -1;
-    for(int x=0; x<width; x++){
+
+    int pixelIndex =-1;
+    for(int x=0; x<width; x++)
+    {
         SDL_Flip(screen);
-        for(int y=0; y<height; y++){
-            bitMapPixel = pixels[pixelIndex];
+        for(int y=0; y<height; y++)
+            {
+
+                bitMapPixel = pixels[pixelIndex];
                 setPixel(x,y,bitMapPixel.r,bitMapPixel.g,bitMapPixel.b);
                 pixelIndex++;
             }
-         }
+    }
+
+
+
+    bitMapPixel = pixels[0];
+    setPixel(0,0,bitMapPixel.r,bitMapPixel.g,bitMapPixel.b);
 
          saveBMP(name_save);
 }
