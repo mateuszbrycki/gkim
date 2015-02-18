@@ -64,7 +64,7 @@ QString MainWindow::getFilePath(int mode) {
 QString MainWindow::getFolderPath(int mode) {
     QString selectedFolderPath =  QFileDialog::getExistingDirectory(this, tr("Wskaż folder"),
          "", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-
+ //komentarz
     if(mode == 0) {
         ui->bdPath->setMaxLength(this->qLineMaxLength);
         ui->bdPath->setText(selectedFolderPath);
