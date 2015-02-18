@@ -57,28 +57,6 @@ void Decoder::setPixel(int x, int y, Uint8 R, Uint8 G, Uint8 B)
     }
 }
 
-
-/** Funkcja potegowa używana do zamiany z binarnego na dziesietny
- */
-int Decoder::power(int liczba, int dopotegi)
-{
-    int wynik = 1;
-    for(int i = 0; i < dopotegi; ++i)
-        wynik *= liczba;
-    return wynik;
-}
-
-/** Funkcja zamiany liczby zapisanej w systemie binarnym na system dziesiętny
-@param input liczba zapisana w systemie binarnym
- */
-int Decoder::bin2dec(string input)
-{
-    int output = 0;
-    for(int i=0; i<input.size(); i++)
-        output+=(input[i]-'0')*power(2,input.size()-i-1);
-    return output;
-}
-
 /** Funkcja zamiany liczby zapisanej w systemie szesnastkowym na system dziesiętny
 @param hex liczba zapisana w systemie szesnastkowym
 */

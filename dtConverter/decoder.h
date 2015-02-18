@@ -16,9 +16,6 @@ class Decoder
 {
 
 public:
-    int power(int liczba, int dopotegi);
-    int bin2dec(string input);
-
     int hex2dec(string hex);
     string charToString(char *buffer,int lenght);
     void binaryPixelToRGB(string binaryPixel);
