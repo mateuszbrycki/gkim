@@ -56,9 +56,9 @@ void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCom
 
     //zapis kolorów obrazka do pliku - słownik
     for(vector<SDL_Color>::const_iterator it = colorsList.begin(); it != colorsList.end(); ++it) {
-        file<<std::setfill('0')<<std::setw(2)<<std::hex<<((*it).r);
-        file<<std::setfill('0')<<std::setw(2)<<std::hex<<((*it).g);
-        file<<std::setfill('0')<<std::setw(2)<<std::hex<<((*it).b);
+        file<<std::setfill('0')<<std::setw(2)<<std::hex<<((int)(*it).r);
+        file<<std::setfill('0')<<std::setw(2)<<std::hex<<((int)(*it).g);
+        file<<std::setfill('0')<<std::setw(2)<<std::hex<<((int)(*it).b);
     }
     //zapis pikseli do pliku
     for(vector<int>::const_iterator it = pixelListAfterCompression.begin(); it != pixelListAfterCompression.end(); it++) {
