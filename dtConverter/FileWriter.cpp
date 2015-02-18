@@ -49,13 +49,14 @@ void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCom
     int pixelWidth = (log(maxIndex) / log(16)) + 1; //tyle bitów potrzeba do zapisania każdego z użytych indeksów słownika;
     file<<std::setfill('0')<<std::setw(6)<<std::hex<<pixelWidth;
     qDebug()<<"pixelWidth: "<<pixelWidth;
-    file<<std::setfill('0')<<std::setw(4)<<std::hex<<23;
-    int pictureStart = 23 + colorsList.size()*6;
+    file<<std::setfill('0')<<std::setw(4)<<std::hex<<27;
+    int pictureStart = 27 + colorsList.size()*6;
     file<<std::setfill('0')<<std::setw(4)<<std::hex<<pictureStart;
     qDebug()<<"pictureStart "<<pictureStart;
 
     //zapis kolorów obrazka do pliku - słownik
     for(vector<SDL_Color>::const_iterator it = colorsList.begin(); it != colorsList.end(); ++it) {
+        qDebug()<<(int)(*it).r<<" "<<(int)(*it).g<<" "<<(int)(*it).r;
         file<<std::setfill('0')<<std::setw(2)<<std::hex<<((int)(*it).r);
         file<<std::setfill('0')<<std::setw(2)<<std::hex<<((int)(*it).g);
         file<<std::setfill('0')<<std::setw(2)<<std::hex<<((int)(*it).b);
