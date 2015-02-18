@@ -52,7 +52,7 @@ void FileWriter::saveFile(Picture *picture, const vector<int>& pixelListAfterCom
 
     //zapis kolorów obrazka do pliku - słownik
     for(vector<SDL_Color>::const_iterator it = colorsList.begin(); it != colorsList.end(); ++it) {
-        qDebug()<<(int)(*it).r<<" "<<(int)(*it).g<<" "<<(int)(*it).r;
+        //qDebug()<<(int)(*it).r<<" "<<(int)(*it).g<<" "<<(int)(*it).r;
         file<<std::setfill('0')<<std::setw(2)<<std::hex<<((int)(*it).r);
         file<<std::setfill('0')<<std::setw(2)<<std::hex<<((int)(*it).g);
         file<<std::setfill('0')<<std::setw(2)<<std::hex<<((int)(*it).b);

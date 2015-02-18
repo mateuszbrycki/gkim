@@ -33,23 +33,18 @@ void Reader::open(string name,string name_save){
         width=hex2dec(helpReader);
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
-        qDebug()<<"Width "<<width;
         height=hex2dec(helpReader);
-        qDebug()<<"Height "<<height;
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
         pixelWidth=hex2dec(helpReader);
-        qDebug()<<"Pixel width "<<pixelWidth;
         length =4;
         buffer = new char [length];
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
         dictionaryStart=hex2dec(helpReader);
-        qDebug()<<"dictionaryStart "<< dictionaryStart;
         plik.read(buffer,length);
         helpReader =charToString(buffer,length);
         pictureStart=hex2dec(helpReader);
-        qDebug()<<"pictureStart "<< pictureStart;
         screen = SDL_SetVideoMode(width, height,32,SDL_RESIZABLE|SDL_DOUBLEBUF);
 
         readDictionary(name_save);
@@ -98,7 +93,6 @@ void Reader::readDictionary(string name_save)
 void Reader::readIndexesFromPixels(string name_save){
     maxColors = maxColors + 1;
     int length = pixelWidth;
-    qDebug()<<"pixelWidth"<<pixelWidth<<endl;
     int dictionaryIndex;
     char * buffer = new char [length];
     string helpReader;
@@ -113,10 +107,8 @@ void Reader::readIndexesFromPixels(string name_save){
 
     while(!plik.fail()){
         plik.read(buffer,length);
-        qDebug()<<"buffer "<<buffer<<endl;
         helpReader = charToString(buffer,length);
         dictionaryIndex = hex2dec(helpReader);
-        qDebug()<<"dictionaryIndex "<<dictionaryIndex<<endl;
 
         if (dictionaryColors.count(dictionaryIndex)){
           word = dictionaryColors[dictionaryIndex];
